@@ -1,0 +1,19 @@
+fs = require('fs')
+path = require('path')
+
+getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
+exports.getBookInfo = getInfo(_, 'book.json')
+exports.getSectionInfo = getInfo(_, 'section.json')
+
+exports.getToc = function(dirname):
+    items = [path.join(dirname, x) for x in fs.readdirSync(dirname)]
+    toc = []
+
+    for item in items: try:
+        info = exports.getSectionInfo(item)
+        subtoc = exports.getToc(item)
+
+        if subtoc.length > 0: info.toc = subtoc
+        toc.push(info)
+
+    return toc
