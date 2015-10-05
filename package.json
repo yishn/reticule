@@ -1,0 +1,22 @@
+{
+  "name": "logic-reticule",
+  "description": "A small bag or basket of Logic, netlike in its construction.",
+  "version": "0.1.0",
+  "author": "Yichuan Shen",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yishn/logic-reticule"
+  },
+  "bugs": {
+    "url": "https://github.com/yishn/logic-reticule/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "milkc src -o lib",
+    "watch": "milkc src -wo lib"
+  },
+  "dependencies": {
+    "marked": "^0.3.5"
+  }
+}
