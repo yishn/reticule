@@ -45,7 +45,13 @@ exports.extractTags = function(filename):
     return tags
 
 exports.parseTag = function(tagcontent):
-    return tagcontent
+    separator = x => x.split('').every(y => y == '-')
+    for k in [0...] if !tagcontent[k] || separator(tagcontent[k]): break
+
+    assertion = tagcontent[1 ... k - 1].join('\n')
+    proof = k + 1 < tagcontent.length ? tagcontent[k + 1 ...].join('\n') : null
+
+    return { tag: tagcontent[0], assertion: assertion, proof: proof }
 
 exports.getAllTags = function(dirname):
     files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
