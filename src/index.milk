@@ -1,7 +1,6 @@
 fs = require('fs')
 path = require('path')
-marked = require('marked')
-marked.setOptions({ smartypants: true })
+marked = require('marked').setOptions({ smartypants: true })
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
