@@ -63,11 +63,10 @@ exports.parseTag = function(lines):
 
 exports.getDependencies = function(tag):
     options = { renderer: new HtmlRenderer() }
-
     html = [marked(v, options) for k, v in tag if k != 'id'].join('\n')
-    regex = /<a href="(#[^"]*)"/g
     dependencies = []
 
+    regex = /<a href="(#[^"]*)"/g
     while (match = regex.exec(html)) != null:
         dependencies.push(match[1])
 
