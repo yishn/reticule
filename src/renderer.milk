@@ -1,0 +1,24 @@
+marked = require?('marked') ?? window.marked
+
+class Renderer extends marked.Renderer:
+    function code(code):
+        return '$$' + code + '$$'
+
+    function codespan(code):
+        return '$' + code + '$'
+
+    function link(href, title, text):
+        if href[0] == '#' && '=' not in href:
+            tag = getTagById(href)
+            href = '#tag=' + tag.path + tag.id
+
+        out = '<a href="' + href + '"'
+        if title: out += ' title="' + title + '"'
+        out += '>' + text + '</a>'
+
+        return out
+
+if typeof module != 'undefined' && module != null:
+    module.exports = Renderer
+else:
+    window.ReticuleRenderer = Renderer

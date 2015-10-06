@@ -12,24 +12,6 @@ function readdirRecursive(dirname):
 
     return items
 
-class HtmlRenderer extends marked.Renderer:
-    function code(code):
-        return '$$' + code + '$$'
-
-    function codespan(code):
-        return '$' + code + '$'
-
-    function link(href, title, text):
-        if href[0] == '#' && '=' not in href:
-            tag = getTagById(href)
-            href = '#tag=' + tag.path + tag.id
-
-        out = '<a href="' + href + '"'
-        if title: out += ' title="' + title + '"'
-        out += '>' + text + '</a>'
-
-        return out
-
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
 
 exports.getBookInfo = getInfo(_, 'book.json')
