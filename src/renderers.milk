@@ -1,6 +1,6 @@
 marked = require?('marked') ?? window.marked
 
-class Renderer extends marked.Renderer:
+class ReticuleRenderer extends marked.Renderer:
     function code(code):
         return '$$' + code + '$$'
 
@@ -18,7 +18,5 @@ class Renderer extends marked.Renderer:
 
         return out
 
-if typeof module != 'undefined' && module != null:
-    module.exports = Renderer
-else:
-    window.ReticuleRenderer = Renderer
+context = module?.exports ?? window
+context.ReticuleRenderer = ReticuleRenderer
