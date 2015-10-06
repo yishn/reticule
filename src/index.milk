@@ -5,13 +5,13 @@ getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
 exports.getBookInfo = getInfo(_, 'book.json')
 exports.getSectionInfo = getInfo(_, 'section.json')
 
-function getFilesRecursive(dirname):
+function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
 
     for item in items if fs.statSync(item).isDirectory():
         items = items.concat(readdirRecursive(item))
 
-    return items.filter(x => fs.statSync(x).isFile())
+    return items
 
 exports.getToc = function(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -48,7 +48,7 @@ exports.parseTag = function(tagcontent):
     return tagcontent
 
 exports.getAllTags = function(dirname):
-    files = getFilesRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
+    files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
     tags = []
 
     for file in files:
