@@ -59,7 +59,7 @@ exports.getDependencies = function(tag):
     options = { renderer: renderer }
 
     html = [marked(v, options) for k, v in tag if k != 'id'].join('\n')
-    regex = /<a href="(\#[^"]*)"/g
+    regex = /<a href="(#[^"]*)"/g
     dependencies = []
 
     while (match = regex.exec(html)) != null:
