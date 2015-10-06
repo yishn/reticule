@@ -62,8 +62,7 @@ exports.parseTag = function(lines):
     return { id: lines[0], assertion: assertion, proof: proof }
 
 exports.getDependencies = function(tag):
-    renderer = prepareMarkedRenderer()
-    options = { renderer: renderer }
+    options = { renderer: new HtmlRenderer() }
 
     html = [marked(v, options) for k, v in tag if k != 'id'].join('\n')
     regex = /<a href="(#[^"]*)"/g
