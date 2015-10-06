@@ -1,5 +1,6 @@
 fs = require('fs')
 path = require('path')
+marked = require('marked')
 
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
 exports.getBookInfo = getInfo(_, 'book.json')
@@ -61,3 +62,21 @@ exports.getAllTags = function(dirname):
         tags = tags.concat(exports.extractTags(file))
 
     return tags
+
+exports.prepareMarkedRenderer = function():
+    marked.setOptions({ smartypants: true })
+
+    // Hack code rules to accept math delimiters
+    marked.Lexer.rules.gfm.fences = /^ *(`{3,}|~{3,}|\$\$)[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/
+    marked.InlineLexer.rules.gfm.code = /^(\$)\s*([^\$]*?)\s*\1/
+
+    // Hack renderer to not touch anything
+    renderer = new marked.Renderer()
+    renderer.code = code => '$$' + code + '$$'
+    renderer.codespan = code => '$' + code + '$'
+
+    return renderer
+
+renderer = exports.prepareMarkedRenderer()
+contents = fs.readFileSync('../README.md', 'utf8')
+console.log(marked(contents, { renderer: renderer }))
