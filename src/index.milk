@@ -44,14 +44,14 @@ exports.extractTags = function(filename):
 
     return tags
 
-exports.parseTag = function(tagcontent):
+exports.parseTag = function(lines):
     separator = x => x.split('').every(y => y == '-')
-    for k in [0...] if !tagcontent[k] || separator(tagcontent[k]): break
+    for k in [0...] if !lines[k] || separator(lines[k]): break
 
-    assertion = tagcontent[1 ... k - 1].join('\n')
-    proof = k + 1 < tagcontent.length ? tagcontent[k + 1 ...].join('\n') : null
+    assertion = lines[1 ... k - 1].join('\n')
+    proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
 
-    return { tag: tagcontent[0], assertion: assertion, proof: proof }
+    return { tag: lines[0], assertion: assertion, proof: proof }
 
 exports.getAllTags = function(dirname):
     files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
