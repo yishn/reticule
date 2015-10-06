@@ -84,7 +84,3 @@ exports.prepareMarkedRenderer = function():
     renderer.codespan = code => '$' + code + '$'
 
     return renderer
-
-renderer = exports.prepareMarkedRenderer()
-contents = fs.readFileSync('../README.md', 'utf8')
-console.log(marked(contents, { renderer: renderer }))
