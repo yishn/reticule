@@ -17,6 +17,17 @@ class HtmlRenderer extends marked.Renderer:
     function codespan(code):
         return '$' + code + '$'
 
+    function link(href, title, text):
+        if href[0] == '#':
+            tag = getTagById(href)
+            href = '#tag=' + tag.path + tag.id
+
+        out = '<a href="' + href + '"'
+        if title: out += ' title="' + title + '"'
+        out += '>' + text + '</a>'
+
+        return out
+
     function toc(toc):
         options = { renderer: new HtmlRenderer() }
         output = ['<ol>']
@@ -68,7 +79,11 @@ exports.extractTags = function(filename):
 
         while tags.length < tagslength:
             for j in [i + 1 ...] if !content[j] || tagheaders(content[j]): break
-            tags.push(exports.parseTag(content[i ... j - 1]))
+
+            tag = exports.parseTag(content[i ... j - 1])
+            tag.path = path.join(filename, '..')
+            tags.push(tag)
+
             i = j
 
     return tags
@@ -80,7 +95,7 @@ exports.parseTag = function(lines):
     assertion = lines[1 ... k - 1].join('\n')
     proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
 
-    return { id: lines[0], assertion: assertion, proof: proof }
+    return { id: lines[0], assertion, proof }
 
 exports.getAllTags = function(dirname):
     files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
@@ -93,14 +108,3 @@ exports.getAllTags = function(dirname):
 
 exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
-
-exports.getDependencies = function(tag):
-    options = { renderer: new HtmlRenderer() }
-    html = [marked(v, options) for k, v in tag if k != 'id'].join('\n')
-    dependencies = []
-
-    regex = /<a href="(#[^"]*)"/g
-    while (match = regex.exec(html)) != null:
-        dependencies.push(match[1])
-
-    return dependencies
