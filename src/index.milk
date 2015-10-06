@@ -95,3 +95,17 @@ exports.getAllTags = function(dirname):
 
 exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
+
+exports.build = function(dirname):
+    exports.getBookInfo(dirname)
+    saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify
+
+    toc = exports.getToc(dirname)
+    saveJson(path.join(dirname, 'toc.json'))(toc)
+
+    for item in exports.getAllTags(dirname).map(tag => tag.path):
+        if fs.stat(path.join(item, 'tags.json')).isFile()
+        || !fs.stat(path.join(item, 'tags.md')).isFile(): continue
+
+        tags = exports.extractTags(path.join(item, 'tags.md'))
+        saveJson(path.join(item, 'toc.json'))(tags)
