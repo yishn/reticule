@@ -66,11 +66,6 @@ exports.getAllTags = function(dirname):
 exports.prepareMarkedRenderer = function():
     marked.setOptions({ smartypants: true })
 
-    // Hack code rules to accept math delimiters
-    marked.Lexer.rules.gfm.fences = /^ *(`{3,}|~{3,}|\$\$)[ \.]*(\S+)? *\n([\s\S]*?)\s*\1 *(?:\n+|$)/
-    marked.InlineLexer.rules.gfm.code = /^(\$)\s*([^\$]*?)\s*\1/
-
-    // Hack renderer to not touch anything
     renderer = new marked.Renderer()
     renderer.code = code => '$$' + code + '$$'
     renderer.codespan = code => '$' + code + '$'
