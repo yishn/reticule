@@ -17,3 +17,23 @@ exports.getToc = function(dirname):
         toc.push(info)
 
     return toc
+
+exports.getTags = function(dirname):
+    tags = []
+
+    try:
+        filename = path.join(dirname, 'tags.md')
+        content = fs.readFileSync(filename, 'utf8').split('\n')
+        tagheaders = [first, ...] => first == '#'
+        tagslength = content.filter(tagheaders).length
+
+        if length == 0: return []
+        for i, l in content if tagheaders(l): break
+
+        while tags.length < tagslength:
+            for j in [i + 1 ...] if !content[j] || tagheaders(content[j]): break
+            tags.push(exports.parseTag(content[i ... j - 1]))
+            i = j
+
+    return tags
+
