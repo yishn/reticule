@@ -52,7 +52,20 @@ exports.parseTag = function(lines):
     assertion = lines[1 ... k - 1].join('\n')
     proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
 
-    return { tag: lines[0], assertion: assertion, proof: proof }
+    return { id: lines[0], assertion: assertion, proof: proof }
+
+exports.getDependencies = function(tag):
+    renderer = prepareMarkedRenderer()
+    options = { renderer: renderer }
+
+    html = [marked(v, options) for k, v in tag if k != 'id'].join('\n')
+    regex = /<a href="(\#[^"]*)"/g
+    dependencies = []
+
+    while (match = regex.exec(html)) != null:
+        dependencies.push(match[1])
+
+    return dependencies
 
 exports.getAllTags = function(dirname):
     files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
