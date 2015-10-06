@@ -2,6 +2,8 @@ fs = require('fs')
 path = require('path')
 marked = require('marked').setOptions({ smartypants: true })
 
+cache = {}
+
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
 
@@ -98,13 +100,16 @@ exports.parseTag = function(lines):
     return { id: lines[0], assertion, proof }
 
 exports.getAllTags = function(dirname):
-    files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
-    tags = []
+    if dirname not in cache:
+        files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
+        tags = []
 
-    for file in files:
-        tags = tags.concat(exports.extractTags(file))
+        for file in files:
+            tags = tags.concat(exports.extractTags(file))
 
-    return tags
+        cache[dirname] = tags
+        
+    return cache[dirname]
 
 exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
