@@ -76,6 +76,9 @@ exports.getAllTags = function(dirname):
 
     return tags
 
+exports.getTagById = function(dirname, id):
+    return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
+
 exports.prepareMarkedRenderer = function():
     marked.setOptions({ smartypants: true })
 
