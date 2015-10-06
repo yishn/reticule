@@ -1,15 +1,15 @@
 {
-  "name": "logic-reticule",
-  "description": "A small bag or basket of Logic, netlike in its construction.",
+  "name": "reticule",
+  "description": "Two or more syntactic devices that are able to communicate with one another.",
   "version": "0.1.0",
   "author": "Yichuan Shen",
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yishn/logic-reticule"
+    "url": "https://github.com/yishn/reticule"
   },
   "bugs": {
-    "url": "https://github.com/yishn/logic-reticule/issues"
+    "url": "https://github.com/yishn/reticule/issues"
   },
   "license": "MIT",
   "scripts": {
