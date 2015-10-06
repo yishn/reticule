@@ -20,7 +20,7 @@ class HtmlRenderer extends marked.Renderer:
         return '$' + code + '$'
 
     function link(href, title, text):
-        if href[0] == '#':
+        if href[0] == '#' && '=' not in href:
             tag = getTagById(href)
             href = '#tag=' + tag.path + tag.id
 
