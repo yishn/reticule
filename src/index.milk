@@ -30,24 +30,6 @@ class HtmlRenderer extends marked.Renderer:
 
         return out
 
-    function toc(toc):
-        options = { renderer: new HtmlRenderer() }
-        output = ['<ol>']
-
-        for item in toc:
-            title = marked(item.title, options)
-            li = '<li><a href="#section=' + item.path + '">' + title + '</a> '
-
-            if item.toc != null:
-                subtoc = self.toc(item.toc)
-                li += subtoc
-
-            li += '</li>'
-            output.push(li)
-
-        output.push('</ol>')
-        return output.join('\n')
-
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
 
 exports.getBookInfo = getInfo(_, 'book.json')
@@ -108,7 +90,7 @@ exports.getAllTags = function(dirname):
             tags = tags.concat(exports.extractTags(file))
 
         cache[dirname] = tags
-        
+
     return cache[dirname]
 
 exports.getTagById = function(dirname, id):
