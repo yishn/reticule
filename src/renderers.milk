@@ -2,7 +2,7 @@ marked = require?('marked') ?? window.marked
 
 class ReticuleRenderer extends marked.Renderer:
     function code(code):
-        return '$$' + code + '$$'
+        return '<p>$$' + code + '$$</p>'
 
     function codespan(code):
         return '$' + code + '$'
