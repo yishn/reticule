@@ -19,6 +19,24 @@ class HtmlRenderer extends marked.Renderer:
     function codespan(code):
         return '$' + code + '$'
 
+    function toc(toc):
+        options = { renderer: new HtmlRenderer() }
+        output = ['<ol>']
+
+        for item in toc:
+            title = marked(item.title, options)
+            li = '<li><a href="#section=' + item.path + '">' + title + '</a> '
+
+            if item.toc != null:
+                subtoc = self.toc(item.toc)
+                li += subtoc
+
+            li += '</li>'
+            output.push(li)
+
+        output.push('</ol>')
+        return output.join('\n')
+
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
 context.getBookInfo = getInfo(_, 'book.json')
 context.getSectionInfo = getInfo(_, 'section.json')
@@ -29,6 +47,7 @@ context.getToc = function(dirname):
 
     for item in items: try:
         info = context.getSectionInfo(item)
+        info.path = item
         subtoc = context.getToc(item)
 
         if subtoc.length > 0: info.toc = subtoc
