@@ -36,7 +36,9 @@ class HtmlRenderer extends marked.Renderer:
         return output.join('\n')
 
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
+
 exports.getBookInfo = getInfo(_, 'book.json')
+
 exports.getSectionInfo = getInfo(_, 'section.json')
 
 exports.getToc = function(dirname):
