@@ -2,6 +2,8 @@ fs = require('fs')
 path = require('path')
 marked = require('marked').setOptions({ smartypants: true })
 
+context = exports ?? (window.reticule = {})
+
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
 
@@ -18,23 +20,23 @@ class HtmlRenderer extends marked.Renderer:
         return '$' + code + '$'
 
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
-exports.getBookInfo = getInfo(_, 'book.json')
-exports.getSectionInfo = getInfo(_, 'section.json')
+context.getBookInfo = getInfo(_, 'book.json')
+context.getSectionInfo = getInfo(_, 'section.json')
 
-exports.getToc = function(dirname):
+context.getToc = function(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
     toc = []
 
     for item in items: try:
-        info = exports.getSectionInfo(item)
-        subtoc = exports.getToc(item)
+        info = context.getSectionInfo(item)
+        subtoc = context.getToc(item)
 
         if subtoc.length > 0: info.toc = subtoc
         toc.push(info)
 
     return toc
 
-exports.extractTags = function(filename):
+context.extractTags = function(filename):
     tags = []
 
     try:
@@ -47,12 +49,12 @@ exports.extractTags = function(filename):
 
         while tags.length < tagslength:
             for j in [i + 1 ...] if !content[j] || tagheaders(content[j]): break
-            tags.push(exports.parseTag(content[i ... j - 1]))
+            tags.push(context.parseTag(content[i ... j - 1]))
             i = j
 
     return tags
 
-exports.parseTag = function(lines):
+context.parseTag = function(lines):
     separator = x => x.split('').every(y => y == '-')
     for k in [0...] if !lines[k] || separator(lines[k]): break
 
@@ -61,19 +63,19 @@ exports.parseTag = function(lines):
 
     return { id: lines[0], assertion: assertion, proof: proof }
 
-exports.getAllTags = function(dirname):
+context.getAllTags = function(dirname):
     files = readdirRecursive(dirname).filter(x => path.basename(x) == 'tags.md')
     tags = []
 
     for file in files:
-        tags = tags.concat(exports.extractTags(file))
+        tags = tags.concat(context.extractTags(file))
 
     return tags
 
-exports.getTagById = function(dirname, id):
-    return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
+context.getTagById = function(dirname, id):
+    return context.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
-exports.getDependencies = function(tag):
+context.getDependencies = function(tag):
     options = { renderer: new HtmlRenderer() }
     html = [marked(v, options) for k, v in tag if k != 'id'].join('\n')
     dependencies = []
