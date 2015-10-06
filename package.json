@@ -12,6 +12,7 @@
     "url": "https://github.com/yishn/reticule/issues"
   },
   "license": "MIT",
+  "bin": "./lib/reticule.js",
   "scripts": {
     "build": "milkc src -o lib",
     "watch": "milkc src -wo lib"
