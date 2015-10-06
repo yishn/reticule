@@ -1,10 +1,7 @@
 fs = require('fs')
 path = require('path')
 marked = require('marked')
-
-getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
-exports.getBookInfo = getInfo(_, 'book.json')
-exports.getSectionInfo = getInfo(_, 'section.json')
+marked.setOptions({ smartypants: true })
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -13,6 +10,17 @@ function readdirRecursive(dirname):
         items = items.concat(readdirRecursive(item))
 
     return items
+
+class HtmlRenderer extends marked.Renderer:
+    function code(code):
+        return '$$' + code + '$$'
+
+    function codespan(code):
+        return '$' + code + '$'
+
+getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
+exports.getBookInfo = getInfo(_, 'book.json')
+exports.getSectionInfo = getInfo(_, 'section.json')
 
 exports.getToc = function(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -78,12 +86,3 @@ exports.getAllTags = function(dirname):
 
 exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
-
-exports.prepareMarkedRenderer = function():
-    marked.setOptions({ smartypants: true })
-
-    renderer = new marked.Renderer()
-    renderer.code = code => '$$' + code + '$$'
-    renderer.codespan = code => '$' + code + '$'
-
-    return renderer
