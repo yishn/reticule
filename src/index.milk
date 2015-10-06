@@ -30,7 +30,7 @@ exports.extractTags = function(filename):
     tags = []
 
     try:
-        content = fs.readFileSync(filename, 'utf8').split('\n')
+        content = fs.readFileSync(filename, 'utf8').replace(/\r\n/g, '\n').split('\n')
         tagheaders = [first, ...] => first == '#'
         tagslength = content.filter(tagheaders).length
 
