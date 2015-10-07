@@ -109,8 +109,10 @@ exports.parseTag = function(lines):
     j = lines[0].indexOf(':')
     id = j == -1 ? lines[0] : lines[0].substring(0, j)
     type = j == -1 ? '' : lines[0].substring(j + 1)
-    assertion = marked(lines[1 ... k - 1].join('\n'))
-    proof = k + 1 < lines.length ? marked(lines[k + 1 ...].join('\n')) : null
+    assertion = marked(lines[1 ... k - 1].join('\n').trim())
+    proof = k + 1 < lines.length
+        ? marked(lines[k + 1 ...].join('\n').trim() + ' <span class="qed">$\\square$</span>')
+        : null
 
     if type.trim() != '':
         if assertion[0...2] == '<p>':

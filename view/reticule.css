@@ -20,7 +20,7 @@ nav {
         padding: 1px 20px;
     }
     nav h1 {
-        margin: 2.9em 0;
+        margin: 2.9em 0 1em;
         font-size: 1em;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -30,6 +30,7 @@ nav {
         text-decoration: none;
     }
     nav h1 a { color: #333; }
+    nav > .inner > ol { margin-left: 0 }
     nav ol { list-style: none; }
 nav ol li { margin: 1em 0; }
 
@@ -38,7 +39,7 @@ main {
     }
     main .inner {
         margin: 0 auto;
-        padding: 1px 20px 1px 35px;
+        padding: 1px 20px;
         max-width: 731px;
     }
     main article {
@@ -58,21 +59,10 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
     margin: 1em 0;
 }
 
-h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size: 1.5em;
-}
-
-h3 {
-    font-size: 1.3em;
-}
-
-h4, h5, h6 {
-    font-size: 1em;
-}
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.3em; }
+h4, h5, h6 { font-size: 1em; }
 
 .meta {
     margin-top: -2.5em;
@@ -92,21 +82,13 @@ ul {
     list-style: square;
 }
 
-ol ol, ul ol, ol ul, ul ul {
+ol, ul {
     margin-left: 1em;
 }
 
-.label {
-    margin-right: 1em;
-}
+.label { margin-right: 1em; }
+.math { text-align: center; }
+.qed { float: right; }
 
-.math {
-    text-align: center;
-}
-
-a {
-        color: #327CCB;
-    }
-    a:hover {
-        color: #555;
-}
+a { color: #327CCB; }
+a:hover { color: #555; }
