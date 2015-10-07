@@ -7,8 +7,9 @@ cache = {}
 marked.setOptions({ smartypants: true })
 
 class ReticuleRenderer extends marked.Renderer:
-    function init(relative = './'):
-        self.relative = relative
+    function init(dirname, sectionpath):
+        self.dirname = dirname
+        self.relative = path.join(path.relative(sectionpath, dirname), './')
         super.init()
 
     function code(code):
@@ -19,7 +20,7 @@ class ReticuleRenderer extends marked.Renderer:
 
     function link(href, title, text):
         if href[0] == '#':
-            tag = exports.getTagById(href)
+            tag = exports.getTagById(self.dirname, href)
             href = self.relative + tag.path + tag.id
 
         out = '<a href="' + href + '"'
@@ -113,8 +114,7 @@ exports.renderTags = function(tags, dirname):
     output = ''
 
     for tag in tags:
-        relative = path.join(path.relative(tag.path, dirname), './')
-        options = { renderer: new ReticuleRenderer(relative) }
+        options = { renderer: new ReticuleRenderer(dirname, tag.path) }
         output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
@@ -163,10 +163,8 @@ exports.getTagById = function(dirname, id):
 
 exports.buildReticule = function(dirname):
     bookinfo = exports.getBookInfo(dirname)
-    saveJson = filename => fs.writeFileSync(filename, _) @ JSON.stringify(_, null, '  ')
-
-    template = fs.readFileSync('../view/index.html', 'utf8')
     toc = exports.getToc(dirname)
+    template = fs.readFileSync('../view/index.html', 'utf8')
 
     // Compile sections
 
@@ -181,7 +179,6 @@ exports.buildReticule = function(dirname):
 
         sectioninfo = exports.getSectionInfo(item)
         tags = exports.extractTags(path.join(item, 'tags.md'))
-        saveJson(path.join(item, 'tags.json'))(tags)
 
         relative = path.join(path.relative(item, dirname), './')
         fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
