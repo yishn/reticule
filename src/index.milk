@@ -56,11 +56,11 @@ exports.extractTags = function(filename):
             tagheaders = [first, ...] => first == '#'
             tagslength = content.filter(tagheaders).length
 
-            if length == 0: return []
+            if tagslength == 0: return []
             for i, l in content if tagheaders(l): break
 
             while tags.length < tagslength:
-                for j in [i + 1 ...] if !content[j] || tagheaders(content[j]): break
+                for j in [i + 1 ...] if j == content.length || tagheaders(content[j]): break
 
                 tag = exports.parseTag(content[i ... j - 1])
                 tag.path = path.join(filename, '..')
@@ -73,19 +73,19 @@ exports.extractTags = function(filename):
     return cache[filename]
 
 exports.parseTag = function(lines):
-    separator = x => x.split('').every(y => y == '-')
-    for k in [0...] if !lines[k] || separator(lines[k]): break
+    separator = x => x != '' && x.split('').every(y => y == '-')
+    for k in [0...] if k == lines.length || separator(lines[k]): break
 
-    assertion = lines[1 ... k - 1].join('\n')
-    proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
+    assertion = marked(lines[1 ... k - 1].join('\n'))
+    proof = k + 1 < lines.length ? marked(lines[k + 1 ...].join('\n')) : null
 
     j = lines[0].indexOf(':')
 
     return {
         id: j == -1 ? lines[0] : lines[0].substring(0, j)
         type: j == -1 ? '' : lines[0].substring(j + 1)
-        assertion: marked(assertion)
-        proof: marked(proof)
+        assertion
+        proof
     }
 
 exports.getAllTags = function(dirname):
@@ -110,8 +110,11 @@ exports.buildReticule = function(dirname):
     saveJson(path.join(dirname, 'toc.json'))(toc)
 
     for item in exports.getAllTags(dirname).map(tag => tag.path):
-        if fs.stat(path.join(item, 'tags.json')).isFile()
-        || !fs.stat(path.join(item, 'tags.md')).isFile(): continue
+        try:
+            fs.statSync(path.join(item, 'tags.json'))
+            continue
+        try: fs.statSync(path.join(item, 'tags.md'))
+        catch: continue
 
         tags = exports.extractTags(path.join(item, 'tags.md'))
         saveJson(path.join(item, 'tags.json'))(tags)
