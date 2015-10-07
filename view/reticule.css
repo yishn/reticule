@@ -112,7 +112,7 @@ ul {
 }
 
 ol ol, ul ul, ol ul, ul ol {
-    margin-left: 1.5em;
+    margin-left: 40px;
 }
 
 .toc, .toc ul, .toc ol {
