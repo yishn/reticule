@@ -80,8 +80,11 @@ exports.parseTag = function(lines):
     assertion = lines[1 ... k - 1].join('\n')
     proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
 
+    j = lines[0].indexOf(':')
+
     return {
-        id: lines[0]
+        id: j == -1 ? lines[0] : lines[0].substring(0, j)
+        type: j == -1 ? '' : lines[0].substring(j + 1)
         assertion: marked(assertion)
         proof: marked(proof)
     }
