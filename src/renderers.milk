@@ -1,4 +1,4 @@
-marked = require?('marked') ?? window.marked
+marked = require('marked')
 
 class ReticuleRenderer extends marked.Renderer:
     function code(code):
@@ -18,5 +18,4 @@ class ReticuleRenderer extends marked.Renderer:
 
         return out
 
-context = module?.exports ?? window
-context.ReticuleRenderer = ReticuleRenderer
+exports.ReticuleRenderer = ReticuleRenderer

@@ -1,5 +1,7 @@
 fs = require('fs')
 path = require('path')
+marked = require('marked').setOptions({ smartypants: true })
+ReticuleRenderer = require('./renderers').ReticuleRenderer
 
 cache = {}
 
@@ -24,6 +26,7 @@ exports.getToc = function(dirname):
     for item in items: try:
         info = exports.getSectionInfo(item)
         info.path = item
+        if 'title' in info: info.title = marked(info.title, { renderer: new ReticuleRenderer() })
         subtoc = exports.getToc(item)
 
         if subtoc.length > 0: info.toc = subtoc
@@ -59,8 +62,13 @@ exports.parseTag = function(lines):
 
     assertion = lines[1 ... k - 1].join('\n')
     proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
+    options = { renderer: new ReticuleRenderer() }
 
-    return { id: lines[0], assertion, proof }
+    return {
+        id: lines[0]
+        assertion: marked(assertion, options)
+        proof: marked(proof, options)
+    }
 
 exports.getAllTags = function(dirname):
     if dirname not in cache:
@@ -77,7 +85,7 @@ exports.getAllTags = function(dirname):
 exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
-exports.build = function(dirname):
+exports.buildReticule = function(dirname):
     exports.getBookInfo(dirname)
     saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify
 

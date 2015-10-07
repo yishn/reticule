@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 [dirname = './', ...] = require('process').argv[2...]
-require('./index').build(dirname)
+require('./index').buildReticule(dirname)
