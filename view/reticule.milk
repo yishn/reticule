@@ -15,13 +15,19 @@ function renderToc(toc):
 
     return ol
 
+function processMath(el):
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
+
 function loadBook():
     $.getJSON('book.json', function(book):
         document.title = book.title
-        $('nav .inner').prepend($('<h1></h1>').text(book.title))
+        $('nav h1 a').text(book.title)
+        processMath($('nav h1'))
     )
     $.getJSON('toc.json', function(toc):
-        $('nav .inner').append(renderToc(toc))
+        selector = 'nav .inner > ol'
+        $(selector).replaceWith(renderToc(toc))
+        processMath($(selector))
     )
 
 $(document).ready(loadBook)
