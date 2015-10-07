@@ -37,9 +37,9 @@ function readdirRecursive(dirname):
 
     return items
 
-escaperegex = x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-
 function fillTemplate(template, context):
+    escaperegex = x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+
     for k, v in context:
         template = template.replace(new RegExp('{{' + escaperegex(k) + '}}', 'g'), v)
 
