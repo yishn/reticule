@@ -35,26 +35,29 @@ exports.getToc = function(dirname):
     return toc
 
 exports.extractTags = function(filename):
-    tags = []
+    if filename not in cache:
+        tags = []
 
-    try:
-        content = fs.readFileSync(filename, 'utf8').replace(/\r\n/g, '\n').split('\n')
-        tagheaders = [first, ...] => first == '#'
-        tagslength = content.filter(tagheaders).length
+        try:
+            content = fs.readFileSync(filename, 'utf8').replace(/\r\n/g, '\n').split('\n')
+            tagheaders = [first, ...] => first == '#'
+            tagslength = content.filter(tagheaders).length
 
-        if length == 0: return []
-        for i, l in content if tagheaders(l): break
+            if length == 0: return []
+            for i, l in content if tagheaders(l): break
 
-        while tags.length < tagslength:
-            for j in [i + 1 ...] if !content[j] || tagheaders(content[j]): break
+            while tags.length < tagslength:
+                for j in [i + 1 ...] if !content[j] || tagheaders(content[j]): break
 
-            tag = exports.parseTag(content[i ... j - 1])
-            tag.path = path.join(filename, '..')
-            tags.push(tag)
+                tag = exports.parseTag(content[i ... j - 1])
+                tag.path = path.join(filename, '..')
+                tags.push(tag)
 
-            i = j
+                i = j
 
-    return tags
+        cache[filename] = tags
+
+    return cache[filename]
 
 exports.parseTag = function(lines):
     separator = x => x.split('').every(y => y == '-')
