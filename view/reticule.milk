@@ -21,7 +21,7 @@ function renderFrontPage():
         .append($('<h1></h1>').text(book.title))
 
     if 'author' in book:
-        wrapper.append($('<p></p>').text('by ' + book.author))
+        wrapper.append($('<p class="meta"></p>').text('by ' + book.author))
 
     wrapper.append($('<h2></h2>').text('Table of Contents'))
         .append(renderToc(window.cache.toc).addClass('toc'))

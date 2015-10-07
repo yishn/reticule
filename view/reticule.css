@@ -20,7 +20,7 @@ nav {
         padding: 1px 20px;
     }
     nav h1 {
-        margin: 2em 0;
+        margin: 2.9em 0;
         font-size: 1em;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -37,7 +37,9 @@ main {
         margin-left: 234px;
     }
     main .inner {
+        margin: 0 auto;
         padding: 1px 20px 1px 35px;
+        max-width: 731px;
 }
 
 /**
@@ -51,6 +53,27 @@ body {
 
 h1, h2, h3, h4, h5, h6, p, ul, ol {
     margin: 1em 0;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.3em;
+}
+
+h4, h5, h6 {
+    font-size: 1em;
+}
+
+.meta {
+    margin-top: -2.5em;
+    opacity: .8;
 }
 
 ol {
@@ -68,4 +91,11 @@ ul {
 
 ol ol, ul ol, ol ul, ul ul {
     margin-left: 1em;
+}
+
+a {
+        color: #327CCB;
+    }
+    a:hover {
+        color: #555;
 }
