@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic,300italic,300');
 
 /**
  * Layout
@@ -14,7 +14,7 @@ nav {
         width: 234px;
         overflow-y: auto;
         background: #F2F5F0;
-        font-size: .9em;
+        font-size: .8em;
     }
     nav .inner {
         padding: 1px 20px;
@@ -31,16 +31,13 @@ nav {
     }
     nav h1 a { color: #333; }
     nav ol { list-style: none; }
-    nav ol li { margin: 1em 0; }
-    nav ol ol {
-        margin-left: 1em;
-}
+nav ol li { margin: 1em 0; }
 
 main {
         margin-left: 234px;
     }
     main .inner {
-        padding: 20px;
+        padding: 1px 20px 1px 35px;
 }
 
 /**
@@ -48,10 +45,27 @@ main {
  */
 
 body {
-    font: 100%/1.5 'Noto Sans', sans-serif;
+    font: 112%/1.7 'Lato', sans-serif;
     color: #333;
 }
 
 h1, h2, h3, h4, h5, h6, p, ul, ol {
     margin: 1em 0;
+}
+
+ol {
+        list-style: lower-roman;
+    }
+    ol.toc, ol.toc ol {
+        margin-top: 0;
+        margin-bottom: 0;
+        list-style: square;
+}
+
+ul {
+    list-style: square;
+}
+
+ol ol, ul ol, ol ul, ul ul {
+    margin-left: 1em;
 }
