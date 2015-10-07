@@ -16,8 +16,19 @@ nav {
         background: #F2F5F0;
         font-size: .8em;
     }
+    nav::after {
+        content: ' ';
+        display: block;
+        position: fixed;
+        height: 6em;
+        bottom: 0;
+        left: 0;
+        width: 234px;
+        background: linear-gradient(rgba(242, 245, 240, 0), rgba(242, 245, 240, 1));
+        pointer-events: none;
+    }
     nav .inner {
-        padding: 1px 20px;
+        padding: 1px 20px 6em;
     }
     nav h1 {
         margin: 2.9em 0 1em;
