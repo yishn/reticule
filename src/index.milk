@@ -67,17 +67,20 @@ exports.getToc = function(dirname):
 
     return output
 
-exports.renderToc = function(toc, relative = './'):
+exports.renderToc = function(toc, relative = './', currentpath = null):
     output = '<ol>\n'
 
     for item in toc:
         a = item.title
         if 'toc' not in item:
             a = '<a href="' + path.join(relative, item.path) + '">' + item.title + '</a>'
+
         li = '<li>' + a
+        if currentpath == item.path:
+            li = '<li class="current">' + a
 
         if 'toc' in item:
-            subtoc = exports.renderToc(item.toc, relative)
+            subtoc = exports.renderToc(item.toc, relative, currentpath)
             li += subtoc
 
         li += '</li>\n'
@@ -183,7 +186,7 @@ exports.buildReticule = function(dirname):
         relative = path.join(path.relative(item, dirname), './')
         fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
-            toc: exports.renderToc(toc, relative)
+            toc: exports.renderToc(toc, relative, item)
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'

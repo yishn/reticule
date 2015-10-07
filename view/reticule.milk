@@ -18,7 +18,7 @@ $(document).ready(function():
     $('main ol:not(.toc)').each(function():
         $(this).css('list-style', 'none').children('li').each(function(i):
             roman = int2roman(i + 1).toLowerCase()
-            $(this).html('<p class="roman">(' + roman + ')</p> ' + $(this).html())
+            $(this).html('<span class="roman">(' + roman + ')</span> ' + $(this).html())
         )
     )
 )
