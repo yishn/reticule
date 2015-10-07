@@ -43,10 +43,13 @@ main {
         max-width: 731px;
     }
     main article {
-        margin: 3em 0;
+        margin: 0;
+        margin-left: -20px;
+        padding: 20px;
+        width: 100%;
     }
     main h1 + article {
-        margin-top: 0;
+        padding-top: 1px;
 }
 
 /**
@@ -89,7 +92,12 @@ ol, ul {
     margin-left: 1em;
 }
 
-.label { margin-right: 1em; }
+.label {
+    margin-right: 1em;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
 .math { text-align: center; }
 .qed { float: right; }
 
