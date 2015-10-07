@@ -100,4 +100,4 @@ exports.buildReticule = function(dirname):
         || !fs.stat(path.join(item, 'tags.md')).isFile(): continue
 
         tags = exports.extractTags(path.join(item, 'tags.md'))
-        saveJson(path.join(item, 'toc.json'))(tags)
+        saveJson(path.join(item, 'tags.json'))(tags)
