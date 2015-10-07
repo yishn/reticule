@@ -86,13 +86,20 @@ ol {
         margin-top: 0;
         margin-bottom: 0;
         list-style: square;
+    }
+    ol .roman {
+        float: left;
+        margin: 0;
+        margin-right: 1em;
+        width: 1.5em;
+        text-align: right;
 }
 
 ul {
     list-style: square;
 }
 
-ol, ul {
+ol ol, ul ul, ol ul, ul ol {
     margin-left: 1.5em;
 }
 

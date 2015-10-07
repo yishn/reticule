@@ -1,2 +1,24 @@
 function processMath(el = document.body):
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
+
+function int2roman(n):
+    r = ''
+    decimals = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+    roman = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I']
+
+    for i, _ in decimals:
+        while n >= decimals[i]:
+            r += roman[i]
+            n -= decimals[i]
+
+    return r
+
+$(document).ready(function():
+    // Prettify numbered lists
+    $('main ol:not(.toc)').each(function():
+        $(this).css('list-style', 'none').children('li').each(function(i):
+            roman = int2roman(i + 1).toLowerCase()
+            $(this).html('<p class="roman">(' + roman + ')</p> ' + $(this).html())
+        )
+    )
+)
