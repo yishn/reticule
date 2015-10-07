@@ -3,34 +3,37 @@
 <head>
 
 <meta charset="utf-8">
-<title>Reticule</title>
+<title>{{title}}</title>
 
-<link rel="stylesheet" type="text/css" href="reticule.css" />
+<link rel="stylesheet" type="text/css" href="{{relative}}reticule.css" />
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
+        showMathMenu: false,
+        showProcessingMessages: false,
         tex2jax: {
             inlineMath: [['$','$'], ["\\(", "\\)"]],
             processEscapes: true
-        }
+        },
+        "HTML-CSS": { scale: 80 }
     });
 </script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="reticule.js"></script>
+<script src="{{relative}}reticule.js"></script>
 
 </head>
 <body>
 
 <nav>
     <div class="inner">
-        <h1><a href="#">Loading reticule&hellip;</a></h1>
-        <ol></ol>
+        <h1><a href="{{relative}}">{{title}}</a></h1>
+        {{toc}}
     </div>
 </nav>
 
 <main>
     <div class="inner">
-
+        {{main}}
     </div>
 </main>
 

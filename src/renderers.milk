@@ -2,10 +2,10 @@ marked = require('marked')
 
 class ReticuleRenderer extends marked.Renderer:
     function code(code):
-        return '<p>$$' + code + '$$</p>'
+        return '<p class="math">$$' + code + '$$</p>'
 
     function codespan(code):
-        return '$' + code + '$'
+        return '<span class="math">$' + code + '$</span>'
 
     function link(href, title, text):
         if href[0] == '#' && '=' not in href:

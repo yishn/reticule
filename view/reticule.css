@@ -40,6 +40,9 @@ main {
         margin: 0 auto;
         padding: 1px 20px 1px 35px;
         max-width: 731px;
+    }
+    main article {
+        margin: 3em 0;
 }
 
 /**
@@ -91,6 +94,14 @@ ul {
 
 ol ol, ul ol, ol ul, ul ul {
     margin-left: 1em;
+}
+
+.label {
+    margin-right: 1em;
+}
+
+.math {
+    text-align: center;
 }
 
 a {

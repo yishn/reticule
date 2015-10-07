@@ -18,6 +18,14 @@ function readdirRecursive(dirname):
 
     return items
 
+escaperegex = x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+
+function fillTemplate(template, context):
+    for k, v in context:
+        template = template.replace(new RegExp('{{' + escaperegex(k) + '}}', 'g'), v)
+
+    return template
+
 getInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join
 
 exports.getBookInfo = getInfo(_, 'book.json')
@@ -39,6 +47,22 @@ exports.getToc = function(dirname):
         toc.push(info)
 
     return output
+
+exports.renderToc = function(toc, relative = './'):
+    output = '<ol>\n'
+
+    for item in toc:
+        a = '<a href="' + path.join(relative, item.path) + '">' + item.title + '</a>'
+        li = '<li>' + a
+
+        if 'toc' in item:
+            subtoc = exports.renderToc(item.toc, relative)
+            li += subtoc
+
+        li += '</li>\n'
+        output += li
+
+    return output + '</ol>'
 
 exports.extractTags = function(filename):
     if filename not in cache:
@@ -65,21 +89,42 @@ exports.extractTags = function(filename):
 
     return cache[filename]
 
+exports.renderTags = function(tags):
+    output = ''
+
+    for tag in tags:
+        output += '<article>\n' + tag.assertion + '\n'
+
+        if tag.proof != null:
+            output += tag.proof + '\n'
+
+        output += '</article>\n'
+
+    return output
+
 exports.parseTag = function(lines):
     separator = x => x != '' && x.split('').every(y => y == '-')
     for k in [0...] if k == lines.length || separator(lines[k]): break
 
+    j = lines[0].indexOf(':')
+    id = j == -1 ? lines[0] : lines[0].substring(0, j)
+    type = j == -1 ? '' : lines[0].substring(j + 1)
     assertion = marked(lines[1 ... k - 1].join('\n'))
     proof = k + 1 < lines.length ? marked(lines[k + 1 ...].join('\n')) : null
 
-    j = lines[0].indexOf(':')
+    if type.trim() != '':
+        if assertion[0...2] == '<p>':
+            assertion = '<p><strong class="label">' + type + ' ' + id + '.</strong> ' + assertion[3...]
+        else:
+            assertion = '<p><strong class="label">' + type + ' ' + id + '.</strong></p>\n' + assertion
 
-    return {
-        id: j == -1 ? lines[0] : lines[0].substring(0, j)
-        type: j == -1 ? '' : lines[0].substring(j + 1)
-        assertion
-        proof
-    }
+    if proof != null:
+        if proof[0...2] == '<p>':
+            proof = '<p><strong class="label">Proof.</strong> ' + proof[3...]
+        else:
+            proof = '<p><strong class="label">Proof.</strong></p>\n' + proof
+
+    return { id, type, assertion, proof }
 
 exports.getAllTags = function(dirname):
     if dirname not in cache:
@@ -97,14 +142,13 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
 exports.buildReticule = function(dirname):
+    bookinfo = exports.getBookInfo(dirname)
     saveJson = filename => fs.writeFileSync(filename, _) @ JSON.stringify(_, null, '  ')
 
-    // Compile TOC
-
+    template = fs.readFileSync('../view/index.html', 'utf8')
     toc = exports.getToc(dirname)
-    saveJson(path.join(dirname, 'toc.json'))(toc)
 
-    // Compile tags
+    // Compile sections
 
     tags = exports.getAllTags(dirname)
     items = []
@@ -115,13 +159,38 @@ exports.buildReticule = function(dirname):
         try: fs.statSync(path.join(item, 'tags.md'))
         catch: continue
 
+        sectioninfo = exports.getSectionInfo(item)
         tags = exports.extractTags(path.join(item, 'tags.md'))
         saveJson(path.join(item, 'tags.json'))(tags)
 
-    // Copy view files
+        relative = path.join(path.relative(item, dirname), './')
+        fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
+            title: bookinfo.title
+            toc: exports.renderToc(toc, relative)
+            relative
+            main: [
+                '<h1>' + sectioninfo.title + '</h1>'
+                exports.renderTags(tags)
+            ].join('\n')
+        }))
 
-    fs.writeFileSync(path.join(dirname, 'index.html'), fs.readFileSync('../view/index.html'))
+    // Create front page
+
+    fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
+        title: bookinfo.title
+        toc: exports.renderToc(toc)
+        relative: './'
+        main: marked([
+            '# ' + bookinfo.title
+            '<p class="meta">by ' + bookinfo.author + '</p>'
+            '## Table of Contents'
+            '<ol class="toc">'
+            exports.renderToc(toc)[4...]
+        ].join('\n'))
+    }))
+
+    // Copy resources
+
     fs.writeFileSync(path.join(dirname, 'reticule.css'), fs.readFileSync('../view/reticule.css'))
-
     code = milk.compile(fs.readFileSync('../view/reticule.milk', 'utf8'))
     fs.writeFileSync(path.join(dirname, 'reticule.js'), code)
