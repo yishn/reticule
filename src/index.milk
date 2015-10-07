@@ -26,11 +26,11 @@ exports.getSectionInfo = getInfo(_, 'section.json')
 exports.getToc = function(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
     toc = []
+    output = toc
 
     try:
         info = exports.getBookInfo(dirname)
         info.type = 'book'
-        if 'title' in info: info.title = marked(info.title)
         toc.push(info)
 
         info.subtoc = []
@@ -40,13 +40,12 @@ exports.getToc = function(dirname):
         info = exports.getSectionInfo(item)
         info.type = 'section'
         info.path = item
-        if 'title' in info: info.title = marked(info.title)
         subtoc = exports.getToc(item)
 
         if subtoc.length > 0: info.toc = subtoc
         toc.push(info)
 
-    return toc
+    return output
 
 exports.extractTags = function(filename):
     if filename not in cache:
@@ -105,7 +104,7 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
 exports.buildReticule = function(dirname):
-    saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify
+    saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify(_, null, '  ')
 
     toc = exports.getToc(dirname)
     saveJson(path.join(dirname, 'toc.json'))(toc)
