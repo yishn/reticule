@@ -1,4 +1,10 @@
 #!/usr/bin/env node
 
-[dirname = './', ...] = require('process').argv[2...]
-require('./index').buildReticule(dirname)
+process = require('process')
+minimist = require('minimist')
+reticule = require('./index')
+
+argv = minimist(process.argv[2...])
+[dirname = './', ...] = argv._
+
+reticule.buildReticule(dirname)
