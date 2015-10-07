@@ -2,13 +2,31 @@ fs = require('fs')
 path = require('path').posix
 marked = require('marked')
 milk = require('milk-lang')
-ReticuleRenderer = require('./renderers').ReticuleRenderer
 
 cache = {}
-marked.setOptions({
-    smartypants: true
-    renderer: new ReticuleRenderer()
-})
+marked.setOptions({ smartypants: true })
+
+class ReticuleRenderer extends marked.Renderer:
+    function init(relative = './'):
+        self.relative = relative
+        super.init()
+
+    function code(code):
+        return '<p class="math">$$' + code + '$$</p>'
+
+    function codespan(code):
+        return '<span class="math">$' + code + '$</span>'
+
+    function link(href, title, text):
+        if href[0] == '#':
+            tag = exports.getTagById(href)
+            href = self.relative + tag.path + tag.id
+
+        out = '<a href="' + href + '"'
+        if title: out += ' title="' + title + '"'
+        out += '>' + text + '</a>'
+
+        return out
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -91,14 +109,16 @@ exports.extractTags = function(filename):
 
     return cache[filename]
 
-exports.renderTags = function(tags):
+exports.renderTags = function(tags, dirname):
     output = ''
 
     for tag in tags:
-        output += '<article id="tag-' + tag.id[1...] + '">\n' + tag.assertion + '\n'
+        relative = path.join(path.relative(tag.path, dirname), './')
+        options = { renderer: new ReticuleRenderer(relative) }
+        output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
-            output += tag.proof + '\n'
+            output += marked(tag.proof, options) + '\n'
 
         output += '</article>\n'
 
@@ -111,24 +131,18 @@ exports.parseTag = function(lines):
     j = lines[0].indexOf(':')
     id = j == -1 ? lines[0] : lines[0].substring(0, j)
     type = j == -1 ? '' : lines[0].substring(j + 1)
-    assertion = marked(lines[1 ... k - 1].join('\n').trim())
+    assertion = lines[1 ... k - 1].join('\n').trim()
     proof = k + 1 < lines.length
-        ? marked(lines[k + 1 ...].join('\n').trim() + ' <span class="qed">$\\square$</span>')
+        ? lines[k + 1 ...].join('\n').trim() + ' <span class="qed">$\\square$</span>'
         : null
 
     if type.trim() != '':
-        prefix = '<p><a class="label" href="#tag-' + id[1...] + '">' + type + ' ' + id[1...] + '.</a> '
-        if assertion[0...2] == '<p>':
-            assertion = prefix + assertion[3...]
-        else:
-            assertion = prefix + '</p>\n' + assertion
+        prefix = '<a class="label" href="' + id + '">' + type + ' ' + id[1...] + '.</a>\n\n'
+        assertion = prefix + assertion
 
     if proof != null:
-        prefix = '<p><strong class="label">Proof.</strong> '
-        if proof[0...2] == '<p>':
-            proof = prefix + proof[3...]
-        else:
-            proof = prefix + '</p>\n' + proof
+        prefix = '<strong class="label">Proof.</strong>\n\n'
+        proof = prefix + proof
 
     return { id, type, assertion, proof }
 
@@ -176,7 +190,7 @@ exports.buildReticule = function(dirname):
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
-                exports.renderTags(tags)
+                exports.renderTags(tags, dirname)
             ].join('\n')
         }))
 

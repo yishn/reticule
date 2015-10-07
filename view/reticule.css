@@ -45,6 +45,7 @@ main {
     main article {
         margin: 0;
         margin-left: -20px;
+        overflow: hidden;
         padding: 20px;
         width: 100%;
     }
@@ -93,7 +94,8 @@ ol, ul {
 }
 
 .label {
-    margin-right: 1em;
+    float: left;
+    padding-right: 1em;
     color: #333;
     font-weight: bold;
     text-decoration: none;
