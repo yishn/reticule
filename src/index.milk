@@ -34,8 +34,8 @@ exports.getToc = function(dirname):
         info.type = 'book'
         toc.push(info)
 
-        info.subtoc = []
-        toc = info.subtoc
+        info.toc = []
+        toc = info.toc
 
     for item in items: try:
         info = exports.getSectionInfo(item)
