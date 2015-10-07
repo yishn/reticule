@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "marked": "^0.3.5",
+    "milk-lang": "^0.1.4",
     "minimist": "^1.2.0"
   }
 }

@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic');
+
+/**
+ * Layout
+ */
+
+* { margin: 0; padding: 0; }
+
+nav {
+        background: #F2F5F0;
+    }
+    nav a {
+        color: #7A7A7A;
+        text-decoration: none;
+}
+
+/**
+ * Typography
+ */
+
+body {
+    font: 100%/1.5 'Noto Sans', sans-serif;
+}

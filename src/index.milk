@@ -1,6 +1,7 @@
 fs = require('fs')
 path = require('path').posix
 marked = require('marked')
+milk = require('milk-lang')
 ReticuleRenderer = require('./renderers').ReticuleRenderer
 
 cache = {}
@@ -106,17 +107,29 @@ exports.getTagById = function(dirname, id):
 exports.buildReticule = function(dirname):
     saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify(_, null, '  ')
 
+    // Compile TOC
+
     toc = exports.getToc(dirname)
-    tags = exports.getAllTags(dirname)
     saveJson(path.join(dirname, 'toc.json'))(toc)
 
+    // Compile tags
+
+    tags = exports.getAllTags(dirname)
     items = []
-    for item in tags.map(tag => tag.path) if item not in items: 
+
+    for item in tags.map(tag => tag.path) if item not in items:
         items.push(item)
 
-    for item in items:
         try: fs.statSync(path.join(item, 'tags.md'))
         catch: continue
 
         tags = exports.extractTags(path.join(item, 'tags.md'))
         saveJson(path.join(item, 'tags.json'))(tags)
+
+    // Copy view files
+
+    fs.writeFileSync(path.join(dirname, 'index.html'), fs.readFileSync('../view/index.html'))
+    fs.writeFileSync(path.join(dirname, 'reticule.css'), fs.readFileSync('../view/reticule.css'))
+
+    code = milk.compile(fs.readFileSync('../view/reticule.milk', 'utf8'))
+    fs.writeFileSync(path.join(dirname, 'reticule.js'), code)
