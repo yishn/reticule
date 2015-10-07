@@ -52,7 +52,9 @@ exports.renderToc = function(toc, relative = './'):
     output = '<ol>\n'
 
     for item in toc:
-        a = '<a href="' + path.join(relative, item.path) + '">' + item.title + '</a>'
+        a = item.title
+        if 'toc' not in item:
+            a = '<a href="' + path.join(relative, item.path) + '">' + item.title + '</a>'
         li = '<li>' + a
 
         if 'toc' in item:
@@ -93,7 +95,7 @@ exports.renderTags = function(tags):
     output = ''
 
     for tag in tags:
-        output += '<article>\n' + tag.assertion + '\n'
+        output += '<article id="tag-' + tag.id[1...] + '">\n' + tag.assertion + '\n'
 
         if tag.proof != null:
             output += tag.proof + '\n'
@@ -116,7 +118,7 @@ exports.parseTag = function(lines):
 
     if type.trim() != '':
         prefix = '<p><strong class="label">' + type + ' ' + id + '.</strong> '
-        if assertion[0...2] != '<p>':
+        if assertion[0...2] == '<p>':
             assertion = prefix + assertion[3...]
         else:
             assertion = prefix + '</p>\n' + assertion

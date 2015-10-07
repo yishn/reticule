@@ -44,6 +44,9 @@ main {
     }
     main article {
         margin: 3em 0;
+    }
+    main h1 + article {
+        margin-top: 0;
 }
 
 /**
