@@ -115,16 +115,18 @@ exports.parseTag = function(lines):
         : null
 
     if type.trim() != '':
-        if assertion[0...2] == '<p>':
-            assertion = '<p><strong class="label">' + type + ' ' + id + '.</strong> ' + assertion[3...]
+        prefix = '<p><strong class="label">' + type + ' ' + id + '.</strong> '
+        if assertion[0...2] != '<p>':
+            assertion = prefix + assertion[3...]
         else:
-            assertion = '<p><strong class="label">' + type + ' ' + id + '.</strong></p>\n' + assertion
+            assertion = prefix + '</p>\n' + assertion
 
     if proof != null:
+        prefix = '<p><strong class="label">Proof.</strong> '
         if proof[0...2] == '<p>':
-            proof = '<p><strong class="label">Proof.</strong> ' + proof[3...]
+            proof = prefix + proof[3...]
         else:
-            proof = '<p><strong class="label">Proof.</strong></p>\n' + proof
+            proof = prefix + '</p>\n' + proof
 
     return { id, type, assertion, proof }
 
