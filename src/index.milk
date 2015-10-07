@@ -105,7 +105,7 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
 exports.buildReticule = function(dirname):
-    saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify(_, null, '  ')
+    saveJson = filename => fs.writeFileSync(filename, _) @ JSON.stringify(_, null, '  ')
 
     // Compile TOC
 
