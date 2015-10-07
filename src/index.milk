@@ -1,5 +1,5 @@
 fs = require('fs')
-path = require('path')
+path = require('path').posix
 marked = require('marked')
 ReticuleRenderer = require('./renderers').ReticuleRenderer
 
@@ -107,12 +107,14 @@ exports.buildReticule = function(dirname):
     saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify(_, null, '  ')
 
     toc = exports.getToc(dirname)
+    tags = exports.getAllTags(dirname)
     saveJson(path.join(dirname, 'toc.json'))(toc)
 
-    for item in exports.getAllTags(dirname).map(tag => tag.path):
-        try:
-            fs.statSync(path.join(item, 'tags.json'))
-            continue
+    items = []
+    for item in tags.map(tag => tag.path) if item not in items: 
+        items.push(item)
+
+    for item in items:
         try: fs.statSync(path.join(item, 'tags.md'))
         catch: continue
 
