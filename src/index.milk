@@ -201,8 +201,8 @@ exports.buildReticule = function(dirname):
             '# ' + bookinfo.title
             '<p class="meta">by ' + bookinfo.author + '</p>'
             '## Table of Contents'
-            '<ol class="toc">'
-            exports.renderToc(toc)[4...]
+            '<ul class="toc">'
+            exports.renderToc(toc)[4...].replace(/<ol>/g, '<ul>').replace(/<\/ol>/g, '</ul>')
         ].join('\n'))
     }))
 
