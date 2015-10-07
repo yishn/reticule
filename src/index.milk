@@ -1,9 +1,13 @@
 fs = require('fs')
 path = require('path')
-marked = require('marked').setOptions({ smartypants: true })
+marked = require('marked')
 ReticuleRenderer = require('./renderers').ReticuleRenderer
 
 cache = {}
+marked.setOptions({
+    smartypants: true
+    renderer: new ReticuleRenderer()
+})
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -23,10 +27,20 @@ exports.getToc = function(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
     toc = []
 
+    try:
+        info = exports.getBookInfo(dirname)
+        info.type = 'book'
+        if 'title' in info: info.title = marked(info.title)
+        toc.push(info)
+
+        info.subtoc = []
+        toc = info.subtoc
+
     for item in items: try:
         info = exports.getSectionInfo(item)
+        info.type = 'section'
         info.path = item
-        if 'title' in info: info.title = marked(info.title, { renderer: new ReticuleRenderer() })
+        if 'title' in info: info.title = marked(info.title)
         subtoc = exports.getToc(item)
 
         if subtoc.length > 0: info.toc = subtoc
@@ -65,12 +79,11 @@ exports.parseTag = function(lines):
 
     assertion = lines[1 ... k - 1].join('\n')
     proof = k + 1 < lines.length ? lines[k + 1 ...].join('\n') : null
-    options = { renderer: new ReticuleRenderer() }
 
     return {
         id: lines[0]
-        assertion: marked(assertion, options)
-        proof: marked(proof, options)
+        assertion: marked(assertion)
+        proof: marked(proof)
     }
 
 exports.getAllTags = function(dirname):
@@ -89,7 +102,6 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
 exports.buildReticule = function(dirname):
-    exports.getBookInfo(dirname)
     saveJson = filename => fs.writeFileSync(filename, _, 'utf8') @ JSON.stringify
 
     toc = exports.getToc(dirname)
