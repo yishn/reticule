@@ -1,3 +1,27 @@
-$(document).ready(function():
-    console.log('ready!')
-)
+function renderToc(toc):
+    ol = $('<ol></ol>')
+
+    for item in toc:
+        a = $('<a></a>')
+            .text(item.title)
+            .attr('href', '#section=' + item.path)
+        li = $('<li></li>').append(a)
+
+        if 'toc' in item:
+            subtoc = renderToc(item.toc)
+            li.append(subtoc)
+
+        ol.append(li)
+
+    return ol
+
+function loadBook():
+    $.getJSON('book.json', function(book):
+        document.title = book.title
+        $('nav .inner').prepend($('<h1></h1>').text(book.title))
+    )
+    $.getJSON('toc.json', function(toc):
+        $('nav .inner').append(renderToc(toc))
+    )
+
+$(document).ready(loadBook)

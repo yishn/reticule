@@ -7,11 +7,40 @@
 * { margin: 0; padding: 0; }
 
 nav {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 234px;
+        overflow-y: auto;
         background: #F2F5F0;
+        font-size: .9em;
+    }
+    nav .inner {
+        padding: 1px 20px;
+    }
+    nav h1 {
+        margin: 2em 0;
+        font-size: 1em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
     nav a {
         color: #7A7A7A;
         text-decoration: none;
+    }
+    nav h1 a { color: #333; }
+    nav ol { list-style: none; }
+    nav ol li { margin: 1em 0; }
+    nav ol ol {
+        margin-left: 1em;
+}
+
+main {
+        margin-left: 234px;
+    }
+    main .inner {
+        padding: 20px;
 }
 
 /**
@@ -20,4 +49,9 @@ nav {
 
 body {
     font: 100%/1.5 'Noto Sans', sans-serif;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+    margin: 1em 0;
 }
