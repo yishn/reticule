@@ -38,21 +38,20 @@ function ready($el = $('main'), math = true):
     $el.find('a.tag').on('click', function():
         href = $(this).attr('href')
         id = href[href.indexOf('#')...]
-        $section = $('.extract-' + id[1...])
 
-        if $section.length == 0:
+        if $(id).length == 0:
             $block = findBlock(this)
             $section = $('<section />', { 'class': 'extract-' + id[1...] })
-                .append($('<article />')
+                .append($('<article />', { id: id[1...] })
                 .append('<p>Loading &hellip;</p>'))
             $block.after($section)
 
             $section.load(href.replace('#', ' #'), function():
                 ready($section)
-                $('html, body').animate({ scrollTop: $section.offset().top })
+                $('html, body').animate({ scrollTop: $(id).offset().top })
             )
         else:
-            $('html, body').animate({ scrollTop: $section.offset().top })
+            $('html, body').animate({ scrollTop: $(id).offset().top })
 
         return false
     )
