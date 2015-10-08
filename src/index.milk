@@ -8,6 +8,7 @@ marked.setOptions({ smartypants: true })
 
 class ReticuleRenderer extends marked.Renderer:
     function init(dirname, sectionpath):
+        self.keywords = []
         self.dirname = dirname
         self.relative = path.join(path.relative(sectionpath, dirname), './')
         super.init()
@@ -28,6 +29,10 @@ class ReticuleRenderer extends marked.Renderer:
         out += '>' + text + '</a>'
 
         return out
+
+    function del(text):
+        self.keywords.push(text)
+        return ''
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -115,9 +120,11 @@ exports.extractTags = function(filename):
 
 exports.renderTags = function(tags, dirname):
     output = ''
+    keywords = {}
 
     for tag in tags:
-        options = { renderer: new ReticuleRenderer(dirname, tag.path) }
+        renderer = new ReticuleRenderer(dirname, tag.path)
+        options = { renderer }
         output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
@@ -125,7 +132,10 @@ exports.renderTags = function(tags, dirname):
 
         output += '</article>\n'
 
-    return output
+        for keyword in renderer.keywords:
+            keywords[keyword] = [tag.path, tag.id]
+
+    return [output, keywords]
 
 exports.parseTag = function(lines):
     separator = x => x != '' && x.split('').every(y => y == '-')
@@ -148,6 +158,19 @@ exports.parseTag = function(lines):
         proof = prefix + proof
 
     return { id, type, assertion, proof }
+
+exports.renderIndex = function(keywords, relative = './'):
+    output = ''
+
+    compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
+    keys = Object.keys(keywords)
+    keys.sort(compare(_, _, x => x.toLowerCase().replace(/\W/g, '')))
+
+    for keyword in keys:
+        [p, id] = keywords[keyword]
+        output += '* [' + keyword + '](' + path.join(relative, p) + id + ')\n'
+
+    return output
 
 exports.getAllTags = function(dirname):
     if dirname not in cache:
@@ -173,6 +196,7 @@ exports.buildReticule = function(dirname):
 
     tags = exports.getAllTags(dirname)
     items = []
+    keywords = {}
 
     for item in tags.map(tag => tag.path) if item not in items:
         items.push(item)
@@ -183,14 +207,20 @@ exports.buildReticule = function(dirname):
         sectioninfo = exports.getSectionInfo(item)
         tags = exports.extractTags(path.join(item, 'tags.md'))
 
+        [html, kw] = exports.renderTags(tags, dirname)
         relative = path.join(path.relative(item, dirname), './')
+
+        for keyword, value in kw:
+            keywords[keyword] = value
+
         fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
             toc: exports.renderToc(toc, relative, item)
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
-                exports.renderTags(tags, dirname)
+                '<p class="meta">' + bookinfo.title + '</p>'
+                html
             ].join('\n')
         }))
 
@@ -204,8 +234,21 @@ exports.buildReticule = function(dirname):
             '# ' + bookinfo.title
             '<p class="meta">by ' + bookinfo.author + '</p>'
             '## Table of Contents'
-            '<ul class="toc">'
-            exports.renderToc(toc)[4...].replace(/<ol>/g, '<ul>').replace(/<\/ol>/g, '</ul>')
+            exports.renderToc(toc).replace(/<ol>/g, '<ul>').replace(/<\/ol>/g, '</ul>')
+        ].join('\n'))
+    }))
+
+    // Create index
+
+    try: fs.mkdirSync(path.join(dirname, 'index'))
+    fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
+        title: bookinfo.title
+        toc: exports.renderToc(toc)
+        relative: '../'
+        main: marked([
+            '# Index'
+            '<p class="meta">' + bookinfo.title + '</p>'
+            exports.renderIndex(keywords, '../')
         ].join('\n'))
     }))
 

@@ -112,12 +112,7 @@ ul {
 }
 
 ol ol, ul ul, ol ul, ul ol {
-    margin-left: 40px;
-}
-
-.toc, .toc ul, .toc ol {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 0 0 0 40px;
 }
 
 .label {
