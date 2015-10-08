@@ -37,22 +37,22 @@ function ready($el = $('main'), math = true):
     // Wire tag link events
     $el.find('a.tag').on('click', function():
         href = $(this).attr('href')
-        id = href[href.indexOf('#') + 1 ...]
-        $section = $('.extract-' + id)
+        id = href[href.indexOf('#')...]
+        $section = $('.extract-' + id[1...])
 
         if $section.length == 0:
             $block = findBlock(this)
-            $section = $('<section />', {
-                'class': 'extract-' + id
-            }).append($('<article />').append('<p>Loading &hellip;</p>'))
+            $section = $('<section />', { 'class': 'extract-' + id[1...] })
+                .append($('<article />')
+                .append('<p>Loading &hellip;</p>'))
             $block.after($section)
 
             $section.load(href.replace('#', ' #'), function():
                 ready($section)
-                $('html, body').animate({ scrollTop: $section.offset().top }, 500)
+                $('html, body').animate({ scrollTop: $section.offset().top })
             )
         else:
-            $('html, body').animate({ scrollTop: $section.offset().top }, 500)
+            $('html, body').animate({ scrollTop: $section.offset().top })
 
         return false
     )
