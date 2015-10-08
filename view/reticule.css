@@ -6,6 +6,10 @@
 
 * { margin: 0; padding: 0; }
 
+nav, main, section, article {
+    display: block;
+}
+
 nav {
         position: fixed;
         left: 0;
@@ -13,7 +17,7 @@ nav {
         height: 100%;
         width: 234px;
         overflow-y: auto;
-        background: #F2F5F0;
+        background: rgba(0, 0, 0, .05);
         font-size: .8em;
     }
     nav::after {
@@ -51,10 +55,11 @@ nav {
 
 main, footer {
         margin-left: 234px;
+        overflow: hidden;
     }
     main .inner, footer .inner {
         margin: 0 auto;
-        padding: 1px 40px;
+        padding: 1px 60px;
         max-width: 731px;
     }
     main article {
@@ -131,9 +136,14 @@ ol ol, ul ul, ol ul, ul ol {
     margin-left: 40px;
 }
 
-.toc ul, .toc ol {
+.toc ul, .toc ol, .index ul, .index ol {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.index a, a.index {
+    font-size: .8em;
+    margin-left: 5px;
 }
 
 .label {

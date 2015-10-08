@@ -15,12 +15,49 @@ function int2roman(n):
 
     return r
 
-$(document).ready(function():
+function findBlock(el):
+    el = $(el)
+
+    while el.css('display') != 'block':
+        el = el.parent()
+
+    return el
+
+function ready($el = $('main'), math = true):
     // Prettify numbered lists
-    $('main ol').each(function():
+    $el.find('ol').each(function():
+        if $(this).css('list-style') == 'none': return
+
         $(this).css('list-style', 'none').children('li').each(function(i):
             roman = int2roman(i + 1).toLowerCase()
             $(this).prepend('<span class="roman">(' + roman + ')</span> ')
         )
     )
-)
+
+    // Wire tag link events
+    $el.find('a.tag').on('click', function():
+        href = $(this).attr('href')
+        id = href[href.indexOf('#') + 1 ...]
+        $section = $('.extract-' + id)
+
+        if $section.length == 0:
+            $block = findBlock(this)
+            $section = $('<section />', {
+                'class': 'extract-' + id
+            }).append($('<article />').append('<p>Loading &hellip;</p>'))
+            $block.after($section)
+
+            $section.load(href.replace('#', ' #'), function():
+                ready($section)
+                $('html, body').animate({ scrollTop: $section.offset().top }, 500)
+            )
+        else:
+            $('html, body').animate({ scrollTop: $section.offset().top }, 500)
+
+        return false
+    )
+
+    // Invoke MathJax
+    if math: processMath($el[0])
+
+$(document).ready(() => ready(null, false))

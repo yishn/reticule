@@ -168,7 +168,7 @@ exports.parseTag = function(lines):
     return { id, type, assertion, proof }
 
 exports.renderIndex = function(keywords, relative = './'):
-    output = '<ul class="toc">\n'
+    output = '<ul class="index">\n'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
     keys = Object.keys(keywords)
