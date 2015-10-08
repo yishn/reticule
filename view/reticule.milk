@@ -39,7 +39,8 @@ function ready($el = $('main'), math = true):
 
     // Wire tag link events
     $el.find('a.tag').on('click', function():
-        href = $(this).attr('href')
+        relative = $('nav > .inner > h1 > a').attr('href')
+        href = relative + $(this).attr('data-path')
         id = href[href.indexOf('#')...]
 
         if $(id).length > 0: $(id).remove()

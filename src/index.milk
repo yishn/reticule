@@ -29,8 +29,8 @@ class ReticuleRenderer extends marked.Renderer:
             href = self.relative + tag.path + tag.id
             out += 'class="tag" '
 
-        out += 'href="' + href + '"'
-        if title: out += ' title="' + title + '"'
+        out += 'href="' + href + '" data-path="' + tag.path + tag.id + '" '
+        if title: out += 'title="' + title + '"'
         out += '>' + text + '</a>'
 
         return out
@@ -83,7 +83,8 @@ exports.renderToc = function(toc, relative = './', currentpath = null):
     for item in toc:
         a = item.title
         if 'toc' not in item:
-            a = '<a href="' + path.join(relative, item.path) + '">' + item.title + '</a>'
+            a = '<a href="' + path.join(relative, item.path)
+                + '" data-path="' + item.path + '">' + item.title + '</a>'
 
         li = '<li>' + a
         if currentpath == item.path:
@@ -178,10 +179,11 @@ exports.renderIndex = function(keywords, relative = './'):
         return '<p>No index.</p>'
 
     for keyword in keys:
-        output += '<li>' + keyword + ' '
+        output += '<li><span>' + keyword + '</span> '
 
         for [p, id] in keywords[keyword]:
-            output += '<a href="' + path.join(relative, p) + id + '">' + id[1...] + '</a> '
+            output += '<a href="' + path.join(relative, p) + id
+                + '" data-path="' + p + id + '">' + id[1...] + '</a> '
 
         output += '</li>\n'
 
