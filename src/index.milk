@@ -159,7 +159,8 @@ exports.parseTag = function(lines):
         : null
 
     if type.trim() != '':
-        prefix = '<a class="label" href="' + id + '">' + type + ' ' + id[1...] + '.</a>\n\n'
+        prefix = '<a class="label" href="' + id + '">'
+            + type + ' ' + id[1...].replace(/-/g, '.') + '.</a>\n\n'
         assertion = prefix + assertion
 
     if proof != null:
