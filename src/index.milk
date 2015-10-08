@@ -138,7 +138,10 @@ exports.renderTags = function(tags, dirname):
         output += '</article>\n'
 
         for keyword in renderer.keywords:
-            keywords[keyword] = [tag.path, tag.id]
+            if keyword not in keywords:
+                keywords[keyword] = [[tag.path, tag.id]]
+            else:
+                keywords[keyword].push([tag.path, tag.id])
 
     return [output, keywords]
 
@@ -165,20 +168,24 @@ exports.parseTag = function(lines):
     return { id, type, assertion, proof }
 
 exports.renderIndex = function(keywords, relative = './'):
-    output = ''
+    output = '<ul class="toc">\n'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
     keys = Object.keys(keywords)
     keys.sort(compare(_, _, x => x.toLowerCase().replace(/\W/g, '')))
 
     if keys.length == 0:
-        output = 'No index.'
+        return '<p>No index.</p>'
 
     for keyword in keys:
-        [p, id] = keywords[keyword]
-        output += '* [' + keyword + '](' + path.join(relative, p) + id + ')\n'
+        output += '<li>' + keyword + ' '
 
-    return output
+        for [p, id] in keywords[keyword]:
+            output += '<a href="' + path.join(relative, p) + id + '">' + id + '</a> '
+
+        output += '</li>\n'
+
+    return output + '</ul>'
 
 exports.getAllTags = function(dirname):
     if dirname not in cache:
@@ -222,7 +229,10 @@ exports.buildReticule = function(dirname):
         relative = path.join(path.relative(item, dirname), './')
 
         for keyword, value in kw:
-            keywords[keyword] = value
+            if keyword not in keywords:
+                keywords[keyword] = value
+            else:
+                keywords[keyword] = keywords[keyword].concat(value)
 
         fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
