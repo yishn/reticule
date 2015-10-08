@@ -55,13 +55,13 @@ main {
     }
     main .inner {
         margin: 0 auto;
-        padding: 1px 20px 1px 40px;
+        padding: 1px 40px;
         max-width: 731px;
     }
     main article {
         margin: 0;
-        margin-left: -20px;
-        padding: 20px;
+        margin-left: -40px;
+        padding: 20px 40px;
         width: 100%;
         clear: both;
     }
