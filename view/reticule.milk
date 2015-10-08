@@ -30,7 +30,10 @@ function ready($el = $('main'), math = true):
 
         $(this).css('list-style', 'none').children('li').each(function(i):
             roman = int2roman(i + 1).toLowerCase()
-            $(this).prepend('<span class="roman">(' + roman + ')</span> ')
+            $(this).prepend($('<span />', {
+                'class': 'roman'
+                'text': '(' + roman + ')'
+            }))
         )
     )
 
@@ -43,8 +46,8 @@ function ready($el = $('main'), math = true):
 
         $block = findBlock(this)
         $section = $('<section />', { 'class': 'extract' })
-            .append($('<article />', { id: id[1...] })
-            .append('<p>Loading &hellip;</p>'))
+            .append($('<article />', { 'id': id[1...] })
+            .append($('<p />', { 'html': 'Loading &hellip;' })))
         $block.after($section)
 
         $section.load(href.replace('#', ' #'), function():
@@ -54,8 +57,8 @@ function ready($el = $('main'), math = true):
             // Add close button
             $(id).prepend($('<a />', {
                 'class': 'close'
-                href: '#'
-                html: '&#10005;'
+                'href': '#'
+                'html': '&#10005;'
             }).on('click', () => $section.remove() && false))
         )
 
