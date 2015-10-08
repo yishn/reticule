@@ -73,6 +73,9 @@ main, footer {
         margin-top: 1em;
         margin-bottom: 1em;
     }
+    main article article > ol, main article article > ul {
+        margin-left: 40px;
+    }
     main h1 + article {
         padding-top: 1px;
 }
