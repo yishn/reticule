@@ -18,7 +18,7 @@ nav {
         width: 234px;
         overflow-y: auto;
         background: rgba(0, 0, 0, .05);
-        font-size: .8em;
+        font-size: .9em;
     }
     nav::after {
         content: ' ';
@@ -60,7 +60,7 @@ main, footer {
     main .inner, footer .inner {
         margin: 0 auto;
         padding: 1px 60px;
-        max-width: 731px;
+        max-width: 700px;
     }
     main article {
         position: relative;
@@ -116,7 +116,7 @@ footer {
  */
 
 body {
-    font: 112%/1.7 'Lato', sans-serif;
+    font: 110%/1.7 'Lato', sans-serif;
     color: #333;
 }
 
@@ -154,7 +154,7 @@ ol ol, ul ul, ol ul, ul ol {
     margin-left: 50px;
 }
 
-.toc ul, .toc ol, .index ul, .index ol {
+.toc li > ul, .toc li > ol, .index li > ul, .index li > ol {
     margin-top: 0;
     margin-bottom: 0;
 }
