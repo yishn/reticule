@@ -166,6 +166,9 @@ exports.renderIndex = function(keywords, relative = './'):
     keys = Object.keys(keywords)
     keys.sort(compare(_, _, x => x.toLowerCase().replace(/\W/g, '')))
 
+    if keys.length == 0:
+        output = 'No index.'
+
     for keyword in keys:
         [p, id] = keywords[keyword]
         output += '* [' + keyword + '](' + path.join(relative, p) + id + ')\n'
@@ -188,9 +191,10 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
 
 exports.buildReticule = function(dirname):
+    template = fs.readFileSync('../view/index.html', 'utf8')
     bookinfo = exports.getBookInfo(dirname)
     toc = exports.getToc(dirname)
-    template = fs.readFileSync('../view/index.html', 'utf8')
+    toc.push({ path: 'index', title: 'Index' })
 
     // Compile sections
 
@@ -243,11 +247,12 @@ exports.buildReticule = function(dirname):
     try: fs.mkdirSync(path.join(dirname, 'index'))
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
-        toc: exports.renderToc(toc)
+        toc: exports.renderToc(toc, '../', 'index')
         relative: '../'
         main: marked([
             '# Index'
             '<p class="meta">' + bookinfo.title + '</p>'
+            ''
             exports.renderIndex(keywords, '../')
         ].join('\n'))
     }))

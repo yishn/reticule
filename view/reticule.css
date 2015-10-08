@@ -36,11 +36,11 @@ nav {
         text-transform: uppercase;
         letter-spacing: 2px;
     }
-    nav a {
+    nav a, nav a:hover {
         color: #7A7A7A;
         text-decoration: none;
     }
-    nav h1 a { color: #333; }
+    nav h1 a, nav h1 a:hover { color: #333; }
     nav > .inner > ol { margin-left: 0 }
     nav ol { list-style: none; }
     nav ol li { margin: 1em 0; }
