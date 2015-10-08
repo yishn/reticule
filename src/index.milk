@@ -181,7 +181,7 @@ exports.renderIndex = function(keywords, relative = './'):
         output += '<li>' + keyword + ' '
 
         for [p, id] in keywords[keyword]:
-            output += '<a href="' + path.join(relative, p) + id + '">' + id + '</a> '
+            output += '<a href="' + path.join(relative, p) + id + '">' + id[1...] + '</a> '
 
         output += '</li>\n'
 
@@ -240,7 +240,6 @@ exports.buildReticule = function(dirname):
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
-                '<p class="meta">' + bookinfo.title + '</p>'
                 html
             ].join('\n')
         }))
@@ -268,7 +267,6 @@ exports.buildReticule = function(dirname):
         relative: '../'
         main: marked([
             '# Index'
-            '<p class="meta">' + bookinfo.title + '</p>'
             ''
             exports.renderIndex(keywords, '../')
         ].join('\n'))

@@ -81,10 +81,11 @@ main, footer {
 }
 
 footer {
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-top: 2em;
+    margin-bottom: 2em;
     font-size: .8em;
     opacity: .8;
+    text-align: right;
 }
 
 /**
@@ -143,7 +144,10 @@ ol ol, ul ul, ol ul, ul ol {
     text-decoration: none;
 }
 .math { text-align: center; }
-.qed { float: right; }
+.qed {
+    float: right;
+    margin-left: 1em;
+}
 
 a { color: #327CCB; }
 a:hover { color: #555; }
