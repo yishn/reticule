@@ -184,7 +184,8 @@ exports.renderIndex = function(keywords, relative = './'):
 
         for [p, id] in keywords[keyword]:
             output += '<a href="' + path.join(relative, p) + id
-                + '" data-path="' + p + id + '">' + id[1...] + '</a> '
+                + '" data-path="' + p + id + '" class="tag index">'
+                + id[1...] + '</a> '
 
         output += '</li>\n'
 
@@ -271,7 +272,9 @@ exports.buildReticule = function(dirname):
         main: marked([
             '# Index'
             ''
+            '<article>'
             exports.renderIndex(keywords, '../')
+            '</article>'
         ].join('\n'))
     }))
 

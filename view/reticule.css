@@ -65,8 +65,8 @@ main, footer {
     main article {
         position: relative;
         margin: 0;
-        margin-left: -40px;
-        padding: 20px 40px;
+        margin-left: -50px;
+        padding: 20px 50px;
         width: 100%;
         clear: both;
     }
@@ -97,7 +97,7 @@ main, footer {
         margin-bottom: 1em;
     }
     main article article > ol, main article article > ul {
-        margin-left: 40px;
+        margin-left: 0;
     }
     main h1 + article {
         padding-top: 1px;
@@ -140,9 +140,9 @@ ol {
     ol .roman {
         display: block;
         float: left;
-        margin-left: -40px;
+        margin-left: -50px;
         padding-right: 10px;
-        width: 30px;
+        width: 40px;
         text-align: right;
 }
 
@@ -151,7 +151,7 @@ ul {
 }
 
 ol ol, ul ul, ol ul, ul ol {
-    margin-left: 40px;
+    margin-left: 50px;
 }
 
 .toc ul, .toc ol, .index ul, .index ol {
@@ -159,14 +159,14 @@ ol ol, ul ul, ol ul, ul ol {
     margin-bottom: 0;
 }
 
-.index a, a.index {
+a.index {
     font-size: .8em;
     margin-left: 5px;
 }
 
 .label {
     float: left;
-    margin-right: 40px;
+    margin-right: 50px;
     color: #333;
     font-weight: bold;
     text-decoration: none;
