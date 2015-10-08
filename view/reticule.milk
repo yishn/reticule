@@ -17,10 +17,10 @@ function int2roman(n):
 
 $(document).ready(function():
     // Prettify numbered lists
-    $('main ol:not(.toc)').each(function():
+    $('main ol').each(function():
         $(this).css('list-style', 'none').children('li').each(function(i):
             roman = int2roman(i + 1).toLowerCase()
-            $(this).html('<span class="roman">(' + roman + ')</span> ' + $(this).html())
+            $(this).prepend('<span class="roman">(' + roman + ')</span> ')
         )
     )
 )

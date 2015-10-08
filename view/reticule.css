@@ -41,7 +41,6 @@ nav {
         text-decoration: none;
     }
     nav h1 a, nav h1 a:hover { color: #333; }
-    nav > .inner > ol { margin-left: 0 }
     nav ol { list-style: none; }
     nav ol li { margin: 1em 0; }
     nav ol ol { margin-left: 10px; }
@@ -67,6 +66,12 @@ main, footer {
     }
     main article:not(:last-child) {
         border-bottom: 1px solid #ccc;
+    }
+    main article article, main article article:not(:last-child) {
+        background: rgba(0, 0, 0, .05);
+        border: none;
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
     main h1 + article {
         padding-top: 1px;
@@ -119,7 +124,12 @@ ul {
 }
 
 ol ol, ul ul, ol ul, ul ol {
-    margin: 0 0 0 40px;
+    margin-left: 40px;
+}
+
+.toc ul, .toc ol {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .label {

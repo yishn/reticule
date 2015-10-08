@@ -75,7 +75,7 @@ exports.getToc = function(dirname):
     return output
 
 exports.renderToc = function(toc, relative = './', currentpath = null):
-    output = '<ol>\n'
+    output = '<ol class="toc">\n'
 
     for item in toc:
         a = item.title
@@ -242,7 +242,7 @@ exports.buildReticule = function(dirname):
             '# ' + bookinfo.title
             '<p class="meta">' + bookinfo.author + '</p>'
             '## Table of Contents'
-            exports.renderToc(toc).replace(/<ol>/g, '<ul>').replace(/<\/ol>/g, '</ul>')
+            exports.renderToc(toc).replace(/<ol/g, '<ul').replace(/<\/ol>/g, '</ul>')
         ].join('\n'))
     }))
 
