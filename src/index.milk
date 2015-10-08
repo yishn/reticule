@@ -193,10 +193,11 @@ exports.getTagById = function(dirname, id):
 exports.buildReticule = function(dirname):
     template = fs.readFileSync('../view/index.html', 'utf8')
     bookinfo = exports.getBookInfo(dirname)
+
+    console.log('Generate table of contents...')
+
     toc = exports.getToc(dirname)
     toc.push({ path: 'index', title: 'Index' })
-
-    // Compile sections
 
     tags = exports.getAllTags(dirname)
     items = []
@@ -204,6 +205,7 @@ exports.buildReticule = function(dirname):
 
     for item in tags.map(tag => tag.path) if item not in items:
         items.push(item)
+        console.log('Processing ' + item + '...')
 
         try: fs.statSync(path.join(item, 'tags.md'))
         catch: continue
@@ -228,7 +230,7 @@ exports.buildReticule = function(dirname):
             ].join('\n')
         }))
 
-    // Create front page
+    console.log('Create front page...')
 
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
         title: bookinfo.title
@@ -242,7 +244,7 @@ exports.buildReticule = function(dirname):
         ].join('\n'))
     }))
 
-    // Create index
+    console.log('Generate index...')
 
     try: fs.mkdirSync(path.join(dirname, 'index'))
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
@@ -257,8 +259,10 @@ exports.buildReticule = function(dirname):
         ].join('\n'))
     }))
 
-    // Copy resources
+    console.log('Copy resources...')
 
     fs.writeFileSync(path.join(dirname, 'reticule.css'), fs.readFileSync('../view/reticule.css'))
     code = milk.compile(fs.readFileSync('../view/reticule.milk', 'utf8'))
     fs.writeFileSync(path.join(dirname, 'reticule.js'), code)
+
+    console.log('Done.')
