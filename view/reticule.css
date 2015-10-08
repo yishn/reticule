@@ -50,10 +50,10 @@ nav {
         border-bottom: 1px solid #533;
 }
 
-main {
+main, footer {
         margin-left: 234px;
     }
-    main .inner {
+    main .inner, footer .inner {
         margin: 0 auto;
         padding: 1px 40px;
         max-width: 731px;
@@ -70,6 +70,13 @@ main {
     }
     main h1 + article {
         padding-top: 1px;
+}
+
+footer {
+    margin-top: 3em;
+    margin-bottom: 3em;
+    font-size: .8em;
+    opacity: .8;
 }
 
 /**
