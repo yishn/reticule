@@ -18,7 +18,7 @@ function int2roman(n):
 function findBlock(el):
     el = $(el)
 
-    while el.css('display') != 'block':
+    while el.css('display') == 'inline':
         el = el.parent()
 
     return el
@@ -39,19 +39,25 @@ function ready($el = $('main'), math = true):
         href = $(this).attr('href')
         id = href[href.indexOf('#')...]
 
-        if $(id).length == 0:
-            $block = findBlock(this)
-            $section = $('<section />', { 'class': 'extract-' + id[1...] })
-                .append($('<article />', { id: id[1...] })
-                .append('<p>Loading &hellip;</p>'))
-            $block.after($section)
+        if $(id).length > 0: $(id).remove()
 
-            $section.load(href.replace('#', ' #'), function():
-                ready($section)
-                $('html, body').animate({ scrollTop: $(id).offset().top })
-            )
-        else:
+        $block = findBlock(this)
+        $section = $('<section />', { 'class': 'extract' })
+            .append($('<article />', { id: id[1...] })
+            .append('<p>Loading &hellip;</p>'))
+        $block.after($section)
+
+        $section.load(href.replace('#', ' #'), function():
+            ready($section)
             $('html, body').animate({ scrollTop: $(id).offset().top })
+
+            // Add close button
+            $(id).prepend($('<a />', {
+                'class': 'close'
+                href: '#'
+                html: '&#10005;'
+            }).on('click', () => $section.remove() && false))
+        )
 
         return false
     )

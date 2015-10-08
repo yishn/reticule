@@ -63,6 +63,7 @@ main, footer {
         max-width: 731px;
     }
     main article {
+        position: relative;
         margin: 0;
         margin-left: -40px;
         padding: 20px 40px;
@@ -71,6 +72,23 @@ main, footer {
     }
     main article:not(:last-child) {
         border-bottom: 1px solid #ccc;
+    }
+    main article .close {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 32px;
+        width: 32px;
+        color: #333;
+        font-size: .8em;
+        line-height: 32px;
+        text-align: center;
+        text-decoration: none;
+    }
+    main article .close:hover {
+        background: #E81123;
+        color: white;
     }
     main article article, main article article:not(:last-child) {
         background: rgba(0, 0, 0, .05);
