@@ -22,11 +22,14 @@ class ReticuleRenderer extends marked.Renderer:
         return '<span class="math">$' + code + '$</span>'
 
     function link(href, title, text):
+        out = '<a '
+
         if href[0] == '#':
             tag = exports.getTagById(self.dirname, href)
             href = self.relative + tag.path + tag.id
+            out += 'class="tag" '
 
-        out = '<a href="' + href + '"'
+        out += 'href="' + href + '"'
         if title: out += ' title="' + title + '"'
         out += '>' + text + '</a>'
 
