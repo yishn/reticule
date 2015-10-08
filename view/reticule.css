@@ -18,7 +18,7 @@ nav {
         width: 234px;
         overflow-y: auto;
         background: rgba(0, 0, 0, .05);
-        font-size: .9em;
+        font-size: .8em;
     }
     nav::after {
         content: ' ';
@@ -166,7 +166,7 @@ a.index {
 
 .label {
     float: left;
-    margin-right: 50px;
+    margin-right: 40px;
     color: #333;
     font-weight: bold;
     text-decoration: none;
