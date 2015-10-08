@@ -1,3 +1,5 @@
+// -*-javascript-*-
+
 fs = require('fs')
 path = require('path').posix
 marked = require('marked')

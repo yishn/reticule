@@ -1,3 +1,5 @@
+// -*-javascript-*-
+
 function processMath(el = document.body):
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
 
