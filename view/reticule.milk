@@ -1,8 +1,5 @@
 // -*-javascript-*-
 
-function processMath(el = document.body):
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
-
 function int2roman(n):
     r = ''
     decimals = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
@@ -15,13 +12,11 @@ function int2roman(n):
 
     return r
 
-function findBlock(el):
-    el = $(el)
+function findBlock($el):
+    while $el.css('display') == 'inline':
+        $el = $el.parent()
 
-    while el.css('display') == 'inline':
-        el = el.parent()
-
-    return el
+    return $el
 
 function ready($el = $('main'), math = true):
     // Prettify numbered lists
@@ -43,7 +38,7 @@ function ready($el = $('main'), math = true):
         href = relative + $(this).attr('data-path')
         id = href[href.indexOf('#')...]
 
-        $block = findBlock(this)
+        $block = findBlock($(this))
         $section = $('<section />', { 'class': 'extract' })
             .append($('<article />', { 'id': id[1...] })
             .append($('<p />', { 'html': 'Loading &hellip;' })))
@@ -67,6 +62,7 @@ function ready($el = $('main'), math = true):
     )
 
     // Invoke MathJax
-    if math: processMath($el[0])
+    if math:
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, $el[0]])
 
 $(document).ready(() => ready(null, false))
