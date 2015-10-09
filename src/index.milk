@@ -69,7 +69,7 @@ exports.getToc = function(dirname):
     for item in items: try:
         info = exports.getSectionInfo(item)
         info.type = 'section'
-        info.path = item
+        info.path = path.relative(dirname, item)
         subtoc = exports.getToc(item)
 
         if subtoc.length > 0: info.toc = subtoc
