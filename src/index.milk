@@ -36,7 +36,8 @@ class ReticuleRenderer extends marked.Renderer:
         return out
 
     function del(text):
-        self.keywords.push(text)
+        if text not in self.keywords:
+            self.keywords.push(text)
         return ''
 
 function readdirRecursive(dirname):
