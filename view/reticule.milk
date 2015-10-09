@@ -51,7 +51,6 @@ function ready($el = $('main'), math = true):
 
         $section.load(href.replace('#', ' #'), function():
             ready($section)
-            $('html, body').animate({ scrollTop: $section.offset().top })
 
             // Add close button
             $section.children('article').prepend($('<a />', {

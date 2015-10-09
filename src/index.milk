@@ -26,10 +26,10 @@ class ReticuleRenderer extends marked.Renderer:
 
         if href[0] == '#':
             tag = exports.getTagById(self.dirname, href)
-            href = self.relative + tag.path + tag.id
-            out += 'class="tag" '
+            href = path.join(self.relative, path.relative(self.dirname, tag.path)) + tag.id
+            out += 'class="tag" data-path="' + path.relative(self.dirname, tag.path) + tag.id + '" '
 
-        out += 'href="' + href + '" data-path="' + tag.path + tag.id + '" '
+        out += 'href="' + href + '"'
         if title: out += 'title="' + title + '"'
         out += '>' + text + '</a>'
 
