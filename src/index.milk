@@ -135,7 +135,7 @@ exports.renderTags = function(tags, dirname):
         output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
-            output += marked(tag.proof, options) + '\n'
+            output += marked(tag.proof, options) + '\n<p class="qed">&#9723;</p>'
 
         output += '</article>\n'
 
@@ -156,7 +156,7 @@ exports.parseTag = function(lines):
     type = j == -1 ? '' : lines[0].substring(j + 1)
     assertion = lines[1 ... k - 1].join('\n').trim()
     proof = k + 1 < lines.length
-        ? lines[k + 1 ...].join('\n').trim() + '\n\n<span class="qed">$\\square$</span>'
+        ? lines[k + 1 ...].join('\n').trim()
         : null
 
     if type.trim() != '':

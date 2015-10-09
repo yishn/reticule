@@ -173,9 +173,8 @@ a.index {
 }
 .math { text-align: center; }
 .qed {
-    float: right;
-    margin-left: 1em;
-    margin-top: -2.7em;
+    text-align: right;
+    margin-top: -1em;
 }
 
 a { color: #327CCB; }
