@@ -53,7 +53,7 @@ function ready($el = $('main'), math = true):
             ready($section)
 
             // Relink label
-            $section.children('a.label').attr('href', href)
+            $section.find('a.label').attr('href', href)
 
             // Add close button
             $section.children('article').prepend($('<a />', {
