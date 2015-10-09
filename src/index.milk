@@ -77,6 +77,18 @@ exports.getToc = function(dirname):
 
     return output
 
+exports.extractLinearToc = function(toc):
+    linear = []
+
+    for item in toc:
+        if 'toc' in item:
+            sublinear = exports.extractLinearToc(item.toc)
+            linear = linear.concat(sublinear)
+        else:
+            linear.push(item)
+
+    return linear
+
 exports.renderToc = function(toc, relative = './', currentpath = null):
     output = '<ol class="toc">\n'
 
