@@ -241,7 +241,7 @@ exports.buildReticule = function(dirname):
 
         fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
-            toc: exports.renderToc(toc, relative, item)
+            toc: exports.renderToc(toc, relative, path.relative(dirname, item))
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
