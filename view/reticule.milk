@@ -52,6 +52,9 @@ function ready($el = $('main'), math = true):
         $section.load(href.replace('#', ' #'), function():
             ready($section)
 
+            // Relink label
+            $section.children('a.label').attr('href', href)
+
             // Add close button
             $section.children('article').prepend($('<a />', {
                 'class': 'close'
