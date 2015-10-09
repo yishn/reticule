@@ -16,7 +16,7 @@ class ReticuleRenderer extends marked.Renderer:
         super.init()
 
     function code(code):
-        return '<p class="math">$$' + code + '$$</p>'
+        return '<p class="math">$$$' + code + '$$$</p>'
 
     function codespan(code):
         return '<span class="math">$' + code + '$</span>'
