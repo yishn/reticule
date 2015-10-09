@@ -169,7 +169,7 @@ exports.parseTag = function(lines):
 
     return { id, type, assertion, proof }
 
-exports.renderIndex = function(keywords, relative = './'):
+exports.renderIndex = function(keywords, relative = './', dirname):
     output = '<ul class="index">\n'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
@@ -183,8 +183,8 @@ exports.renderIndex = function(keywords, relative = './'):
         output += '<li><span>' + keyword + '</span> '
 
         for [p, id] in keywords[keyword]:
-            output += '<a href="' + path.join(relative, p) + id
-                + '" data-path="' + p + id + '" class="tag index">'
+            output += '<a href="' + path.join(relative, path.relative(dirname, p)) + id
+                + '" data-path="' + path.relative(dirname, p) + id + '" class="tag index">'
                 + id[1...] + '</a> '
 
         output += '</li>\n'
@@ -273,7 +273,7 @@ exports.buildReticule = function(dirname):
             '# Index'
             ''
             '<article>'
-            exports.renderIndex(keywords, '../')
+            exports.renderIndex(keywords, '../', dirname)
             '</article>'
         ].join('\n'))
     }))
