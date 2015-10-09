@@ -175,6 +175,7 @@ a.index {
 .qed {
     float: right;
     margin-left: 1em;
+    margin-top: -2.7em;
 }
 
 a { color: #327CCB; }

@@ -156,7 +156,7 @@ exports.parseTag = function(lines):
     type = j == -1 ? '' : lines[0].substring(j + 1)
     assertion = lines[1 ... k - 1].join('\n').trim()
     proof = k + 1 < lines.length
-        ? lines[k + 1 ...].join('\n').trim() + ' <span class="qed">$\\square$</span>'
+        ? lines[k + 1 ...].join('\n').trim() + '\n\n<span class="qed">$\\square$</span>'
         : null
 
     if type.trim() != '':
