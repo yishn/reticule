@@ -206,11 +206,13 @@ exports.renderIndex = function(keywords, relative = './'):
 
     return output + '</ul>'
 
-exports.renderLinearNav = function(prev, next, relative = './', dirname):
-    output = '<p>\n'
+exports.renderLinearNav = function(prev, next, relative = './'):
+    output = '<p class="nav">\n'
 
     if prev != null:
-        output += '<a href="' + path.join(relative, path.relative(dirname, prev.path)) + '">&laquo; ' + prev.title + '</a>'
+        output += '<a href="' + path.join(relative, prev.path) + '" class="prev">&laquo; ' + prev.title + '</a>\n'
+    if next != null:
+        output += '<a href="' + path.join(relative, next.path) + '" class="next">' + next.title + ' &raquo;</a>\n'
 
     return output + '</p>'
 
@@ -266,7 +268,10 @@ exports.buildReticule = function(dirname):
 
         // Look for prev/next section
         for k, i in linear if i.path == item: break
-        [prev, next] = [linear[k - 1], linear[k + 1]]
+        nav = exports.renderLinearNav(linear[k - 1] ?? {
+            title: 'Table of Contents'
+            path: './'
+        }, linear[k + 1], relative)
 
         // Write data
         fs.writeFileSync(path.join(dirname, item, 'index.html'), fillTemplate(template, {
@@ -275,38 +280,46 @@ exports.buildReticule = function(dirname):
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
+                nav
                 html
+                nav
             ].join('\n')
         }))
 
     console.log('Create front page...')
 
+    nav = exports.renderLinearNav(null, linear[0], './')
+
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc)
         relative: './'
-        main: marked([
-            '# ' + bookinfo.title
+        main: [
+            '<h1>' + bookinfo.title + '</h1>'
             '<p class="meta">' + bookinfo.author + '</p>'
-            '## Table of Contents'
+            '<h2>Table of Contents</h2>'
             exports.renderToc(toc).replace(/<ol/g, '<ul').replace(/<\/ol>/g, '</ul>')
-        ].join('\n'))
+            nav
+        ].join('\n')
     }))
 
     console.log('Generate index...')
+
+    nav = exports.renderLinearNav(linear[linear.length - 1], null, '../')
 
     try: fs.mkdirSync(path.join(dirname, 'index'))
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc, '../', 'index')
         relative: '../'
-        main: marked([
-            '# Index'
-            ''
+        main: [
+            '<h1>Index</h1>'
+            nav
             '<article>'
             exports.renderIndex(keywords, '../', dirname)
             '</article>'
-        ].join('\n'))
+            nav
+        ].join('\n')
     }))
 
     console.log('Copy resources...')

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic,300italic,300');
+@import url('https://fonts.googleapis.com/css?family=Lora:700');
 
 /**
  * Layout
@@ -36,6 +37,7 @@ nav {
     }
     nav h1 {
         margin: 2.9em 0 1em;
+        font-family: 'Lato', sans-serif;
         font-size: 1em;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -124,15 +126,22 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
     margin: 1em 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', serif;
+}
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.3em; }
 h4, h5, h6 { font-size: 1em; }
 
-.meta {
-    margin-top: -2.5em;
-    opacity: .8;
-}
+.meta, h1 + .nav { margin-top: -2.5em; }
+.meta { opacity: .8; }
+
+.nav { overflow: hidden; }
+.nav .prev { float: left; }
+.nav .next { float: right; }
+.nav a { text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
 
 ol {
         list-style: lower-roman;
