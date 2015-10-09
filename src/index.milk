@@ -11,7 +11,7 @@ class ReticuleRenderer extends marked.Renderer:
     function init(dirname, sectionpath):
         self.keywords = []
         self.dirname = dirname
-        self.relative = path.join(path.relative(sectionpath, dirname), './')
+        self.relative = path.join(path.relative(path.join(dirname, sectionpath), dirname), './')
         super.init()
 
     function code(code):
@@ -25,8 +25,8 @@ class ReticuleRenderer extends marked.Renderer:
 
         if href[0] == '#':
             tag = exports.getTagById(self.dirname, href)
-            href = path.join(self.relative, path.relative(self.dirname, tag.path)) + tag.id
-            out += 'class="tag" data-path="' + path.relative(self.dirname, tag.path) + tag.id + '" '
+            href = path.join(self.relative, tag.path) + tag.id
+            out += 'class="tag" data-path="' + tag.path + tag.id + '" '
 
         out += 'href="' + href + '"'
         if title: out += 'title="' + title + '"'
@@ -77,7 +77,7 @@ exports.getToc = function(dirname):
 
     return output
 
-exports.extractLinearToc = function(toc):
+exports.getLinearToc = function(toc):
     linear = []
 
     for item in toc:
@@ -111,7 +111,7 @@ exports.renderToc = function(toc, relative = './', currentpath = null):
 
     return output + '</ol>'
 
-exports.extractTags = function(filename):
+exports.extractTags = function(filename, dirname):
     if filename not in cache:
         tags = []
 
@@ -127,7 +127,7 @@ exports.extractTags = function(filename):
                 for j in [i + 1 ...] if j == content.length || tagheaders(content[j]): break
 
                 tag = exports.parseTag(content[i ... j - 1])
-                tag.path = path.join(filename, '..')
+                tag.path = path.relative(dirname, path.join(filename, '..'))
                 tags.push(tag)
 
                 i = j
@@ -184,7 +184,7 @@ exports.parseTag = function(lines):
 
     return { id, type, assertion, proof }
 
-exports.renderIndex = function(keywords, relative = './', dirname):
+exports.renderIndex = function(keywords, relative = './'):
     output = '<ul class="index">\n'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
@@ -198,13 +198,21 @@ exports.renderIndex = function(keywords, relative = './', dirname):
         output += '<li><span>' + keyword + '</span> '
 
         for [p, id] in keywords[keyword]:
-            output += '<a href="' + path.join(relative, path.relative(dirname, p)) + id
-                + '" data-path="' + path.relative(dirname, p) + id + '" class="tag index">'
+            output += '<a href="' + path.join(relative, p) + id
+                + '" data-path="' + p + id + '" class="tag index">'
                 + id[1...] + '</a> '
 
         output += '</li>\n'
 
     return output + '</ul>'
+
+exports.renderLinearNav = function(prev, next, relative = './', dirname):
+    output = '<p>\n'
+
+    if prev != null:
+        output += '<a href="' + path.join(relative, path.relative(dirname, prev.path)) + '">&laquo; ' + prev.title + '</a>'
+
+    return output + '</p>'
 
 exports.getAllTags = function(dirname):
     if dirname not in cache:
@@ -212,7 +220,7 @@ exports.getAllTags = function(dirname):
         tags = []
 
         for file in files:
-            tags = tags.concat(exports.extractTags(file))
+            tags = tags.concat(exports.extractTags(file, dirname))
 
         cache[dirname] = tags
 
@@ -229,6 +237,7 @@ exports.buildReticule = function(dirname):
 
     toc = exports.getToc(dirname)
     toc.push({ path: 'index', title: 'Index' })
+    linear = exports.getLinearToc(toc)
 
     tags = exports.getAllTags(dirname)
     items = []
@@ -238,24 +247,31 @@ exports.buildReticule = function(dirname):
         items.push(item)
         console.log('Processing ' + item + '...')
 
-        try: fs.statSync(path.join(item, 'tags.md'))
+        try: fs.statSync(path.join(dirname, item, 'tags.md'))
         catch: continue
 
-        sectioninfo = exports.getSectionInfo(item)
-        tags = exports.extractTags(path.join(item, 'tags.md'))
+        // Load data
+        sectioninfo = exports.getSectionInfo(path.join(dirname, item))
+        tags = exports.extractTags(path.join(dirname, item, 'tags.md'), dirname)
 
         [html, kw] = exports.renderTags(tags, dirname)
-        relative = path.join(path.relative(item, dirname), './')
+        relative = path.join(path.relative(path.join(dirname, item), dirname), './')
 
+        // Handle index
         for keyword, value in kw:
             if keyword not in keywords:
                 keywords[keyword] = value
             else:
                 keywords[keyword] = keywords[keyword].concat(value)
 
-        fs.writeFileSync(path.join(item, 'index.html'), fillTemplate(template, {
+        // Look for prev/next section
+        for k, i in linear if i.path == item: break
+        [prev, next] = [linear[k - 1], linear[k + 1]]
+
+        // Write data
+        fs.writeFileSync(path.join(dirname, item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
-            toc: exports.renderToc(toc, relative, path.relative(dirname, item))
+            toc: exports.renderToc(toc, relative, item)
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
