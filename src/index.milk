@@ -2,11 +2,10 @@
 
 fs = require('fs')
 path = require('path').posix
-marked = require('marked')
+marked = require('marked').setOptions({ smartypants: true })
 milk = require('milk-lang')
 
 cache = {}
-marked.setOptions({ smartypants: true })
 
 class ReticuleRenderer extends marked.Renderer:
     function init(dirname, sectionpath):
