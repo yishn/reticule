@@ -175,6 +175,7 @@ a.index {
 .qed {
     text-align: right;
     margin-top: -1em;
+    margin-bottom: 0;
 }
 
 a { color: #327CCB; }
