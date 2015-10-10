@@ -1,5 +1,9 @@
 // -*-javascript-*-
 
+keywords = null
+sources = null
+relative = null
+
 function int2roman(n):
     r = ''
     decimals = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
@@ -18,7 +22,56 @@ function findBlock($el):
 
     return $el
 
-function ready($el = $('main'), math = true):
+function similar(x, y):
+    min = Math.min(x.length, y.length) - 1
+    max = Math.max(x.length, y.length) - 1
+    map = z => z[0...min].toLowerCase()
+
+    return max - min <= 3 && map(x) == map(y)
+
+function loadExtract($block, path):
+    $section = $('<section />', { 'class': 'extract' })
+        .append($('<article />').append($('<p />', { 'html': 'Loading &hellip;' })))
+    $block.after($section)
+
+    $section.load(path.replace('#', ' #'), function():
+        ready($section)
+
+        // Relink label
+        $section.find('a.label').attr('href', path)
+
+        // Add close button
+        $section.children('article').removeAttr('id').prepend($('<a />', {
+            'class': 'close'
+            'href': '#'
+            'html': '&#10005;'
+        }).on('click', () => $section.remove() && false))
+    )
+
+function wireKeywords():
+    $('main').dblclick(function():
+        if keywords == null || sources == null: return
+
+        selection = window.getSelection()
+        keyword = selection.toString().trim()
+
+        if keyword == '': return
+        for k in [keywords.length - 1 ... -1] if k == -1 || similar(keywords[k], keyword): break
+        if k == -1: return
+
+        key = keywords[k]
+        [[path, id, context], ...] = sources[key]
+        $block = findBlock($(selection.getRangeAt(0).startContainer.parentNode))
+
+        loadExtract($block, relative + path + id)
+    )
+
+function ready($el, math = true):
+    // Load keywords if necessary
+    if keywords == null && sources == null:
+        $.getJSON(relative + 'index/keywords.json',
+            data => ([keywords, sources] = [Object.keys(data), data]))
+
     // Prettify numbered lists
     $el.find('ol').each(function():
         if $(this).css('list-style') == 'none': return
@@ -34,28 +87,11 @@ function ready($el = $('main'), math = true):
 
     // Wire tag link events
     $el.find('a.tag').on('click', function():
-        relative = $('nav > .inner > h1 > a').attr('href')
         href = relative + $(this).attr('data-path')
         id = href[href.indexOf('#')...]
 
         $block = findBlock($(this))
-        $section = $('<section />', { 'class': 'extract' })
-            .append($('<article />').append($('<p />', { 'html': 'Loading &hellip;' })))
-        $block.after($section)
-
-        $section.load(href.replace('#', ' #'), function():
-            ready($section)
-
-            // Relink label
-            $section.find('a.label').attr('href', href)
-
-            // Add close button
-            $section.children('article').removeAttr('id').prepend($('<a />', {
-                'class': 'close'
-                'href': '#'
-                'html': '&#10005;'
-            }).on('click', () => $section.remove() && false))
-        )
+        loadExtract($block, href)
 
         return false
     )
@@ -64,4 +100,8 @@ function ready($el = $('main'), math = true):
     if math:
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, $el[0]])
 
-$(document).ready(() => ready(null, false))
+$(document).ready(function():
+    relative = $('nav > .inner > h1 > a').attr('href')
+    wireKeywords()
+    ready($('main'), false)
+)
