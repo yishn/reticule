@@ -207,7 +207,7 @@ exports.renderIndex = function(keywords, relative = './'):
             output += '<a href="' + path.join(relative, p) + id
                 + '" data-path="' + p + id + '" class="tag index"'
             if context.trim() != '': output += ' title="' + context + '"'
-            output += '>' + id[1...] + '</a> '
+            output += '>' + id + '</a> '
 
         output += '</li>\n'
 
