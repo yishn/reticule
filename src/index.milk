@@ -250,8 +250,7 @@ exports.buildReticule = function(dirname):
 
     console.log('Generate table of contents...')
 
-    toc = bookinfo.toc.slice(0)
-    toc.push({ path: 'index/', title: 'Index' })
+    toc = [*bookinfo.toc, { title: 'Index', path: 'index/' }]
     linear = exports.getLinearToc(toc)
 
     alltags = exports.getAllTags(dirname)
