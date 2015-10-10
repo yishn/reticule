@@ -40,8 +40,7 @@ function ready($el = $('main'), math = true):
 
         $block = findBlock($(this))
         $section = $('<section />', { 'class': 'extract' })
-            .append($('<article />', { 'id': id[1...] })
-            .append($('<p />', { 'html': 'Loading &hellip;' })))
+            .append($('<article />').append($('<p />', { 'html': 'Loading &hellip;' })))
         $block.after($section)
 
         $section.load(href.replace('#', ' #'), function():
@@ -51,7 +50,7 @@ function ready($el = $('main'), math = true):
             $section.find('a.label').attr('href', href)
 
             // Add close button
-            $section.children('article').prepend($('<a />', {
+            $section.children('article').removeAttr('id').prepend($('<a />', {
                 'class': 'close'
                 'href': '#'
                 'html': '&#10005;'
