@@ -35,8 +35,14 @@ class ReticuleRenderer extends marked.Renderer:
         return out
 
     function del(text):
-        if text not in self.keywords:
-            self.keywords.push(text)
+        k = text.indexOf('|')
+        if k < 0: k = text.length
+
+        tuple = [text[0 ... k - 1], text[k + 1 ...]]
+
+        if self.keywords.every(x => x not equals tuple):
+            self.keywords.push(tuple)
+
         return ''
 
 function readdirRecursive(dirname):
@@ -150,11 +156,11 @@ exports.renderTags = function(tags, dirname):
 
         output += '</article>\n'
 
-        for keyword in renderer.keywords:
+        for [keyword, context] in renderer.keywords:
             if keyword not in keywords:
-                keywords[keyword] = [[tag.path, tag.id]]
+                keywords[keyword] = [[tag.path, tag.id, context]]
             else:
-                keywords[keyword].push([tag.path, tag.id])
+                keywords[keyword].push([tag.path, tag.id, context])
 
     return [output, keywords]
 
@@ -197,10 +203,11 @@ exports.renderIndex = function(keywords, relative = './'):
     for keyword in keys:
         output += '<li><span>' + keyword + '</span> '
 
-        for [p, id] in keywords[keyword]:
+        for [p, id, context] in keywords[keyword]:
             output += '<a href="' + path.join(relative, p) + id
-                + '" data-path="' + p + id + '" class="tag index">'
-                + id[1...] + '</a> '
+                + '" data-path="' + p + id + '" class="tag index"'
+            if context.trim() != '': output += ' title="' + context + '"'
+            output += '>' + id[1...] + '</a> '
 
         output += '</li>\n'
 
