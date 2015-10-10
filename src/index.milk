@@ -169,7 +169,7 @@ exports.parseTag = function(lines):
     assertion = prefix + assertion
 
     if proof != null:
-        prefix = '<strong class="label">Proof.</strong>\n\n'
+        prefix = '<em class="label">Proof.</em>\n\n'
         proof = prefix + proof
 
     return { id, type, assertion, proof }
