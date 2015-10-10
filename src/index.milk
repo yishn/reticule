@@ -245,7 +245,7 @@ exports.getAllTags = function(dirname):
     return cache[dirname]
 
 exports.getTagById = function(dirname, id):
-    return exports.getAllTags(dirname).filter(tag => tag.id == id)[0] ?? null
+    return exports.getAllTags(dirname).filter(tag => tag.id == id)[0]
 
 exports.buildReticule = function(dirname):
     template = fs.readFileSync('../view/index.html', 'utf8')
@@ -323,6 +323,7 @@ exports.buildReticule = function(dirname):
     nav = exports.renderLinearNav(linear[linear.length - 2], null, '../')
 
     try: fs.mkdirSync(path.join(dirname, 'index'))
+    fs.writeFileSync(path.join(dirname, 'index/keywords.json'), JSON.stringify(keywords))
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc, '../', 'index/')
