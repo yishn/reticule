@@ -97,7 +97,7 @@ function wireKeywords():
         $palette.css({ top, left, width, opacity: 1 })
     )
 
-    $(document.body).click(function():
+    $(document.body).mouseup(function():
         $palettes = $('body > ul.palette').css('opacity', 0)
         setTimeout(() => $palettes.remove(), 200)
     )
