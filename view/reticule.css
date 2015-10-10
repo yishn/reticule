@@ -47,10 +47,10 @@ nav {
         text-decoration: none;
     }
     nav h1 a, nav h1 a:hover { color: #333; }
-    nav ol { list-style: none; }
-    nav ol li { margin: 1em 0; }
-    nav ol ol { margin-left: 10px; }
-    nav li.current a {
+    nav .toc { list-style: none; }
+    nav .toc li { margin: 1em 0; }
+    nav .toc ol { margin-left: 10px; }
+    nav .toc li.current a {
         color: #533;
         border-bottom: 1px solid #533;
 }
@@ -122,7 +122,7 @@ body {
     color: #333;
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol {
+h1, h2, h3, h4, h5, h6, p, ul, ol, li {
     margin: 1em 0;
 }
 
@@ -191,7 +191,8 @@ ol ol, ul ul, ol ul, ul ol {
     margin-left: 50px;
 }
 
-.toc li > ul, .toc li > ol, .index li > ul, .index li > ol {
+.toc li, .index li, .toc li > ul, .toc li > ol,
+.index li > ul, .index li > ol {
     margin-top: 0;
     margin-bottom: 0;
 }
@@ -202,13 +203,18 @@ a.index {
 }
 
 .label {
-    float: left;
-    margin-right: 40px;
-    color: #333;
-    font-weight: bold;
-    text-decoration: none;
+        float: left;
+        margin-right: 40px;
+        color: #333;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    em.label {
+        font-weight: normal;
 }
+
 .math { text-align: center; }
+
 .qed {
     text-align: right;
     margin-top: -1em;
