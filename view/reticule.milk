@@ -30,8 +30,6 @@ function similar(x, y):
     return max - min <= 3 && map(x) == map(y)
 
 function loadExtract($block, path):
-    $('body > ul.palette').remove()
-
     $section = $('<section />', { 'class': 'extract' })
         .append($('<article />').append($('<p />', { 'html': 'Loading &hellip;' })))
     $block.after($section)
@@ -53,6 +51,11 @@ function loadExtract($block, path):
     return false
 
 function wireKeywords():
+    // Load keywords if necessary
+    if keywords == null && sources == null:
+        $.getJSON(relative + 'index/keywords.json',
+            data => ([keywords, sources] = [Object.keys(data), data]))
+
     $('main').dblclick(function(e):
         if keywords == null || sources == null: return
 
@@ -91,16 +94,15 @@ function wireKeywords():
             top = rect.top - r.top - height - 20
             left = rect.left - r.left + (rect.right - rect.left) / 2 - width / 2
 
-        $palette.css({ top, left, width })
+        $palette.css({ top, left, width, opacity: 1 })
     )
-    $(document.body).click(() => $('body > ul.palette').remove())
+
+    $(document.body).click(function():
+        $palettes = $('body > ul.palette').css('opacity', 0)
+        setTimeout(() => $palettes.remove(), 200)
+    )
 
 function ready($el, math = true):
-    // Load keywords if necessary
-    if keywords == null && sources == null:
-        $.getJSON(relative + 'index/keywords.json',
-            data => ([keywords, sources] = [Object.keys(data), data]))
-
     // Prettify numbered lists
     $el.find('ol').each(function():
         if $(this).css('list-style') == 'none': return

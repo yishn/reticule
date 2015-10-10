@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic,300italic,300');
 @import url('https://fonts.googleapis.com/css?family=Lora:700');
 
+span.math::before, span.math::after {
+    content: ' ';
+    display: inline-block;
+}
+
 /**
  * Layout
  */
@@ -120,6 +125,8 @@ footer {
         background: #333;
         box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
         color: #eee;
+        opacity: 0;
+        transition: .2s opacity;
     }
     .palette li { margin: 0; }
     .palette a.index {
