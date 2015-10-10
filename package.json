@@ -1,6 +1,6 @@
 {
   "name": "reticule",
-  "description": "Two or more syntactic devices that are able to communicate with one another.",
+  "description": "A small bag or basket, netlike in its construction.",
   "version": "0.1.0",
   "author": "Yichuan Shen",
   "main": "./lib/index.js",
