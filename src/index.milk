@@ -15,8 +15,11 @@ class ReticuleRenderer extends marked.Renderer:
         self.relative = path.join(path.relative(path.join(dirname, sectionpath), dirname), './')
         super.init()
 
+    function blockquote(quote):
+        return '<article>\n' + quote + '</article>\n'
+
     function code(code):
-        return '<p class="math">$$$' + code + '$$$</p>'
+        return '<p class="math">$$$' + code + '$$$</p>\n'
 
     function codespan(code):
         return '<span class="math">$' + code + '$</span>'
