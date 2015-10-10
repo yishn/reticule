@@ -122,7 +122,8 @@ body {
     color: #333;
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol, li {
+h1, h2, h3, h4, h5, h6, p, ul, ol, li,
+main .toc article li, main .index article li {
     margin: 1em 0;
 }
 
