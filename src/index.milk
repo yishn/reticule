@@ -274,19 +274,26 @@ exports.buildReticule = function(dirname):
     toc.push({ path: 'index', title: 'Index' })
     linear = exports.getLinearToc(toc)
 
-    tags = exports.getAllTags(dirname)
+    alltags = exports.getAllTags(dirname)
     items = []
     keywords = {}
 
-    for item in tags.map(tag => tag.path) if item not in items:
+    for item in alltags.map(tag => tag.path) if item not in items:
         items.push(item)
         console.log('Processing ' + item + '...')
 
         try: fs.statSync(path.join(dirname, item, 'tags.md'))
         catch: continue
 
+        // Look for prev/next section
+        for k, i in linear if i.path == item: break
+        nav = exports.renderLinearNav(linear[k - 1] ?? {
+            title: 'Table of Contents'
+            path: './'
+        }, linear[k + 1], relative)
+
         // Load data
-        sectioninfo = exports.getSectionInfo(path.join(dirname, item))
+        sectioninfo = linear[k]
         tags = exports.extractTags(path.join(dirname, item, 'tags.md'), dirname)
 
         [html, kw] = exports.renderTags(tags, dirname)
@@ -298,13 +305,6 @@ exports.buildReticule = function(dirname):
                 keywords[keyword] = value
             else:
                 keywords[keyword] = keywords[keyword].concat(value)
-
-        // Look for prev/next section
-        for k, i in linear if i.path == item: break
-        nav = exports.renderLinearNav(linear[k - 1] ?? {
-            title: 'Table of Contents'
-            path: './'
-        }, linear[k + 1], relative)
 
         // Write data
         fs.writeFileSync(path.join(dirname, item, 'index.html'), fillTemplate(template, {
