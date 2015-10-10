@@ -175,10 +175,10 @@ exports.parseTag = function(lines):
     return { id, type, assertion, proof }
 
 exports.renderIndex = function(keywords, relative = './'):
-    output = '<ul class="nav">'
+    output = '<ul class="nav" id="nav">'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
-    map = x => diacritic.clean(x).toLowerCase().replace(/[^0-9a-zA-Z]/g, '')
+    map = x => diacritic.clean(x.toLowerCase().replace(/[^0-9a-zA-Z]/g, ''))
     getAlpha = x => (a = map(x)[0]) == parseInt(a, 10) ? '#' : a
 
     keys = Object.keys(keywords)
@@ -204,7 +204,7 @@ exports.renderIndex = function(keywords, relative = './'):
     // Generate tables
     for alpha in alphas:
         slug = alpha == '#' ? 'num' : alpha
-        output += '<h2 class="alpha" id="' + slug + '"><a href="#' + slug + '">' + alpha + '</a></h2>\n'
+        output += '<h2 class="alpha" id="' + slug + '"><a href="#nav">' + alpha + '</a></h2>\n'
             + '<ul class="index">\n'
 
         for keyword in keys.filter(x => getAlpha(x) == alpha):
