@@ -30,6 +30,8 @@ function similar(x, y):
     return max - min <= 3 && map(x) == map(y)
 
 function loadExtract($block, path):
+    $('body > ul.palette').remove()
+
     $section = $('<section />', { 'class': 'extract' })
         .append($('<article />').append($('<p />', { 'html': 'Loading &hellip;' })))
     $block.after($section)
@@ -48,11 +50,14 @@ function loadExtract($block, path):
         }).on('click', () => $section.remove() && false))
     )
 
+    return false
+
 function wireKeywords():
-    $('main').dblclick(function():
+    $('main').dblclick(function(e):
         if keywords == null || sources == null: return
 
         selection = window.getSelection()
+        range = selection.getRangeAt(0)
         keyword = selection.toString().trim()
 
         if keyword == '': return
@@ -60,11 +65,35 @@ function wireKeywords():
         if k == -1: return
 
         key = keywords[k]
-        [[path, id, context], ...] = sources[key]
-        $block = findBlock($(selection.getRangeAt(0).startContainer.parentNode))
 
-        loadExtract($block, relative + path + id)
+        // Create palette
+        $('body > ul.palette').remove()
+        $palette = $('<ul />', { 'class': 'palette' }).css({ 'top': -9999, 'left': -9999 })
+        $block = findBlock($(range.startContainer.parentNode))
+
+        for [path, id, context] in sources[key]:
+            $palette.append($('<li />').append($('<a />', {
+                'href': relative + path + id
+                'class': 'index'
+                'text': id
+                'title': context
+            }).click(() => loadExtract($block, this.href))))
+
+        $(document.body).append($palette)
+
+        [width, height] = [0, 0]
+        height = $palette.find('a').each(() => (width += $(this).innerWidth())).first().innerHeight()
+        [top, left] = [e.pageY - height - 20, e.pageX - width / 2]
+
+        if range.getBoundingClientRect != null:
+            rect = range.getBoundingClientRect()
+            r = document.body.parentNode.getBoundingClientRect()
+            top = rect.top - r.top - height - 20
+            left = rect.left - r.left + (rect.right - rect.left) / 2 - width / 2
+
+        $palette.css({ top, left, width })
     )
+    $(document.body).click(() => $('body > ul.palette').remove())
 
 function ready($el, math = true):
     // Load keywords if necessary
@@ -86,14 +115,12 @@ function ready($el, math = true):
     )
 
     // Wire tag link events
-    $el.find('a.tag').on('click', function():
+    $el.find('a.tag').click(function():
         href = relative + $(this).attr('data-path')
         id = href[href.indexOf('#')...]
 
         $block = findBlock($(this))
-        loadExtract($block, href)
-
-        return false
+        return loadExtract($block, href)
     )
 
     // Invoke MathJax
