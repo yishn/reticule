@@ -2,6 +2,7 @@
 
 fs = require('fs')
 path = require('path').posix
+diacritic = require('diacritic')
 marked = require('marked').setOptions({ smartypants: true })
 milk = require('milk-lang')
 
@@ -191,27 +192,52 @@ exports.parseTag = function(lines):
     return { id, type, assertion, proof }
 
 exports.renderIndex = function(keywords, relative = './'):
-    output = '<ul class="index">\n'
+    output = '<ul class="nav">'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
+    map = x => diacritic.clean(x).toLowerCase().replace(/[^0-9a-zA-Z]/g, '')
+    getAlpha = x => (a = map(x)[0]) == parseInt(a, 10) ? '#' : a
+
     keys = Object.keys(keywords)
-    keys.sort(compare(_, _, x => x.toLowerCase().replace(/\W/g, '')))
+    keys.sort(compare(_, _, map))
 
     if keys.length == 0:
         return '<p>No index.</p>'
 
-    for keyword in keys:
-        output += '<li><span>' + keyword + '</span> '
+    // Create alphas
+    alphas = []
+    for alpha in keys.map(getAlpha) if alpha not in alphas:
+        alphas.push(alpha)
 
-        for [p, id, context] in keywords[keyword]:
-            output += '<a href="' + path.join(relative, p) + id
-                + '" data-path="' + p + id + '" class="tag index"'
-            if context.trim() != '': output += ' title="' + context + '"'
-            output += '>' + id + '</a> '
+    for alpha in "#abcdefghijklmnopqrstuvwxyz":
+        slug = alpha == '#' ? 'num' : alpha
+        if alpha in alphas:
+            output += '<li><a href="#' + slug + '">' + alpha.toUpperCase() + '</a></li> '
+        else:
+            output += '<li><span>' + alpha.toUpperCase() + '</span></li> '
 
-        output += '</li>\n'
+    output += '</ul>\n<article>\n'
 
-    return output + '</ul>'
+    // Generate tables
+    for alpha in alphas:
+        slug = alpha == '#' ? 'num' : alpha
+        output += '<h2 class="alpha" id="' + slug + '"><a href="#' + slug + '">' + alpha + '</a></h2>\n'
+            + '<ul class="index">\n'
+
+        for keyword in keys.filter(x => getAlpha(x) == alpha):
+            output += '<li><span>' + keyword + '</span> '
+
+            for [p, id, context] in keywords[keyword]:
+                output += '<a href="' + path.join(relative, p) + id
+                    + '" data-path="' + p + id + '" class="tag index"'
+                if context.trim() != '': output += ' title="' + context + '"'
+                output += '>' + id + '</a> '
+
+            output += '</li>\n'
+
+        output += '</ul>\n'
+
+    return output + '</article>'
 
 exports.renderLinearNav = function(prev, next, relative = './'):
     output = '<p class="nav">\n'
@@ -321,10 +347,7 @@ exports.buildReticule = function(dirname):
         relative: '../'
         main: [
             '<h1>Index</h1>'
-            nav
-            '<article>'
             exports.renderIndex(keywords, '../', dirname)
-            '</article>'
             nav
         ].join('\n')
     }))

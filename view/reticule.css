@@ -137,11 +137,39 @@ h4, h5, h6 { font-size: 1em; }
 .meta, h1 + .nav { margin-top: -2.5em; }
 .meta { opacity: .8; }
 
-.nav { overflow: hidden; }
-.nav .prev { float: left; }
-.nav .next { float: right; }
-.nav a { text-decoration: none; }
-.nav a:hover { text-decoration: underline; }
+.nav {
+        overflow: hidden;
+        cursor: default;
+    }
+    .nav .prev { float: left; }
+    .nav .next { float: right; }
+    .nav a { text-decoration: none; }
+    .nav a:hover { text-decoration: underline; }
+    .nav li { display: inline; }
+    .nav li a, .nav li span { padding: 0 5px; }
+    .nav li span { opacity: .3; }
+    .nav li a:hover {
+        background: #327CCB;
+        color: white;
+        text-decoration: none;
+}
+
+.alpha a {
+        display: block;
+        height: 1em;
+        width: 1em;
+        padding: .15em;
+        overflow: hidden;
+        background: #327CCB;
+        color: white;
+        font-family: 'Lato', sans-serif;
+        font-weight: normal;
+        line-height: 1em;
+        text-decoration: none;
+    }
+    .alpha a:hover {
+        color: white;
+}
 
 ol {
         list-style: lower-roman;
