@@ -86,12 +86,12 @@ function wireKeywords():
 
         [width, height] = [0, 0]
         height = $palette.find('a').each(() => (width += $(this).innerWidth())).first().innerHeight()
-        [top, left] = [e.pageY - height - 20, e.pageX - width / 2]
+        [top, left] = [e.pageY - height - 10, e.pageX - width / 2]
 
         if range.getBoundingClientRect != null:
             rect = range.getBoundingClientRect()
             r = document.body.parentNode.getBoundingClientRect()
-            top = rect.top - r.top - height - 20
+            top = rect.top - r.top - height - 10
             left = rect.left - r.left + (rect.right - rect.left) / 2 - width / 2
 
         $palette.css({ top, left, width, opacity: 1 })
