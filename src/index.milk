@@ -174,14 +174,14 @@ exports.parseTag = function(lines):
 
     return { id, type, assertion, proof }
 
-exports.renderIndex = function(keywords, relative = './'):
+exports.renderIndex = function(data, relative = './'):
     output = '<ul class="nav" id="nav">'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
-    map = x => diacritic.clean(x.toLowerCase().replace(/[^0-9a-zA-Z]/g, ''))
+    map = x => diacritic.clean(x).toLowerCase().replace(/[^0-9a-zA-Z]/g, '')
     getAlpha = x => (a = map(x)[0]) == parseInt(a, 10) ? '#' : a
 
-    keys = Object.keys(keywords)
+    keys = Object.keys(data)
     keys.sort(compare(_, _, map))
 
     if keys.length == 0:
@@ -210,7 +210,7 @@ exports.renderIndex = function(keywords, relative = './'):
         for keyword in keys.filter(x => getAlpha(x) == alpha):
             output += '<li><span>' + keyword + '</span> '
 
-            for [p, id, context] in keywords[keyword]:
+            for [p, id, context] in data[keyword]:
                 output += '<a href="' + path.join(relative, p) + id
                     + '" data-path="' + p + id + '" class="tag index"'
                 if context.trim() != '': output += ' title="' + context + '"'
