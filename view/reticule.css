@@ -127,11 +127,14 @@ footer {
         color: #eee;
         opacity: 0;
         transition: .2s opacity;
+        white-space: nowrap;
     }
-    .palette li { margin: 0; }
+    .palette li {
+        display: inline-block;
+        margin: 0;
+    }
     .palette a.index {
-        display: block;
-        float: left;
+        display: inline-block;
         margin: 0;
         padding: 5px 10px;
         color: #eee;

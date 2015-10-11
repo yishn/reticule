@@ -85,16 +85,18 @@ function wireKeywords():
         $(document.body).append($palette)
 
         [width, height] = [0, 0]
-        height = $palette.find('a').each(() => (width += $(this).innerWidth())).first().innerHeight()
-        [top, left] = [e.pageY - height - 10, e.pageX - width / 2]
+        height = Math.ceil($palette.find('a').each(
+            () => (width += Math.ceil($(this).innerWidth()))
+        ).first().innerHeight())
+        [top, left] = [e.pageY - height - 10, e.pageX - width / 2].map(Math.round)
 
         if range.getBoundingClientRect != null:
             rect = range.getBoundingClientRect()
             r = document.body.parentNode.getBoundingClientRect()
-            top = rect.top - r.top - height - 10
-            left = rect.left - r.left + (rect.right - rect.left) / 2 - width / 2
+            top = Math.round(rect.top - r.top - height - 10)
+            left = Math.round(rect.left - r.left + (rect.right - rect.left) / 2 - width / 2)
 
-        $palette.css({ top, left, width, opacity: 1 })
+        $palette.css({ top, left, width, height, opacity: 1 })
     )
 
     $(document.body).mouseup(function():
