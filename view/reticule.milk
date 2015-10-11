@@ -22,6 +22,9 @@ function findBlock($el):
 
     return $el
 
+function typesetMath(el):
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
+
 function similar(x, y):
     min = Math.min(x.length, y.length) - 1
     max = Math.max(x.length, y.length) - 1
@@ -128,11 +131,23 @@ function ready($el, math = true):
     )
 
     // Invoke MathJax
-    if math:
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, $el[0]])
+    if math: typesetMath($el[0])
 
 $(document).ready(function():
     relative = $('nav > .inner > h1 > a').attr('href')
+    hash = window.location.hash
+
     wireKeywords()
     ready($('main'), false)
+
+    if hash[0] == '#':
+        typesetMath(document.body)
+        MathJax.Hub.Queue(() => $(window).scrollTop($(hash).offset().top))
+    else:
+        // Start step by step math typesetting
+        $([
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            '.toc', '.nav', '.meta',
+            'article'
+        ].join(', ')).each(() => typesetMath(this))
 )

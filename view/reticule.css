@@ -6,6 +6,8 @@ span.math::before {
     display: inline-block;
 }
 
+.MathJax_Preview { opacity: .5; }
+
 /**
  * Layout
  */

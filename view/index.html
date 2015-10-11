@@ -9,20 +9,15 @@
 <script type="text/x-mathjax-config">
     MathJax.Ajax.config.path["Contrib"] = "//cdn.mathjax.org/mathjax/contrib";
     MathJax.Hub.Config({
+        skipStartupTypeset: true,
         showMathMenu: false,
-        showProcessingMessages: false,
         messageStyle: 'simple',
-        TeX: {
-            extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js']
-        },
+        TeX: { extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'] },
         tex2jax: {
             inlineMath: [['$','$']],
             processEscapes: true
         },
-        "HTML-CSS": {
-            scale: 85,
-            linebreaks: { automatic: true }
-        }
+        "HTML-CSS": { scale: 85 }
     });
 </script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
