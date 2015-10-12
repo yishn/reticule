@@ -38,7 +38,7 @@ function loadExtract($block, path):
     $block.after($section)
 
     $section.load(path.replace('#', ' #'), function():
-        ready($section)
+        prepare($section)
 
         // Relink label
         $section.find('a.label').attr('href', path)
