@@ -107,7 +107,7 @@ function wireKeywords():
         setTimeout(() => $palettes.remove(), 200)
     )
 
-function ready($el, math = true):
+function prepare($el, math = true):
     // Prettify numbered lists
     $el.find('ol').each(function():
         if $(this).css('list-style') == 'none': return
@@ -138,16 +138,19 @@ $(document).ready(function():
     hash = window.location.hash
 
     wireKeywords()
-    ready($('main'), false)
+    prepare($('main'), false)
 
+    // Typeset
     if hash[0] == '#':
         typesetMath(document.body)
         MathJax.Hub.Queue(() => $(window).scrollTop($(hash).offset().top))
     else:
         // Start step by step math typesetting
+        MathJax.Hub.Queue(['PreProcess', MathJax.Hub])
+
         $([
-            'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-            '.toc', '.nav', '.meta',
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+            '.toc', '.nav', '.meta'
             'article'
-        ].join(', ')).each(() => typesetMath(this))
+        ].join(', ')).each(() => MathJax.Hub.Queue(["Process", MathJax.Hub, this]))
 )
