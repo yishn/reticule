@@ -316,8 +316,10 @@ exports.buildReticule = function(dirname):
         main: [
             '<h1>' + bookinfo.title + '</h1>'
             '<p class="meta">' + bookinfo.author + '</p>'
+            '<article>'
             '<h2>Table of Contents</h2>'
             exports.renderToc(toc).replace(/<ol/g, '<ul').replace(/<\/ol>/g, '</ul>')
+            '</article>'
             nav
         ].join('\n')
     }))
