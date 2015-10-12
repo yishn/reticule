@@ -25,12 +25,22 @@ function findBlock($el):
 function typesetMath(el):
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
 
-function similar(x, y):
-    min = Math.min(x.length, y.length) - 1
-    max = Math.max(x.length, y.length) - 1
-    map = z => z[0...min].toLowerCase()
+function levenshtein(a, b):
+    if a.length == 0: return b.length
+    if b.length == 0: return a.length
 
-    return max - min <= 3 && map(x) == map(y)
+    matrix = []
+
+    for i in [0...b.length]: matrix[i] = [i]
+    for j in [0...a.length]: matrix[0][j] = j
+    for i in [1...b.length]:
+        for j in [1...a.length]:
+            if b.charAt(i - 1) == a.charAt(j - 1):
+                matrix[i][j] = matrix[i - 1][j - 1]
+            else:
+                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 2, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+
+    return matrix[b.length][a.length];
 
 function loadExtract($block, path):
     $section = $('<section />', { 'class': 'extract' })
@@ -66,11 +76,18 @@ function wireKeywords():
         range = selection.getRangeAt(0)
         keyword = selection.toString().trim()
 
-        if keyword == '': return
-        for k in [keywords.length - 1 ... -1] if k == -1 || similar(keywords[k], keyword): break
-        if k == -1: return
+        if keyword.length <= 2: return
 
-        key = keywords[k]
+        // Search for key
+        min = [null, -1]
+        for key in keywords:
+            distance = levenshtein(key, keyword)
+            if min[0] == null || distance < min[1]:
+                min = [key, distance]
+
+        [key, distance] = min
+        if key == null || distance > Math.min(3, key.length, keyword.length):
+            return
 
         // Create palette
         $('body > ul.palette').remove()
