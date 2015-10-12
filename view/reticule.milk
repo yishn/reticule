@@ -26,21 +26,21 @@ function typesetMath(el):
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
 
 function levenshtein(a, b):
-    if a.length == 0: return b.length
-    if b.length == 0: return a.length
+    for [x, y] in [[a, b], [b, a]] if x.length == 0:
+        return y.length
 
-    matrix = []
+    // Initialize matrix
+    matrix = [[i] for i in [0...b.length]]
+    matrix[0] = [j for j in [0...a.length]]
 
-    for i in [0...b.length]: matrix[i] = [i]
-    for j in [0...a.length]: matrix[0][j] = j
     for i in [1...b.length]:
         for j in [1...a.length]:
-            if b.charAt(i - 1) == a.charAt(j - 1):
+            if b[i - 1] == a[j - 1]:
                 matrix[i][j] = matrix[i - 1][j - 1]
             else:
-                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 2, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
 
-    return matrix[b.length][a.length];
+    return matrix[b.length][a.length]
 
 function loadExtract($block, path):
     $section = $('<section />', { 'class': 'extract' })
