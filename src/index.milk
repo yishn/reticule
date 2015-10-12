@@ -3,8 +3,9 @@
 fs = require('fs')
 path = require('path').posix
 diacritic = require('diacritic')
-marked = require('marked').setOptions({ smartypants: true })
+marked = require('marked').setOptions({smartypants: true})
 milk = require('milk-lang')
+uglify = require('uglify-js')
 
 cache = {}
 
@@ -132,7 +133,7 @@ exports.renderTags = function(tags, dirname):
 
     for tag in tags:
         renderer = new ReticuleRenderer(dirname, tag.path)
-        options = { renderer }
+        options = {renderer}
         output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
@@ -172,7 +173,7 @@ exports.parseTag = function(lines):
         prefix = '<em class="label">Proof.</em>\n\n'
         proof = prefix + proof
 
-    return { id, type, assertion, proof }
+    return {id, type, assertion, proof}
 
 exports.renderIndex = function(data, relative = './'):
     output = '<ul class="nav" id="nav">'
@@ -253,7 +254,7 @@ exports.buildReticule = function(dirname):
 
     console.log('Generate table of contents...')
 
-    toc = [*bookinfo.toc, { title: 'Index', path: 'index/' }]
+    toc = [*bookinfo.toc, {title: 'Index', path: 'index/'}]
     linear = exports.getLinearToc(toc)
 
     alltags = exports.getAllTags(dirname)
@@ -338,7 +339,7 @@ exports.buildReticule = function(dirname):
     console.log('Copy resources...')
 
     fs.writeFileSync(path.join(dirname, 'reticule.css'), fs.readFileSync('../view/reticule.css'))
-    code = milk.compile(fs.readFileSync('../view/reticule.milk', 'utf8'))
+    {code} = uglify.minify(milk.compile(fs.readFileSync('../view/reticule.milk', 'utf8')), {fromString: true})
     fs.writeFileSync(path.join(dirname, 'reticule.js'), code)
 
     console.log('Done.')
