@@ -142,10 +142,13 @@ exports.renderTags = function(tags, dirname):
         output += '</article>\n'
 
         for [keyword, context] in renderer.keywords:
+            tuple = [tag.path, tag.id]
+            if context != '': tuple.push(context)
+
             if keyword not in keywords:
-                keywords[keyword] = [[tag.path, tag.id, context]]
+                keywords[keyword] = [tuple]
             else:
-                keywords[keyword].push([tag.path, tag.id, context])
+                keywords[keyword].push(tuple)
 
     return [output, keywords]
 
@@ -211,7 +214,7 @@ exports.renderIndex = function(data, relative = './'):
         for keyword in keys.filter(x => getAlpha(x) == alpha):
             output += '<li><span>' + keyword + '</span> '
 
-            for [p, id, context] in data[keyword]:
+            for [p, id, context = ''] in data[keyword]:
                 output += '<a href="' + path.join(relative, p) + id
                     + '" data-path="' + p + id + '" class="tag index"'
                 if context.trim() != '': output += ' title="' + context + '"'
