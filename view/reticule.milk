@@ -23,7 +23,7 @@ function findBlock($el):
     return $el
 
 function typesetMath(el):
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, el])
+    MathJax.Hub.Queue | ["Typeset", MathJax.Hub, el]
 
 function levenshtein(a, b):
     for [x, y] in [[a, b], [b, a]] if x.length == 0:
