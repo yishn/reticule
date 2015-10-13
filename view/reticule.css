@@ -143,7 +143,7 @@ footer {
         text-decoration: none;
     }
     .palette a:hover {
-        background: #327CCB;
+        background: {{accent}};
         color: white;
     }
     .palette::after {
@@ -200,7 +200,7 @@ h4, h5, h6 { font-size: 1em; }
     .nav li a, .nav li span { padding: 0 5px; }
     .nav li span { opacity: .3; }
     .nav li a:hover {
-        background: #327CCB;
+        background: {{accent}};
         color: white;
         text-decoration: none;
 }
@@ -211,7 +211,7 @@ h4, h5, h6 { font-size: 1em; }
         width: 1em;
         padding: .15em;
         overflow: hidden;
-        background: #327CCB;
+        background: {{accent}};
         color: white;
         font-family: 'Lato', sans-serif;
         font-weight: normal;
@@ -272,5 +272,5 @@ a.index {
     margin-bottom: 0;
 }
 
-a { color: #327CCB; }
+a { color: {{accent}}; }
 a:hover { color: #555; }

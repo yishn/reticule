@@ -48,7 +48,7 @@ function loadExtract($block, path):
         | $('<p />', { 'html': 'Loading &hellip;' })
     $block.after($section)
 
-    $section.load(path.replace('#', ' #'), function():
+    $section.load(path.replace('#', ' #'), _) | function():
         prepare($section)
 
         // Relink label
@@ -60,7 +60,6 @@ function loadExtract($block, path):
             'href': '#'
             'html': '&#10005;'
         }).click(() => $section.remove() && false)
-    )
 
     return false
 
