@@ -38,13 +38,14 @@ function levenshtein(a, b):
             if b[i - 1] == a[j - 1]:
                 matrix[i][j] = matrix[i - 1][j - 1]
             else:
-                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 2, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
 
     return matrix[b.length][a.length]
 
 function loadExtract($block, path):
-    $section = $('<section />', { 'class': 'extract' })
-        .append($('<article />').append($('<p />', { 'html': 'Loading &hellip;' })))
+    $section = $('<section />', { 'class': 'extract' }).append
+        | $('<article />').append
+        | $('<p />', { 'html': 'Loading &hellip;' })
     $block.after($section)
 
     $section.load(path.replace('#', ' #'), function():
@@ -54,11 +55,11 @@ function loadExtract($block, path):
         $section.find('a.label').attr('href', path)
 
         // Add close button
-        $section.children('article').removeAttr('id').prepend($('<a />', {
+        $section.children('article').removeAttr('id').prepend | $('<a />', {
             'class': 'close'
             'href': '#'
             'html': '&#10005;'
-        }).on('click', () => $section.remove() && false))
+        }).click | () => $section.remove() && false
     )
 
     return false
@@ -66,8 +67,8 @@ function loadExtract($block, path):
 function wireKeywords():
     // Load keywords if necessary
     if keywords == null && sources == null:
-        $.getJSON(relative + 'index/keywords.json',
-            data => ([keywords, sources] = [Object.keys(data), data]))
+        $.getJSON(relative + 'index/keywords.json', _)
+            | data => ([keywords, sources] = [Object.keys(data), data])
 
     $('main').dblclick | function(e):
         if keywords == null || sources == null: return
@@ -92,22 +93,22 @@ function wireKeywords():
         // Create palette
         $('body > ul.palette').remove()
         $palette = $('<ul />', { 'class': 'palette' }).css({ 'top': -9999, 'left': -9999 })
-        $block = findBlock($(range.startContainer.parentNode))
+        $block = findBlock | $(range.startContainer.parentNode)
 
         for [path, id, context] in sources[key]:
-            $palette.append($('<li />').append($('<a />', {
+            $palette.append | $('<li />').append | $('<a />', {
                 'href': relative + path + id
                 'class': 'index'
                 'text': id
                 'title': context
-            }).click(() => loadExtract($block, this.href))))
+            }).click | () => loadExtract($block, this.href)
 
         $(document.body).append($palette)
 
         [width, height] = [0, 0]
-        height = Math.ceil($palette.find('a').each(
-            () => (width += Math.ceil($(this).innerWidth()))
-        ).first().innerHeight())
+        height = Math.ceil | $palette.find('a').each(
+            () => (width += Math.ceil | $(this).innerWidth())
+        ).first().innerHeight()
         [top, left] = [e.pageY - height - 10, e.pageX - width / 2].map(Math.round)
 
         if range.getBoundingClientRect != null:
@@ -129,17 +130,17 @@ function prepare($el, math = true):
 
         $(this).css('list-style', 'none').children('li').each | function(i):
             roman = int2roman(i + 1).toLowerCase()
-            $(this).prepend($('<span />', {
+            $(this).prepend | $('<span />', {
                 'class': 'roman'
                 'text': '(' + roman + ')'
-            }))
+            })
 
     // Wire tag link events
     $el.find('a.tag').click | function():
         href = relative + $(this).attr('data-path')
         id = href[href.indexOf('#')...]
 
-        $block = findBlock($(this))
+        $block = findBlock | $(this)
         return loadExtract($block, href)
 
     // Invoke MathJax
@@ -155,13 +156,13 @@ $(document).ready | function():
     // Typeset
     if hash[0] == '#':
         typesetMath(document.body)
-        MathJax.Hub.Queue(() => $(window).scrollTop($(hash).offset().top))
+        MathJax.Hub.Queue | () => $(window).scrollTop | $(hash).offset().top
     else:
         // Start step by step math typesetting
-        MathJax.Hub.Queue(['PreProcess', MathJax.Hub])
+        MathJax.Hub.Queue | ['PreProcess', MathJax.Hub]
 
         $([
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
             '.toc', '.nav', '.meta'
             'article'
-        ].join(', ')).each(() => MathJax.Hub.Queue(["Process", MathJax.Hub, this]))
+        ].join(', ')).each | () => MathJax.Hub.Queue | ["Process", MathJax.Hub, this]
