@@ -173,8 +173,11 @@ $(document).ready | function():
         // Start step by step math typesetting
         MathJax.Hub.Queue | ['PreProcess', MathJax.Hub]
 
-        $([
+        elements = $([
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
             '.toc', '.nav', '.meta'
             'article'
-        ].join(', ')).each(() => MathJax.Hub.Queue | ["Process", MathJax.Hub, this])
+        ].join(', ')).toArray()
+
+        for i in [0, 2, ..., elements.length - 3]:
+            MathJax.Hub.Queue | ["Process", MathJax.Hub, elements[i ... i + 2]]
