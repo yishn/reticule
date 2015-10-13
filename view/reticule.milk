@@ -171,9 +171,10 @@ $(document).ready | function():
         // Start step by step math typesetting
         MathJax.Hub.Queue | ['PreProcess', MathJax.Hub]
 
+        selectors = ['h' + i for i in [1...6]].concat(['.toc', '.nav', '.meta', '.macros'])
         MathJax.Hub.Queue | ['Process',
             MathJax.Hub,
-            $(['h' + i for i in [1...6]].concat(['.toc', '.nav', '.meta']).join(', ')).toArray()
+            $(selectors.join(', ')).toArray()
         ]
 
         elements = $('article').toArray()
