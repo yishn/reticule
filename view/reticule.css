@@ -12,6 +12,9 @@ span.math::before {
     position: absolute;
     left: -9999em;
     top: -9999em;
+    height: 0;
+    width: 0;
+    overflow: hidden;
 }
 
 /**
