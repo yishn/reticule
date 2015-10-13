@@ -175,8 +175,7 @@ $(document).ready | function():
 
         elements = $([
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-            '.toc', '.nav', '.meta'
-            'article'
+            '.toc', '.nav', '.meta', 'article'
         ].join(', ')).toArray()
 
         for i in [0, 2, ..., elements.length - 3]:
