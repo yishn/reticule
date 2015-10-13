@@ -70,7 +70,9 @@ function wireKeywords():
         $.getJSON(relative + 'index/keywords.json',
             data => ([keywords, sources] = [Object.keys(data), data]))
 
-    $('main').dblclick | function(e):
+    timeoutId = null
+
+    eventHandler = function(event):
         if keywords == null || sources == null: return
 
         selection = window.getSelection()
@@ -101,7 +103,9 @@ function wireKeywords():
                 'class': 'index'
                 'text': id
                 'title': context
-            }).click(() => loadExtract($block, this.href))
+            })
+            .click(() => loadExtract($block, this.href))
+            .mouseup(e => e.stopPropagation())
 
         $(document.body).append($palette)
 
@@ -109,7 +113,7 @@ function wireKeywords():
         height = Math.ceil | $palette.find('a').each(
             () => (width += Math.ceil | $(this).innerWidth())
         ).first().innerHeight()
-        [top, left] = [e.pageY - height - 10, e.pageX - width / 2].map(Math.round)
+        [top, left] = [event.pageY - height - 10, event.pageX - width / 2].map(Math.round)
 
         if range.getBoundingClientRect != null:
             rect = range.getBoundingClientRect()
@@ -118,6 +122,14 @@ function wireKeywords():
             left = Math.round(rect.left - r.left + (rect.right - rect.left) / 2 - width / 2)
 
         $palette.css({ top, left, width, height, opacity: 1 })
+
+    $('main').on('dblclick', eventHandler)
+
+    $(document).on('selectionchange', _) | function(e):
+        if timeoutId != null:
+            clearTimeout(timeoutId)
+
+        timeoutId = setTimeout(() => eventHandler(e), 500)
 
     $(document.body).mouseup | function():
         $palettes = $('body > ul.palette').css('opacity', 0)
