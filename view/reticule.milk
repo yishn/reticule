@@ -69,7 +69,7 @@ function wireKeywords():
         $.getJSON(relative + 'index/keywords.json',
             data => ([keywords, sources] = [Object.keys(data), data]))
 
-    $('main').dblclick(function(e):
+    $('main').dblclick | function(e):
         if keywords == null || sources == null: return
 
         selection = window.getSelection()
@@ -117,40 +117,35 @@ function wireKeywords():
             left = Math.round(rect.left - r.left + (rect.right - rect.left) / 2 - width / 2)
 
         $palette.css({ top, left, width, height, opacity: 1 })
-    )
 
-    $(document.body).mouseup(function():
+    $(document.body).mouseup | function():
         $palettes = $('body > ul.palette').css('opacity', 0)
         setTimeout(() => $palettes.remove(), 200)
-    )
 
 function prepare($el, math = true):
     // Prettify numbered lists
-    $el.find('ol').each(function():
+    $el.find('ol').each | function():
         if $(this).css('list-style') == 'none': return
 
-        $(this).css('list-style', 'none').children('li').each(function(i):
+        $(this).css('list-style', 'none').children('li').each | function(i):
             roman = int2roman(i + 1).toLowerCase()
             $(this).prepend($('<span />', {
                 'class': 'roman'
                 'text': '(' + roman + ')'
             }))
-        )
-    )
 
     // Wire tag link events
-    $el.find('a.tag').click(function():
+    $el.find('a.tag').click | function():
         href = relative + $(this).attr('data-path')
         id = href[href.indexOf('#')...]
 
         $block = findBlock($(this))
         return loadExtract($block, href)
-    )
 
     // Invoke MathJax
     if math: typesetMath($el[0])
 
-$(document).ready(function():
+$(document).ready | function():
     relative = $('nav > .inner > h1 > a').attr('href')
     hash = window.location.hash
 
@@ -170,4 +165,3 @@ $(document).ready(function():
             '.toc', '.nav', '.meta'
             'article'
         ].join(', ')).each(() => MathJax.Hub.Queue(["Process", MathJax.Hub, this]))
-)
