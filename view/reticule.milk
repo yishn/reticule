@@ -97,12 +97,11 @@ function wireKeywords():
         $palette = $('<ul />', { 'class': 'palette' }).css({ 'top': -9999, 'left': -9999 })
         $block = findBlock | $(range.startContainer.parentNode)
 
-        for [path, id, context] in sources[key]:
+        for [path, id, context = ''] in sources[key]:
             $palette.append | $('<li />').append | $('<a />', {
                 'href': relative + path + id
                 'class': 'index'
-                'text': id
-                'title': context
+                'text': context.trim() == '' ? id : context
             })
             .click(() => loadExtract($block, this.href))
             .mouseup(e => e.stopPropagation())
