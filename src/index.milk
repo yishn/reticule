@@ -212,7 +212,7 @@ exports.renderIndex = function(data, relative = './'):
             + '<ul class="index">\n'
 
         for keyword in keys.filter(x => getAlpha(x) == alpha):
-            output += '<li><span>' + keyword + '</span> '
+            output += '<li>' + keyword + ' '
 
             for [p, id, context = ''] in data[keyword]:
                 output += '<a href="' + path.join(relative, p) + id
