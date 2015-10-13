@@ -254,6 +254,7 @@ exports.getTagById = function(dirname, id):
 exports.buildReticule = function(dirname):
     template = fs.readFileSync('../view/index.html', 'utf8')
     bookinfo = exports.getBookInfo(dirname)
+    macros = 'macros' in bookinfo ? '$' + bookinfo.macros.join('\n') + '$' : ''
 
     console.log('Generate table of contents...')
 
@@ -295,7 +296,7 @@ exports.buildReticule = function(dirname):
         // Write data
         fs.writeFileSync(path.join(dirname, item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
-            macros: JSON.stringify(bookinfo.macros ?? {})
+            macros
             toc: exports.renderToc(toc, relative, item)
             relative
             main: [
@@ -313,7 +314,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc)
-        macros: JSON.stringify(bookinfo.macros ?? {})
+        macros
         relative: './'
         main: [
             '<h1>' + bookinfo.title + '</h1>'
@@ -335,7 +336,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc, '../', 'index/')
-        macros: JSON.stringify(bookinfo.macros ?? {})
+        macros
         relative: '../'
         main: [
             '<h1>Index</h1>'

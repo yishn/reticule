@@ -12,10 +12,7 @@
         skipStartupTypeset: true,
         showMathMenu: false,
         messageStyle: 'none',
-        TeX: {
-            extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'],
-            Macros: {{macros}}
-        },
+        TeX: { extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'] },
         tex2jax: {
             inlineMath: [['$','$']],
             processEscapes: true
@@ -33,6 +30,7 @@
 <nav>
     <div class="inner">
         <h1><a href="{{relative}}">{{title}}</a></h1>
+        {{macros}}
         {{toc}}
     </div>
 </nav>
