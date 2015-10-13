@@ -59,7 +59,7 @@ function loadExtract($block, path):
             'class': 'close'
             'href': '#'
             'html': '&#10005;'
-        }).click | () => $section.remove() && false
+        }).click(() => $section.remove() && false)
     )
 
     return false
@@ -67,8 +67,8 @@ function loadExtract($block, path):
 function wireKeywords():
     // Load keywords if necessary
     if keywords == null && sources == null:
-        $.getJSON(relative + 'index/keywords.json', _)
-            | data => ([keywords, sources] = [Object.keys(data), data])
+        $.getJSON(relative + 'index/keywords.json',
+            data => ([keywords, sources] = [Object.keys(data), data]))
 
     $('main').dblclick | function(e):
         if keywords == null || sources == null: return
@@ -101,7 +101,7 @@ function wireKeywords():
                 'class': 'index'
                 'text': id
                 'title': context
-            }).click | () => loadExtract($block, this.href)
+            }).click(() => loadExtract($block, this.href))
 
         $(document.body).append($palette)
 
@@ -156,7 +156,7 @@ $(document).ready | function():
     // Typeset
     if hash[0] == '#':
         typesetMath(document.body)
-        MathJax.Hub.Queue | () => $(window).scrollTop | $(hash).offset().top
+        MathJax.Hub.Queue(() => $(window).scrollTop | $(hash).offset().top)
     else:
         // Start step by step math typesetting
         MathJax.Hub.Queue | ['PreProcess', MathJax.Hub]
@@ -165,4 +165,4 @@ $(document).ready | function():
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
             '.toc', '.nav', '.meta'
             'article'
-        ].join(', ')).each | () => MathJax.Hub.Queue | ["Process", MathJax.Hub, this]
+        ].join(', ')).each(() => MathJax.Hub.Queue | ["Process", MathJax.Hub, this])
