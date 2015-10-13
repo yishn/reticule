@@ -12,7 +12,10 @@
         skipStartupTypeset: true,
         showMathMenu: false,
         messageStyle: 'none',
-        TeX: { extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'] },
+        TeX: {
+            extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'],
+            Macros: {{macros}}
+        },
         tex2jax: {
             inlineMath: [['$','$']],
             processEscapes: true

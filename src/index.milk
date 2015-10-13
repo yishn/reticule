@@ -295,6 +295,7 @@ exports.buildReticule = function(dirname):
         // Write data
         fs.writeFileSync(path.join(dirname, item, 'index.html'), fillTemplate(template, {
             title: bookinfo.title
+            macros: JSON.stringify(bookinfo.macros ?? {})
             toc: exports.renderToc(toc, relative, item)
             relative
             main: [
@@ -312,6 +313,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc)
+        macros: JSON.stringify(bookinfo.macros ?? {})
         relative: './'
         main: [
             '<h1>' + bookinfo.title + '</h1>'
@@ -333,6 +335,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
         toc: exports.renderToc(toc, '../', 'index/')
+        macros: JSON.stringify(bookinfo.macros ?? {})
         relative: '../'
         main: [
             '<h1>Index</h1>'
