@@ -102,7 +102,7 @@ function wireKeywords():
             $palette.append | $('<li />').append | $('<a />', {
                 'href': relative + path + id
                 'class': 'index'
-                'text': context.trim() == '' ? id : context
+                'text': context.trim() == '' ? (sources[key].length == 1 ? 'Definition' : id) : context
             })
             .click(() => loadExtract($block, this.href))
             .mouseup(e => e.stopPropagation())
@@ -180,5 +180,5 @@ $(document).ready | function():
         ]
 
         elements = $('article').toArray()
-        for i in [0, 2, ..., elements.length - 3]:
+        for i in [0, 3, ..., elements.length - 1]:
             MathJax.Hub.Queue | ['Process', MathJax.Hub, elements[i ... i + 2]]
