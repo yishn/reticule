@@ -88,7 +88,7 @@ function wireKeywords():
                 min = [key, distance]
 
         [key, distance] = min
-        if key == null || distance > Math.min(3, key.length, keyword.length):
+        if key == null || distance > Math.min(4, key.length, keyword.length):
             return
 
         // Create palette
