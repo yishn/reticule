@@ -73,7 +73,7 @@ exports.getLinearToc = function(toc):
 
     for item in toc:
         if 'toc' in item:
-            sublinear = exports.extractLinearToc(item.toc)
+            sublinear = exports.getLinearToc(item.toc)
             linear = linear.concat(sublinear)
         else:
             linear.push(item)
