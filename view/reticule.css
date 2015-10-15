@@ -1,12 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic,300italic,300');
-@import url('https://fonts.googleapis.com/css?family=Lora:700');
 
 span.math::before {
     content: ' ';
     display: inline-block;
 }
 
-.MathJax_Preview { opacity: .5; }
+.MathJax_Preview { opacity: .7; }
 
 .macros {
     position: absolute;
@@ -53,7 +52,6 @@ nav {
     }
     nav h1 {
         margin: 2.9em 0 1em;
-        font-family: 'Lato', sans-serif;
         font-size: 1em;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -186,9 +184,6 @@ li, main .toc article li, main .index article li {
     margin: .5em 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lora', serif;
-}
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.3em; }
@@ -222,7 +217,6 @@ h4, h5, h6 { font-size: 1em; }
         overflow: hidden;
         background: {{accent}};
         color: white;
-        font-family: 'Lato', sans-serif;
         font-weight: normal;
         line-height: 1em;
         text-decoration: none;
