@@ -137,7 +137,8 @@ exports.renderTags = function(tags, dirname):
         output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
-            output += marked(tag.proof, options) + '\n<p class="qed">$\\square$</p>'
+            output += '<section class="proof">\n' + marked(tag.proof, options)
+                + '\n<p class="qed">$\\square$</p>\n</section>'
 
         output += '</article>\n'
 
