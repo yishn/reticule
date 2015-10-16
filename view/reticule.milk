@@ -17,7 +17,8 @@ function int2roman(n):
     return r
 
 function findBlock($el):
-    while $el.css('display') == 'inline':
+    while $el.prop('tagName').toLowerCase() == 'span'
+    || $el.css('display') == 'inline':
         $el = $el.parent()
 
     return $el
