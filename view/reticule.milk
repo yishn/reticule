@@ -83,7 +83,7 @@ function wireKeywords():
 
         // Search for key
         min = [null, -1]
-        for key in keywords:
+        for key in keywords if key[0] == keyword[0]:
             distance = levenshtein(key, keyword)
             if min[0] == null || distance < min[1]:
                 min = [key, distance]
