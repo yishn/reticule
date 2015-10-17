@@ -252,7 +252,8 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0]
 
 exports.buildReticule = function(dirname):
-    template = fs.readFileSync('../view/index.html', 'utf8')
+    execPath = process.argv[1].replace(/\\/g, '/')
+    template = fs.readFileSync(path.join(execPath, '../../view/index.html'), 'utf8')
     bookinfo = exports.getBookInfo(dirname)
     macros = 'macros' in bookinfo ? '$' + bookinfo.macros.join('\n') + '$' : ''
 
@@ -351,9 +352,9 @@ exports.buildReticule = function(dirname):
     console.log('Copy resources...')
 
     fs.writeFileSync(path.join(dirname, 'favicon.ico'), _)
-        | fs.readFileSync(path.join(process.execPath, '../../view/favicon.ico'))
+        | fs.readFileSync(path.join(execPath, '../../view/favicon.ico'))
 
-    css = fs.readFileSync(path.join(process.execPath, '../../view/reticule.css'), 'utf8')
+    css = fs.readFileSync(path.join(execPath, '../../view/reticule.css'), 'utf8')
 
     fs.writeFileSync(path.join(dirname, 'reticule.css'), fillTemplate(css, {
         accent: bookinfo.accent ?? '#327CCB'
@@ -361,7 +362,7 @@ exports.buildReticule = function(dirname):
 
     {code} = uglify.minify(_, {fromString: true})
         | milk.compile
-        | fs.readFileSync(path.join(process.execPath, '../../view/reticule.milk'), 'utf8')
+        | fs.readFileSync(path.join(execPath, '../../view/reticule.milk'), 'utf8')
 
     fs.writeFileSync(path.join(dirname, 'reticule.js'), code)
 
