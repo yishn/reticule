@@ -131,6 +131,11 @@ main, footer {
     }
     .proof.hide::before {
         content: '…';
+        padding: 0 7px 2px 7px;
+        background: rgba(0, 0, 0, .05);
+    }
+    .proof.hide:hover::before {
+        background: rgba(0, 0, 0, .1);
 }
 
 footer {
