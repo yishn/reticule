@@ -36,6 +36,7 @@ nav {
         background: rgba(0, 0, 0, .05);
         font-size: .8em;
     }
+    .dark nav { background: rgba(255, 255, 255, .05); }
     .no-sidebar nav { display: none; }
     nav::after {
         content: ' ';
@@ -45,8 +46,11 @@ nav {
         bottom: 0;
         left: 0;
         width: 234px;
-        background: linear-gradient(rgba(242, 245, 240, 0), rgba(242, 245, 240, 1));
+        background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .8));
         pointer-events: none;
+    }
+    .dark nav::after {
+        background: linear-gradient(rgba(0, 0, 0, 0), #222);
     }
     nav .inner {
         padding: 1px 20px 6em;
@@ -61,13 +65,19 @@ nav {
         color: #7A7A7A;
         text-decoration: none;
     }
+    .dark nav a, .dark nav a:hover { color: #aaa; }
     nav h1 a, nav h1 a:hover { color: #333; }
+    .dark nav h1 a, .dark nav h1 a:hover { color: #ddd; }
     nav .toc { list-style: none; }
     nav .toc li { margin: 1em 0; }
     nav .toc ol { margin-left: 10px; }
     nav .toc li.current a {
         color: #533;
         border-bottom: 1px solid #533;
+    }
+    .dark nav .toc li.current a {
+        color: #A88;
+        border-color: #A88;
 }
 
 main, footer {
@@ -93,6 +103,9 @@ main, footer {
     main article:not(:last-child) {
         border-bottom: 1px solid #ccc;
     }
+    .dark main article:not(:last-child) {
+        border-bottom: 1px solid #555;
+    }
     main article .close {
         display: block;
         position: absolute;
@@ -106,6 +119,7 @@ main, footer {
         text-align: center;
         text-decoration: none;
     }
+    .dark main article .close { color: #ddd }
     main article .close:hover {
         background: #E81123;
         color: white;
@@ -115,6 +129,9 @@ main, footer {
         border: none;
         margin-top: 1em;
         margin-bottom: 1em;
+    }
+    .dark main article article, .dark main article article:not(:last-child) {
+        background: rgba(255, 255, 255, .05);
     }
     main article article > ol, main article article > ul {
         margin-left: 0;
@@ -136,6 +153,12 @@ main, footer {
     }
     .proof.hide:hover::before {
         background: rgba(0, 0, 0, .1);
+    }
+    .dark .proof.hide::before {
+        background: rgba(255, 255, 255, .05);
+    }
+    .dark .proof.hide:hover::before {
+        background: rgba(255, 255, 255, .1);
 }
 
 footer {
@@ -157,6 +180,11 @@ footer {
         transition: .2s opacity;
         white-space: nowrap;
     }
+    .dark .palette {
+        background: #eee;
+        color: #333;
+        box-shadow: none;
+    }
     .palette li {
         display: inline-block;
         margin: 0;
@@ -172,6 +200,7 @@ footer {
         background: {{accent}};
         color: white;
     }
+    .dark .palette a { color: #333; }
     .palette::after {
         content: ' ';
         display: block;
@@ -184,6 +213,9 @@ footer {
         border-top: 7px solid #333;
         border-left: 7px solid transparent;
         border-right: 7px solid transparent;
+    }
+    .dark .palette::after {
+        border-top: 7px solid #eee;
 }
 
 /**
@@ -191,8 +223,12 @@ footer {
  */
 
 body {
-    font: 110%/1.7 'Lato', sans-serif;
-    color: #333;
+        font: 110%/1.7 'Lato', sans-serif;
+        color: #333;
+    }
+    body.dark {
+        background: #222;
+        color: #ddd;
 }
 
 h1, h2, h3, h4, h5, h6, p, .proof, ul, ol {
@@ -282,6 +318,7 @@ a.index {
         font-weight: bold;
         text-decoration: none;
     }
+    .dark .label { color: #ddd; }
     em.label {
         font-weight: normal;
 }
@@ -294,3 +331,4 @@ a.index {
 
 a { color: {{accent}}; }
 a:hover { color: #555; }
+.dark a:hover { color: white; }
