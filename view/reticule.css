@@ -36,6 +36,7 @@ nav {
         background: rgba(0, 0, 0, .05);
         font-size: .8em;
     }
+    .no-sidebar nav { display: none; }
     nav::after {
         content: ' ';
         display: block;
@@ -72,6 +73,9 @@ nav {
 main, footer {
         margin-left: 234px;
         overflow: hidden;
+    }
+    .no-sidebar main, .no-sidebar footer {
+        margin-left: 0;
     }
     main .inner, footer .inner {
         margin: 0 auto;
