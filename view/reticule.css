@@ -123,12 +123,14 @@ main, footer {
         padding-top: 1px;
 }
 
-.proof.hide > * {
+.proof.hide {
+        cursor: pointer;
+    }
+    .proof.hide > * {
         display: none;
     }
     .proof.hide::before {
         content: '…';
-        cursor: pointer;
 }
 
 footer {
