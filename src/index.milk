@@ -350,6 +350,8 @@ exports.buildReticule = function(dirname):
 
     console.log('Copy resources...')
 
+    fs.writeFileSync(path.join(dirname, 'favicon.ico'), fs.readFileSync('../view/favicon.ico'))
+
     css = fs.readFileSync('../view/reticule.css', 'utf8')
     fs.writeFileSync(path.join(dirname, 'reticule.css'), fillTemplate(css, {
         accent: bookinfo.accent ?? '#327CCB'
