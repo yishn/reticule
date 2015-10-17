@@ -123,6 +123,14 @@ main, footer {
         padding-top: 1px;
 }
 
+.proof.hide > * {
+        display: none;
+    }
+    .proof.hide::before {
+        content: '…';
+        cursor: pointer;
+}
+
 footer {
     margin-top: 2em;
     margin-bottom: 2em;
@@ -180,7 +188,7 @@ body {
     color: #333;
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol {
+h1, h2, h3, h4, h5, h6, p, .proof, ul, ol {
     margin: 1em 0;
 }
 
