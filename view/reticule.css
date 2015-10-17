@@ -84,7 +84,7 @@ main, footer {
         margin-left: -50px;
         padding: 20px 50px;
         width: 100%;
-        clear: both;
+        overflow: hidden;
     }
     main article:not(:last-child) {
         border-bottom: 1px solid #ccc;

@@ -134,10 +134,21 @@ exports.renderTags = function(tags, dirname):
     for tag in tags:
         renderer = new ReticuleRenderer(dirname, tag.path)
         options = {renderer}
-        output += '<article id="' + tag.id[1...] + '">\n' + marked(tag.assertion, options) + '\n'
+
+        prefix = '<p><a class="label" href="' + tag.id + '">'
+        if tag.type.trim() != '':
+            prefix += tag.type + ' ' + tag.id[1...].replace(/-/g, '.') + '.'
+        else:
+            prefix += '&para;'
+        prefix += '</a></p>\n'
+
+        output += '<article id="' + tag.id[1...] + '">\n'
+            + prefix
+            + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
-            output += '<section class="proof">\n' + marked(tag.proof, options)
+            output += '<p><em class="label">Proof.</em></p>\n<section class="proof">\n'
+                + marked(tag.proof, options)
                 + '\n<p class="qed">$\\square$</p>\n</section>'
 
         output += '</article>\n'
@@ -164,18 +175,6 @@ exports.parseTag = function(lines):
     proof = k + 1 < lines.length
         ? lines[k + 1 ...].join('\n').trim()
         : null
-
-    prefix = '<a class="label" href="' + id + '">'
-    if type.trim() != '':
-        prefix += type + ' ' + id[1...].replace(/-/g, '.') + '.</a>\n\n'
-    else:
-        prefix += '&para;</a>\n\n'
-
-    assertion = prefix + assertion
-
-    if proof != null:
-        prefix = '<em class="label">Proof.</em>\n\n'
-        proof = prefix + proof
 
     return {id, type, assertion, proof}
 
