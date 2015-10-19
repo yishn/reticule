@@ -337,7 +337,10 @@ exports.buildReticule = function(dirname):
     nav = exports.renderLinearNav(linear[linear.length - 2], null, '../')
 
     try: fs.mkdirSync | path.join(dirname, 'index')
-    fs.writeFileSync(path.join(dirname, 'index/keywords.json'), JSON.stringify(keywords))
+
+    fs.writeFileSync(_, JSON.stringify(keywords))
+        | path.join(dirname, 'index/keywords.json')
+
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
         section: 'Index'
