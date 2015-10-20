@@ -185,6 +185,17 @@ $(document).ready | function():
     relative = $('nav > .inner > h1 > a').attr('href')
     hash = window.location.hash
 
+    // Load settings
+    darkmode = Cookies.get('reticule-dark') == 'true'
+    nosidebar = Cookies.get('reticule-nosidebar') == 'true'
+
+    if darkmode: $(document.body).addClass('dark')
+    if nosidebar: $(document.body).addClass('nosidebar')
+
+    Cookies.set('reticule-dark', darkmode, { expires: 7 })
+    Cookies.set('reticule-nosidebar', nosidebar, { expires: 7 })
+
+    // Begin
     wireKeywords()
     prepare($('main'), false)
 
