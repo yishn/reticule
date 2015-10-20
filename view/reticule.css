@@ -37,7 +37,7 @@ nav {
         font-size: .8em;
     }
     .dark nav { background: rgba(255, 255, 255, .05); }
-    .no-sidebar nav { display: none; }
+    .nosidebar nav { display: none; }
     nav::after {
         content: ' ';
         display: block;
@@ -50,7 +50,7 @@ nav {
         pointer-events: none;
     }
     .dark nav::after {
-        background: linear-gradient(rgba(0, 0, 0, 0), #222);
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .8));
     }
     nav .inner {
         padding: 1px 20px 6em;
@@ -84,7 +84,7 @@ main, footer {
         margin-left: 234px;
         overflow: hidden;
     }
-    .no-sidebar main, .no-sidebar footer {
+    .nosidebar main, .nosidebar footer {
         margin-left: 0;
     }
     main .inner, footer .inner {
@@ -102,7 +102,7 @@ main, footer {
         overflow: hidden;
     }
     .dark main article {
-        border-bottom: 1px solid #555;
+        border-color: #555;
     }
     main article .close, main article .min {
         display: block;
