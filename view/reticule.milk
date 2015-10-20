@@ -50,8 +50,6 @@ function loadExtract($block, path):
     $block.after($section)
 
     $section.load(path.replace('#', ' #'), _) | function():
-        prepare($section)
-
         // Relink label
         $section.find('a.label').attr('href', path)
 
@@ -64,6 +62,9 @@ function loadExtract($block, path):
             'href': '#'
             'html': '&#10005;'
         }).click(() => $section.remove() && false)
+
+        // Prepare
+        prepare($section)
 
     return false
 
@@ -159,13 +160,23 @@ function prepare($el, math = true):
         $block = findBlock | $(this)
         return loadExtract($block, href)
 
-    // Collapsible proofs
+    // Collapsible sections
     $el.find('em.label:contains("Proof")').css('cursor', 'pointer').click | function():
         $proof = $(this).parent().next('.proof').toggleClass('hide')
-        
-    $el.find('.proof').click | function():
+
+    $el.find('.proof, article').click | function():
         if !$(this).hasClass('hide'): return
         $(this).removeClass('hide')
+
+    $el.find('article')
+    .filter(() => $(this).children('.close').length == 0 && $(this).parents('article').length > 0)
+    .each | function():
+        $article = $(this)
+        $article.prepend | $('<a />', {
+            'class': 'min'
+            'href': '#'
+            'html': '&#8212;'
+        }).click(e => $article.addClass('hide') && e.stopPropagation() ?? false)
 
     // Invoke MathJax
     if math: typesetMath($el[0])

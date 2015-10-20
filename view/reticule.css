@@ -94,19 +94,17 @@ main, footer {
     }
     main article {
         position: relative;
+        border-bottom: 1px solid #ccc;
         margin: 0;
         margin-left: -50px;
         padding: 20px 50px;
         width: 100%;
         overflow: hidden;
     }
-    main article:not(:last-child) {
-        border-bottom: 1px solid #ccc;
-    }
-    .dark main article:not(:last-child) {
+    .dark main article {
         border-bottom: 1px solid #555;
     }
-    main article .close {
+    main article .close, main article .min {
         display: block;
         position: absolute;
         right: 0;
@@ -119,19 +117,42 @@ main, footer {
         text-align: center;
         text-decoration: none;
     }
-    .dark main article .close { color: #ddd }
+    .dark main article .close, .dark main article .min { color: #ddd }
     main article .close:hover {
         background: #E81123;
         color: white;
     }
-    main article article, main article article:not(:last-child) {
+    main article .min:hover {
+        background: #333;
+        color: #eee;
+    }
+    main article article {
         background: rgba(0, 0, 0, .05);
         border: none;
         margin-top: 1em;
         margin-bottom: 1em;
     }
-    .dark main article article, .dark main article article:not(:last-child) {
+    main article article.hide {
+        background: transparent;
+        padding-top: 0;
+        padding-bottom: 0;
+        cursor: pointer;
+    }
+    main article article.hide > * { display: none; }
+    main article article.hide::before {
+        content: '…';
+        padding: 0 7px 2px 7px;
+        background: rgba(0, 0, 0, .05);
+    }
+    main article article.hide:hover::before {
+        background: rgba(0, 0, 0, .1);
+    }
+    .dark main article article,
+    .dark main article article.hide::before {
         background: rgba(255, 255, 255, .05);
+    }
+    .dark main article article.hide:hover::before {
+        background: rgba(255, 255, 255, .1);
     }
     main article article > ol, main article article > ul {
         margin-left: 0;
