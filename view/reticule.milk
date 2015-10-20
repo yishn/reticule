@@ -188,6 +188,18 @@ $(document).ready | function():
     wireKeywords()
     prepare($('main'), false)
 
+    // Configure MathJax
+    color = $(document.body).css('color')
+    MathJax.Hub.Config({
+        styles: {
+            '.MathJax': { 'color': color + ' !important' }
+            '.MathJax svg > g': {
+                'fill': color + ' !important'
+                'stroke': color + ' !important'
+            }
+        }
+    })
+
     // Typeset
     if hash[0] == '#':
         typesetMath(document.body)
