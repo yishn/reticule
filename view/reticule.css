@@ -124,8 +124,8 @@ main, footer {
         color: white;
     }
     main article .min:hover {
-        background: #333;
-        color: #eee;
+        background: {{accent}};
+        color: white;
     }
     main article article {
         background: rgba(0, 0, 0, .05);
@@ -133,7 +133,7 @@ main, footer {
         margin-top: 1em;
         margin-bottom: 1em;
     }
-    main article article.hide {
+    main article article.hide, .dark main article article.hide {
         background: transparent;
         padding-top: 0;
         padding-bottom: 0;
