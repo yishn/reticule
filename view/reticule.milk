@@ -64,7 +64,7 @@ function loadExtract($block, path):
         }).click(() => $section.remove() && false)
 
         // Prepare
-        prepare($section)
+        prepareContent($section)
 
     return false
 
@@ -140,7 +140,7 @@ function wireKeywords():
         $palettes = $('body > ul.palette').css('opacity', 0)
         setTimeout(() => $palettes.remove(), 200)
 
-function prepare($el, math = true):
+function prepareContent($el, math = true):
     // Prettify numbered lists
     $el.find('ol').each | function():
         if $(this).css('list-style') == 'none': return
@@ -176,10 +176,19 @@ function prepare($el, math = true):
             'class': 'min'
             'href': '#'
             'html': '&#8212;'
-        }).click(e => $article.addClass('hide') && e.stopPropagation() ?? false)
+        }).click(e => $article.addClass('hide') && e.stopPropagation() == '')
 
     // Invoke MathJax
     if math: typesetMath($el[0])
+
+function prepareUI():
+    $body = $(document.body)
+    $body.append | $('<a />', {
+        'class': 'togglenav'
+        'href': '#'
+    }).click | function():
+        $body.toggleClass('nosidebar')
+        saveSettings()
 
 function saveSettings(expires = 31):
     $body = $(document.body)
@@ -202,7 +211,8 @@ $(document).ready | function():
 
     // Begin
     wireKeywords()
-    prepare($('main'), false)
+    prepareUI()
+    prepareContent($('main'), false)
 
     // Configure MathJax
     color = $(document.body).css('color')

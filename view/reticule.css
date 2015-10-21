@@ -164,6 +164,41 @@ main, footer {
         padding-top: 1px;
 }
 
+.togglenav {
+        display: block;
+        position: fixed;
+        left: 234px;
+        top: 2.9em;
+        height: 32px;
+        width: 16px;
+        background: #F2F2F2;
+        color: #7A7A7A;
+        text-decoration: none;
+        text-align: center;
+        transition: .5s left;
+    }
+    .dark .togglenav {
+        background: #2D2D2D;
+        color: #aaa;
+    }
+    .togglenav:hover {
+        background: #7A7A7A;
+        color: #F2F2F2;
+    }
+    .dark .togglenav:hover {
+        background: #aaa;
+        color: #2D2D2D;
+    }
+    .togglenav::before {
+        content: '«';
+    }
+    .nosidebar .togglenav {
+        left: 0;
+    }
+    .nosidebar .togglenav::before {
+        content: '»';
+}
+
 .proof.hide {
         cursor: pointer;
     }
