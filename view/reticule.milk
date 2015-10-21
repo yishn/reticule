@@ -181,6 +181,12 @@ function prepare($el, math = true):
     // Invoke MathJax
     if math: typesetMath($el[0])
 
+function saveSettings(expires = 31):
+    $body = $(document.body)
+
+    Cookies.set('reticule-dark', $body.hasClass('dark'), { expires })
+    Cookies.set('reticule-nosidebar', $body.hasClass('nosidebar'), { expires })
+
 $(document).ready | function():
     relative = $('nav > .inner > h1 > a').attr('href')
     hash = window.location.hash
@@ -192,8 +198,7 @@ $(document).ready | function():
     if darkmode: $(document.body).addClass('dark')
     if nosidebar: $(document.body).addClass('nosidebar')
 
-    Cookies.set('reticule-dark', darkmode, { expires: 7 })
-    Cookies.set('reticule-nosidebar', nosidebar, { expires: 7 })
+    saveSettings()
 
     // Begin
     wireKeywords()
