@@ -33,10 +33,10 @@ nav {
         height: 100%;
         width: 234px;
         overflow-y: auto;
-        background: rgba(0, 0, 0, .05);
+        background: #F2F2F2;
         font-size: .8em;
     }
-    .dark nav { background: rgba(255, 255, 255, .05); }
+    .dark nav { background: #2D2D2D; }
     .nosidebar nav { display: none; }
     nav::after {
         content: ' ';
@@ -46,11 +46,11 @@ nav {
         bottom: 0;
         left: 0;
         width: 234px;
-        background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .8));
+        background: linear-gradient(rgba(255, 255, 255, 0), #F2F2F2);
         pointer-events: none;
     }
     .dark nav::after {
-        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .8));
+        background: linear-gradient(rgba(0, 0, 0, 0), #2D2D2D);
     }
     nav .inner {
         padding: 1px 20px 6em;
