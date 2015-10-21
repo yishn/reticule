@@ -183,7 +183,7 @@ function prepareContent($el, math = true):
 
 function prepareUI():
     $body = $(document.body)
-    
+
     $body.append | $('<a />', {
         'class': 'togglenav'
         'href': '#'
@@ -196,6 +196,8 @@ function prepareUI():
         $('nav').animate({ 'left': offset - width }, _) | function():
             $body.toggleClass('nosidebar')
             saveSettings()
+
+        return false
 
 function saveSettings(expires = 31):
     $body = $(document.body)
