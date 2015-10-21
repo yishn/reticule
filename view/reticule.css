@@ -37,23 +37,9 @@ nav {
         font-size: .8em;
     }
     .dark nav { background: #2D2D2D; }
-    .nosidebar nav { left: -234px; }
-    nav::after {
-        content: ' ';
-        display: block;
-        position: fixed;
-        height: 6em;
-        bottom: 0;
-        left: 0;
-        width: 234px;
-        background: linear-gradient(rgba(255, 255, 255, 0), #F2F2F2);
-        pointer-events: none;
-    }
-    .dark nav::after {
-        background: linear-gradient(rgba(0, 0, 0, 0), #2D2D2D);
-    }
+    .nosidebar nav, .nosidebar nav::after { left: -234px; }
     nav .inner {
-        padding: 1px 20px 6em;
+        padding: 1px 20px 1.9em;
     }
     nav h1 {
         margin: 2.9em 0 1em;
