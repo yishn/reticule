@@ -376,3 +376,19 @@ a.index {
 a { color: {{accent}}; }
 a:hover { color: #555; }
 .dark a:hover { color: white; }
+
+/**
+ * Mobile
+ */
+
+@-ms-viewport{
+    width: device-width;
+}
+
+@media screen and (max-width: 700px) {
+    nav, .togglenav { display: none; }
+    main, footer { margin-left: 0; }
+    main .inner, footer .inner { padding: 1px 20px; }
+    main article { padding: 20px; margin-left: -20px; }
+    ol, ul, main article article > ol, main article article > ul { margin-left: 30px; }
+}
