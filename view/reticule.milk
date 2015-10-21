@@ -183,12 +183,19 @@ function prepareContent($el, math = true):
 
 function prepareUI():
     $body = $(document.body)
+    
     $body.append | $('<a />', {
         'class': 'togglenav'
         'href': '#'
     }).click | function():
-        $body.toggleClass('nosidebar')
-        saveSettings()
+        width = $('nav').width()
+        offset = $body.hasClass('nosidebar') ? width : 0
+
+        $('.togglenav').animate({ 'left': offset })
+        $('main, footer').animate({ 'margin-left': offset })
+        $('nav').animate({ 'left': offset - width }, _) | function():
+            $body.toggleClass('nosidebar')
+            saveSettings()
 
 function saveSettings(expires = 31):
     $body = $(document.body)

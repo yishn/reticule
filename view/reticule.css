@@ -37,7 +37,7 @@ nav {
         font-size: .8em;
     }
     .dark nav { background: #2D2D2D; }
-    .nosidebar nav { display: none; }
+    .nosidebar nav { left: -234px; }
     nav::after {
         content: ' ';
         display: block;
@@ -166,14 +166,15 @@ main, footer {
         display: block;
         position: fixed;
         left: 234px;
-        top: 2.9em;
+        top: 2.7em;
         height: 32px;
         width: 16px;
         background: #F2F2F2;
         color: #7A7A7A;
+        font-size: .8em;
+        line-height: 32px;
         text-decoration: none;
         text-align: center;
-        transition: .5s left;
     }
     .dark .togglenav {
         background: #2D2D2D;
@@ -188,13 +189,13 @@ main, footer {
         color: #2D2D2D;
     }
     .togglenav::before {
-        content: '«';
+        content: '❮';
     }
     .nosidebar .togglenav {
         left: 0;
     }
     .nosidebar .togglenav::before {
-        content: '»';
+        content: '❯';
 }
 
 .proof.hide {
