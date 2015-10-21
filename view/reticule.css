@@ -152,7 +152,8 @@ main, footer {
         display: block;
         position: fixed;
         left: 234px;
-        top: 2.7em;
+        top: 50%;
+        margin-top: -8px;
         height: 32px;
         width: 16px;
         background: #F2F2F2;
@@ -227,7 +228,6 @@ footer {
     .dark .palette {
         background: #eee;
         color: #333;
-        box-shadow: none;
     }
     .palette li {
         display: inline-block;
