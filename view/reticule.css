@@ -67,8 +67,12 @@ nav {
 }
 
 main, footer {
+        border-left: 16px solid #F2F2F2;
         margin-left: 234px;
         overflow: hidden;
+    }
+    .dark main, .dark footer {
+        border-color: #2D2D2D;
     }
     .nosidebar main, .nosidebar footer {
         margin-left: 0;
@@ -207,11 +211,13 @@ main, footer {
 }
 
 footer {
-    margin-top: 2em;
-    margin-bottom: 2em;
-    font-size: .8em;
-    opacity: .8;
-    text-align: right;
+        padding-top: 2em;
+        padding-bottom: 2em;
+        font-size: .8em;
+        text-align: right;
+    }
+    footer .inner {
+        opacity: .8;
 }
 
 .palette {
