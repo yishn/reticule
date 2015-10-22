@@ -21,7 +21,7 @@ class ReticuleRenderer extends marked.Renderer:
         return '<article>\n' + quote + '</article>\n'
 
     function code(code):
-        return '<p class="math">$$$' + code + '$$$</p>\n'
+        return '<p class="math">$$$' + self.escape(code) + '$$$</p>\n'
 
     function codespan(code):
         return '<span class="math">$' + code + '$</span>'
@@ -50,6 +50,14 @@ class ReticuleRenderer extends marked.Renderer:
             self.keywords.push(tuple)
 
         return ''
+
+    function escape(html):
+        return html
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -258,7 +266,8 @@ exports.buildReticule = function(dirname):
 
     template = fs.readFileSync(path.join(execPath, '../../view/index.html'), 'utf8')
     bookinfo = exports.getBookInfo(dirname)
-    macros = 'macros' in bookinfo ? '$' + bookinfo.macros.join('\n') + '$' : ''
+    renderer = new ReticuleRenderer(dirname, dirname)
+    macros = 'macros' in bookinfo ? marked('    ' + bookinfo.macros.join('\n    '), {renderer}) : ''
 
     console.log('Generate table of contents...')
 
