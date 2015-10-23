@@ -28,6 +28,7 @@ nav, main, section, article {
 
 nav {
         position: fixed;
+        border-right: 16px solid #F2F2F2;
         left: 0;
         top: 0;
         height: 100%;
@@ -36,7 +37,10 @@ nav {
         background: #F2F2F2;
         font-size: .8em;
     }
-    .dark nav { background: #2D2D2D; }
+    .dark nav {
+        background: #2D2D2D;
+        border-color: #2D2D2D;
+    }
     .nosidebar nav, .nosidebar nav::after { left: -234px; }
     nav .inner {
         padding: 1px 20px 1.9em;
