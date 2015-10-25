@@ -1,6 +1,6 @@
 // -*-javascript-*-
 
-path = require('path').posix
+path = require('path')
 reticule = require('./index')
 
 Renderer = require('marked').Renderer
@@ -67,8 +67,8 @@ class TocRenderer extends Renderer:
         return '<ol class="toc">\n' + body + '</ol>\n'
 
     function link(href, title, text):
-        out = '<a href="' + path.join(self.relative, href, 'index.html')
-            + '" data-path="' + path.join(href, 'index.html') + '"'
+        out = '<a href="' + path.join(self.relative, href)
+            + '" data-path="' + href + '"'
 
         if href == self.currentpath:
             out += ' class="current"'
@@ -77,14 +77,14 @@ class TocRenderer extends Renderer:
 
         return out + '>' + text + '</a>'
 
-class GetLinksRenderer extends Renderer:
+class LinearTocRenderer extends Renderer:
     function init():
-        self.links = []
+        self.lineartoc = []
 
-    function link(href, title, text):
-        self.links.push({href, title, text})
-        return super.link(href, title, text)
+    function link(path, title, text):
+        self.lineartoc.push({title: text, path})
+        return super.link(path, title, text)
 
 exports.ReticuleRenderer = ReticuleRenderer
 exports.TocRenderer = TocRenderer
-exports.GetLinksRenderer = GetLinksRenderer
+exports.LinearTocRenderer = LinearTocRenderer
