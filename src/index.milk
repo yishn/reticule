@@ -35,6 +35,8 @@ exports.getBookInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join(_, 'bo
 
 exports.getToc = fs.readFileSync(_, 'utf8') @ path.join(_, 'toc.md')
 
+exports.getMacros = fs.readFileSync(_, 'utf8') @ path.join(_, 'macros.tex')
+
 exports.getLinearToc = function(toc):
     renderer = new LinearTocRenderer()
     marked(toc, {renderer})
@@ -199,7 +201,8 @@ exports.buildReticule = function(dirname):
     template = fs.readFileSync(path.join(execPath, '../../view/index.html'), 'utf8')
     bookinfo = exports.getBookInfo(dirname)
     renderer = new ReticuleRenderer(dirname, dirname)
-    macros = 'macros' in bookinfo ? marked('    ' + bookinfo.macros.join('\n    '), {renderer}) : ''
+    macros = ''
+    try: macros = marked(exports.getMacros(dirname).split('\n').map(x => '    ' + x).join('\n'), {renderer})
 
     console.log('Generate table of contents...')
 

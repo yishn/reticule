@@ -10,15 +10,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script type="text/x-mathjax-config">
-    MathJax.Ajax.config.path["Contrib"] = "https://cdn.mathjax.org/mathjax/contrib";
-    MathJax.Hub.Config({
-        skipStartupTypeset: true,
-        showMathMenu: false,
-        messageStyle: 'none',
-        TeX: { extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'] },
-        tex2jax: { inlineMath: [['$','$']], processEscapes: true },
-        "HTML-CSS": { scale: 85 }
-    });
+
+MathJax.Ajax.config.path['Contrib'] = 'https://cdn.mathjax.org/mathjax/contrib';
+MathJax.Hub.Config({
+    skipStartupTypeset: true,
+    showMathMenu: false,
+    messageStyle: 'none',
+    TeX: { extensions: ['[Contrib]/xyjax/xypic.js', 'AMSmath.js', 'AMSsymbols.js'] },
+    tex2jax: { inlineMath: [['$','$']], processEscapes: true },
+    'HTML-CSS': { scale: 85 }
+});
+
 </script>
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
