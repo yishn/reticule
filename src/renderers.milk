@@ -81,9 +81,9 @@ class LinearTocRenderer extends Renderer:
     function init():
         self.lineartoc = []
 
-    function link(path, title, text):
-        self.lineartoc.push({title: text, path})
-        return super.link(path, title, text)
+    function link(href, title, text):
+        self.lineartoc.push({title: text, path: href})
+        return super.link(href, title, text)
 
 exports.ReticuleRenderer = ReticuleRenderer
 exports.TocRenderer = TocRenderer
