@@ -11,7 +11,7 @@ renderers = require('./renderers')
 
 ReticuleRenderer = renderers.ReticuleRenderer
 TocRenderer = renderers.TocRenderer
-LinearTocRenderer = renderers.LinearTocRenderer
+GetLinksRenderer = renderers.GetLinksRenderer
 
 cache = {}
 
@@ -36,12 +36,12 @@ exports.getBookInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join(_, 'bo
 exports.getToc = fs.readFileSync(_, 'utf8') @ path.join(_, 'toc.md')
 
 exports.getLinearToc = function(toc):
-    renderer = new LinearTocRenderer()
+    renderer = new GetLinksRenderer()
     marked(toc, {renderer})
-    return renderer.lineartoc
+    return renderer.links.map({href, title, text} => {title: text, path: href})
 
-exports.renderToc = function(toc, dirname, currentpath):
-    return marked(toc, {renderer: new TocRenderer(dirname, currentpath)})
+exports.renderToc = function(toc, dirname, sectionpath):
+    return marked(toc, {renderer: new TocRenderer(dirname, sectionpath)})
 
 exports.extractTags = function(filename, dirname):
     if filename not in cache:
@@ -171,9 +171,11 @@ exports.renderLinearNav = function(prev, next, relative = './'):
     output = '<p class="nav">\n'
 
     if prev != null:
-        output += '<a href="' + path.join(relative, prev.path) + '" class="prev">&laquo; ' + prev.title + '</a>\n'
+        output += '<a href="' + path.join(relative, prev.path, 'index.html') + '" class="prev">&laquo; '
+            + prev.title + '</a>\n'
     if next != null:
-        output += '<a href="' + path.join(relative, next.path) + '" class="next">' + next.title + ' &raquo;</a>\n'
+        output += '<a href="' + path.join(relative, next.path, 'index.html') + '" class="next">'
+            + next.title + ' &raquo;</a>\n'
 
     return output + '</p>'
 
