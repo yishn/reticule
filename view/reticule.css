@@ -305,8 +305,14 @@ h4, h5, h6 { font-size: 1em; }
         overflow: hidden;
         cursor: default;
     }
-    .nav .prev { float: left; }
-    .nav .next { float: right; }
+    .nav .prev {
+        float: left;
+        margin-right: 5px;
+    }
+    .nav .next {
+        float: right;
+        margin-left: 5px;
+    }
     .nav a { text-decoration: none; }
     .nav a:hover { text-decoration: underline; }
     .nav li { display: inline; }
@@ -397,8 +403,18 @@ a:hover { color: #555; }
 
 @media screen and (max-width: 700px) {
     nav, .togglenav { display: none; }
-    main, footer { margin-left: 0; }
+
+    main, footer {
+        margin-left: 0;
+        border: none;
+    }
+
     main .inner, footer .inner { padding: 1px 20px; }
-    main article { padding: 20px; margin-left: -20px; }
+
+    main article {
+        padding: 20px; 
+        margin-left: -20px;
+    }
+
     ol, ul, main article article > ol, main article article > ul { margin-left: 30px; }
 }
