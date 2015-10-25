@@ -1,6 +1,6 @@
 // -*-javascript-*-
 
-path = require('path')
+path = require('path').posix
 reticule = require('./index')
 
 Renderer = require('marked').Renderer
