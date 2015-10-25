@@ -7,57 +7,12 @@ marked = require('marked').setOptions({smartypants: true})
 milk = require('milk-lang')
 uglify = require('uglify-js')
 cssshrink = require('cssshrink')
+renderers = require('./renderers')
+
+ReticuleRenderer = renderers.ReticuleRenderer
+TocRenderer = renderers.TocRenderer
 
 cache = {}
-
-class ReticuleRenderer extends marked.Renderer:
-    function init(dirname, sectionpath):
-        self.keywords = []
-        self.dirname = dirname
-        self.relative = path.join(path.relative(path.join(dirname, sectionpath), dirname), './')
-        super.init()
-
-    function blockquote(quote):
-        return '<article>\n' + quote + '</article>\n'
-
-    function code(code):
-        return '<p class="math">$$$' + self.escape(code) + '$$$</p>\n'
-
-    function codespan(code):
-        return '<span class="math">$' + code + '$</span>'
-
-    function link(href, title, text):
-        out = '<a '
-
-        if href[0] == '#':
-            tag = exports.getTagById(self.dirname, href)
-            href = path.join(self.relative, tag.path) + tag.id
-            out += 'class="tag" data-path="' + tag.path + tag.id + '" '
-
-        out += 'href="' + href + '"'
-        if title: out += 'title="' + title + '"'
-        out += '>' + text + '</a>'
-
-        return out
-
-    function del(text):
-        k = text.indexOf('|')
-        if k < 0: k = text.length
-
-        tuple = [text[0 ... k - 1], text[k + 1 ...]]
-
-        if self.keywords.every(x => x not equals tuple):
-            self.keywords.push(tuple)
-
-        return ''
-
-    function escape(html):
-        return html
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
 
 function readdirRecursive(dirname):
     items = [path.join(dirname, item) for item in fs.readdirSync(dirname)]
@@ -77,6 +32,8 @@ function fillTemplate(template, context):
 
 exports.getBookInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join(_, 'book.json')
 
+exports.getToc = fs.readFileSync(_, 'utf8') @ path.join(_, 'toc.md')
+
 exports.getLinearToc = function(toc):
     linear = []
 
@@ -89,27 +46,8 @@ exports.getLinearToc = function(toc):
 
     return linear
 
-exports.renderToc = function(toc, relative = './', currentpath = null):
-    output = '<ol class="toc">\n'
-
-    for item in toc:
-        a = item.title
-        if 'toc' not in item:
-            a = '<a href="' + path.join(relative, item.path)
-                + '" data-path="' + item.path + '">' + item.title + '</a>'
-
-        li = '<li>' + a
-        if currentpath == item.path:
-            li = '<li class="current">' + a
-
-        if 'toc' in item:
-            subtoc = exports.renderToc(item.toc, relative, currentpath)
-            li += subtoc
-
-        li += '</li>\n'
-        output += li
-
-    return output + '</ol>'
+exports.renderToc = function(tocmd, dirname, currentpath):
+    return marked(tocmd, {renderer: new TocRenderer(dirname, currentpath)})
 
 exports.extractTags = function(filename, dirname):
     if filename not in cache:
@@ -272,6 +210,7 @@ exports.buildReticule = function(dirname):
     console.log('Generate table of contents...')
 
     toc = [*bookinfo.toc, {title: 'Index', path: 'index/'}]
+    tocmd = exports.getToc(dirname)
     linear = exports.getLinearToc(toc)
 
     alltags = exports.getAllTags(dirname)
@@ -311,7 +250,7 @@ exports.buildReticule = function(dirname):
             title: bookinfo.title
             section: sectioninfo.title
             macros
-            toc: exports.renderToc(toc, relative, item)
+            toc: exports.renderToc(tocmd, dirname, item)
             relative
             main: [
                 '<h1>' + sectioninfo.title + '</h1>'
@@ -328,7 +267,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
         title: bookinfo.title
         section: 'Table of Contents'
-        toc: exports.renderToc(toc)
+        toc: exports.renderToc(tocmd, dirname, './')
         macros
         relative: './'
         main: [
@@ -336,7 +275,7 @@ exports.buildReticule = function(dirname):
             marked(bookinfo.author).replace('<p>', '<p class="meta">')
             '<article>'
             '<h2>Table of Contents</h2>'
-            exports.renderToc(toc).replace(/<ol/g, '<ul').replace(/<\/ol>/g, '</ul>')
+            exports.renderToc(tocmd, dirname, './').replace(/<ol/g, '<ul').replace(/<\/ol>/g, '</ul>')
             '</article>'
             nav
         ].join('\n')
@@ -354,7 +293,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         title: bookinfo.title
         section: 'Index'
-        toc: exports.renderToc(toc, '../', 'index/')
+        toc: exports.renderToc(tocmd, dirname, 'index/')
         macros
         relative: '../'
         main: [

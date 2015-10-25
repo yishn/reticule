@@ -1,0 +1,80 @@
+// -*-javascript-*-
+
+path = require('path')
+reticule = require('./index')
+
+Renderer = require('marked').Renderer
+
+class ReticuleRenderer extends Renderer:
+    function init(dirname, sectionpath):
+        self.keywords = []
+        self.dirname = dirname
+        self.relative = path.join(path.relative(path.join(dirname, sectionpath), dirname), './')
+        super.init()
+
+    function blockquote(quote):
+        return '<article>\n' + quote + '</article>\n'
+
+    function code(code):
+        return '<p class="math">$$$' + self.escape(code) + '$$$</p>\n'
+
+    function codespan(code):
+        return '<span class="math">$' + code + '$</span>'
+
+    function link(href, title, text):
+        out = '<a '
+
+        if href[0] == '#':
+            tag = reticule.getTagById(self.dirname, href)
+            href = path.join(self.relative, tag.path) + tag.id
+            out += 'class="tag" data-path="' + tag.path + tag.id + '" '
+
+        out += 'href="' + href + '"'
+        if title: out += 'title="' + title + '"'
+        out += '>' + text + '</a>'
+
+        return out
+
+    function del(text):
+        k = text.indexOf('|')
+        if k < 0: k = text.length
+
+        tuple = [text[0 ... k - 1], text[k + 1 ...]]
+
+        if self.keywords.every(x => x not equals tuple):
+            self.keywords.push(tuple)
+
+        return ''
+
+    function escape(html):
+        return html
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+
+class TocRenderer extends Renderer:
+    function init(dirname, currentpath):
+        self.dirname = dirname
+        self.currentpath = currentpath
+        self.relative = path.relative(currentpath, './')
+
+        super.init()
+
+    function list(body):
+        return '<ol class="toc">\n' + body + '</ol>\n'
+
+    function link(href, title, text):
+        out = '<a href="' + path.join(self.relative, href)
+            + '" data-path="' + href + '"'
+
+        if href == self.currentpath:
+            out += ' class="current"'
+        if title:
+            out += ' title="' + title + '"'
+
+        return out + '>' + text + '</a>'
+
+exports.ReticuleRenderer = ReticuleRenderer
+exports.TocRenderer = TocRenderer

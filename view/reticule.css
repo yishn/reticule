@@ -61,11 +61,11 @@ nav {
     nav .toc { list-style: none; }
     nav .toc li { margin: 1em 0; }
     nav .toc ol { margin-left: 10px; }
-    nav .toc li.current a {
+    nav .toc li a.current {
         color: #533;
         border-bottom: 1px solid #533;
     }
-    .dark nav .toc li.current a {
+    .dark nav .toc li a.current {
         color: #A88;
         border-color: #A88;
 }
