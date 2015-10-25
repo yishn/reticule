@@ -36,6 +36,7 @@ nav {
         overflow-y: auto;
         background: #F2F2F2;
         font-size: .8em;
+        z-index: 1;
     }
     .dark nav {
         background: #2D2D2D;
@@ -73,7 +74,6 @@ nav {
 main, footer {
         border-left: 16px solid #F2F2F2;
         margin-left: 234px;
-        overflow: hidden;
     }
     .dark main, .dark footer {
         border-color: #2D2D2D;
@@ -126,6 +126,7 @@ main, footer {
         border: none;
         margin-top: 1em;
         margin-bottom: 1em;
+        overflow: auto;
     }
     main article article.hide, .dark main article article.hide {
         background: transparent;
@@ -170,6 +171,7 @@ main, footer {
         line-height: 32px;
         text-decoration: none;
         text-align: center;
+        z-index: 1;
     }
     .dark .togglenav {
         background: #2D2D2D;
@@ -412,7 +414,7 @@ a:hover { color: #555; }
     main .inner, footer .inner { padding: 1px 20px; }
 
     main article {
-        padding: 20px; 
+        padding: 20px;
         margin-left: -20px;
     }
 
