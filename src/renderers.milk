@@ -9,7 +9,8 @@ class ReticuleRenderer extends Renderer:
     function init(dirname, sectionpath):
         self.keywords = []
         self.dirname = dirname
-        self.relative = path.join(path.relative(path.join(dirname, sectionpath), dirname), './')
+        self.relative = path.relative(sectionpath, './')
+
         super.init()
 
     function blockquote(quote):
