@@ -83,11 +83,11 @@ function wireKeywords():
         range = selection.getRangeAt(0)
         keyword = selection.toString().trim()
 
-        if keyword.length <= 2: return
+        if keyword.length < 2: return
 
         // Search for key
         min = [null, -1]
-        for key in keywords if key[0] == keyword[0]:
+        for key in keywords if key[0].toLowerCase() == keyword[0].toLowerCase():
             distance = levenshtein(key, keyword)
             if min[0] == null || distance < min[1]:
                 min = [key, distance]
