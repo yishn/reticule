@@ -126,7 +126,6 @@ main, footer {
         border: none;
         margin-top: 1em;
         margin-bottom: 1em;
-        overflow: auto;
     }
     main article article.hide, .dark main article article.hide {
         background: transparent;
