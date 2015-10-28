@@ -243,6 +243,7 @@ exports.buildReticule = function(dirname):
 
         // Write data
         fs.writeFileSync(path.join(dirname, item, 'index.html'), fillTemplate(template, {
+            lang: bookinfo.lang ?? 'en'
             title: bookinfo.title
             section: sectioninfo.title
             macros
@@ -262,6 +263,7 @@ exports.buildReticule = function(dirname):
     renderedtoc = exports.renderToc(toc, dirname, './')
 
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
+        lang: bookinfo.lang ?? 'en'
         title: bookinfo.title
         section: 'Table of Contents'
         toc: renderedtoc
@@ -288,6 +290,7 @@ exports.buildReticule = function(dirname):
         | path.join(dirname, 'index/keywords.json')
 
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
+        lang: bookinfo.lang ?? 'en'
         title: bookinfo.title
         section: 'Index'
         toc: exports.renderToc(toc, dirname, 'index/')

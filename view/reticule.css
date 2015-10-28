@@ -281,6 +281,11 @@ footer {
 body {
         font: 110%/1.7 'Lato', sans-serif;
         color: #333;
+
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
     }
     body.dark {
         background: #222;
