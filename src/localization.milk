@@ -1,0 +1,7 @@
+// -*-javascript-*-
+
+reticule = require('./index')
+
+exports.get = function(dirname, string):
+    bookinfo = reticule.getBookInfo(dirname)
+    return bookinfo.localization?[string] ?? string

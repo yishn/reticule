@@ -8,6 +8,7 @@ milk = require('milk-lang')
 uglify = require('uglify-js')
 cssshrink = require('cssshrink')
 renderers = require('./renderers')
+localization = require('./localization')
 
 ReticuleRenderer = renderers.ReticuleRenderer
 TocRenderer = renderers.TocRenderer
@@ -75,6 +76,7 @@ exports.extractTags = function(filename, dirname):
 exports.renderTags = function(tags, dirname):
     output = ''
     keywords = {}
+    __ = localization.get(dirname, _)
 
     for tag in tags:
         renderer = new ReticuleRenderer(dirname, tag.path)
@@ -84,7 +86,7 @@ exports.renderTags = function(tags, dirname):
         if tag.type.trim() != '':
             prefix += tag.type + ' ' + tag.id[1...].replace(/-/g, '.') + '.'
         else:
-            prefix += '&para;'
+            prefix += __('&para;')
         prefix += '</a></p>\n'
 
         output += '<article id="' + tag.id[1...] + '">\n'
@@ -92,9 +94,13 @@ exports.renderTags = function(tags, dirname):
             + marked(tag.assertion, options) + '\n'
 
         if tag.proof != null:
-            output += '<p><em class="label">Proof.</em></p>\n<section class="proof">\n'
+            output += '<p><em class="label">'
+                + __('Proof.')
+                + '</em></p>\n<section class="proof">\n'
                 + marked(tag.proof, options)
-                + '\n<p class="qed">$\\square$</p>\n</section>'
+                + '\n<p class="qed">'
+                + __('$\\square$')
+                + '</p>\n</section>'
 
         output += '</article>\n'
 
@@ -133,8 +139,7 @@ exports.renderIndex = function(data, relative = './'):
     keys = Object.keys(data)
     keys.sort(compare(_, _, map))
 
-    if keys.length == 0:
-        return '<p>No index.</p>'
+    if keys.length == 0: return ''
 
     // Create alphas
     alphas = []
@@ -197,6 +202,7 @@ exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0]
 
 exports.buildReticule = function(dirname):
+    __ = localization.get(dirname, _)
     execPath = process.argv[1]
     if process.platform == 'win32': execPath = execPath.replace(/\\/g, '/')
 
@@ -227,7 +233,7 @@ exports.buildReticule = function(dirname):
 
         for k, i in linear if i.path == item: break
         nav = exports.renderLinearNav(linear[k - 1] ?? {
-            title: 'Table of Contents'
+            title: __('Table of Contents')
             path: './'
         }, linear[k + 1], relative)
 
@@ -267,7 +273,7 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
         lang: bookinfo.lang ?? 'en'
         title: bookinfo.title
-        section: 'Table of Contents'
+        section: __('Table of Contents')
         toc: renderedtoc
         macros
         relative: './'
@@ -275,7 +281,7 @@ exports.buildReticule = function(dirname):
             '<h1>' + bookinfo.title + '</h1>'
             marked(bookinfo.author).replace('<p>', '<p class="meta">')
             '<article>'
-            '<h2>Table of Contents</h2>'
+            '<h2>' + __('Table of Contents') + '</h2>'
             renderedtoc.replace(/<ol/g, '<ul').replace(/<\/ol>/g, '</ul>')
             '</article>'
             nav
@@ -294,12 +300,12 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'index/index.html'), fillTemplate(template, {
         lang: bookinfo.lang ?? 'en'
         title: bookinfo.title
-        section: 'Index'
+        section: __('Index')
         toc: exports.renderToc(toc, dirname, 'index/')
         macros
         relative: '../'
         main: [
-            '<h1>Index</h1>'
+            '<h1>' + __('Index') + '</h1>'
             exports.renderIndex(keywords, '../', dirname)
             nav
         ].join('\n')
