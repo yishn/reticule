@@ -31,11 +31,13 @@ function fillTemplate(template, context):
 
     return template
 
-exports.getBookInfo = JSON.parse @ fs.readFileSync(_, 'utf8') @ path.join(_, 'book.json')
+loadFile = fs.readFileSync(_, 'utf8') @ path.join
 
-exports.getToc = fs.readFileSync(_, 'utf8') @ path.join(_, 'toc.md')
+exports.getBookInfo = JSON.parse @ loadFile(_, 'book.json')
 
-exports.getMacros = fs.readFileSync(_, 'utf8') @ path.join(_, 'macros.tex')
+exports.getToc = loadFile(_, 'toc.md')
+
+exports.getMacros = loadFile(_, 'macros.tex')
 
 exports.getLinearToc = function(toc):
     renderer = new LinearTocRenderer()
@@ -50,7 +52,7 @@ exports.extractTags = function(filename, dirname):
         tags = []
 
         try:
-            content = fs.readFileSync(filename, 'utf8').replace(/\r\n/g, '\n').split('\n')
+            content = loadFile(filename).replace(/\r\n/g, '\n').split('\n')
             tagheaders = [first, ...] => first == '#'
             tagslength = content.filter(tagheaders).length
 
@@ -198,7 +200,7 @@ exports.buildReticule = function(dirname):
     execPath = process.argv[1]
     if process.platform == 'win32': execPath = execPath.replace(/\\/g, '/')
 
-    template = fs.readFileSync(path.join(execPath, '../../view/index.html'), 'utf8')
+    template = loadFile(execPath, '../../view/index.html')
     bookinfo = exports.getBookInfo(dirname)
     renderer = new ReticuleRenderer(dirname, dirname)
     macros = ''
@@ -312,14 +314,12 @@ exports.buildReticule = function(dirname):
     fs.writeFileSync(path.join(dirname, 'reticule.css'), _)
         | cssshrink.shrink
         | fillTemplate(_, {accent: bookinfo.accent ?? '#327CCB'})
-        | fs.readFileSync(_, 'utf8')
-        | path.join(execPath, '../../view/reticule.css')
+        | loadFile(execPath, '../../view/reticule.css')
 
     fs.writeFileSync(path.join(dirname, 'reticule.js'), _)
         | ({code} => code)
         | uglify.minify(_, {fromString: true})
         | milk.compile
-        | fs.readFileSync(_, 'utf8')
-        | path.join(execPath, '../../view/reticule.milk')
+        | loadFile(execPath, '../../view/reticule.milk')
 
     console.log('Done.')
