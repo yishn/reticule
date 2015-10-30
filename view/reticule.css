@@ -291,7 +291,7 @@ body {
         color: #ddd;
 }
 
-h1, h2, h3, h4, h5, h6, p, .proof, ul, ol {
+h1, h2, h3, h4, h5, h6, p, section.proof, ul, ol {
     margin: 1em 0;
 }
 
