@@ -161,10 +161,10 @@ function prepareContent($el, math = true):
         return loadExtract($block, href)
 
     // Collapsible sections
-    $el.find('em.label.proof').css('cursor', 'pointer').click | function():
-        $proof = $(this).parent().next('section.proof').toggleClass('hide')
+    $el.find('em.label').css('cursor', 'pointer').click | function():
+        $proof = $(this).parent().next('.proof').toggleClass('hide')
 
-    $el.find('section.proof, article').click | function():
+    $el.find('.proof, article').click | function():
         if !$(this).hasClass('hide'): return
         $(this).removeClass('hide')
 
