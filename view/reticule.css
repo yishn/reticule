@@ -280,15 +280,17 @@ footer {
 body {
         font: 110%/1.7 'Lato', sans-serif;
         color: #333;
-
-        -ms-hyphens: auto;
-        -webkit-hyphens: auto;
-        -moz-hyphens: auto;
-        hyphens: auto;
     }
     body.dark {
         background: #222;
         color: #ddd;
+}
+
+article {
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
 }
 
 h1, h2, h3, h4, h5, h6, p, section.proof, ul, ol {
