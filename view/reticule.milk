@@ -93,6 +93,8 @@ function wireKeywords():
                 min = [key, distance]
 
         [key, distance] = min
+        if keyword.length <= 4 && distance != 0:
+            return
         if key == null || distance > Math.min(4, key.length, keyword.length):
             return
 
