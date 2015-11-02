@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext');
 
 span.math::before {
     content: ' ';
@@ -278,7 +278,7 @@ footer {
  */
 
 body {
-        font: 110%/1.7 'Lato', sans-serif;
+        font: 110%/1.7 'Lato', 'Trebuchet MS', sans-serif;
         color: #333;
     }
     body.dark {
