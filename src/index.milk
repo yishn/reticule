@@ -294,6 +294,12 @@ exports.buildReticule = function(dirname):
 
     try: fs.mkdirSync | path.join(dirname, 'index')
 
+    // Sort index
+    for key, _ in keywords:
+        keywords[key].sort | function([_, i, x], [_, j, y]):
+            [x, y] = [x ?? i, y ?? j].map(x => diacritic.clean(x).toLowerCase())
+            return x == y ? 0 : x < y ? -1 : 1
+
     fs.writeFileSync(_, JSON.stringify(keywords))
         | path.join(dirname, 'index/keywords.json')
 

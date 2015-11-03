@@ -329,7 +329,7 @@ h4, h5, h6 { font-size: 1em; }
     .nav a { text-decoration: none; }
     .nav a:hover { text-decoration: underline; }
     .nav li { display: inline; }
-    .nav li a, .nav li span { padding: 0 5px; }
+    .nav li a, .nav li span { padding: 0 4px; }
     .nav li span { opacity: .3; }
     .nav li a:hover {
         background: {{accent}};
