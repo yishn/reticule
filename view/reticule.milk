@@ -103,6 +103,7 @@ function wireKeywords():
         $palette = $('<ul />', { 'class': 'palette' }).css({ 'top': -9999, 'left': -9999 })
         $block = findBlock | $(range.startContainer.parentNode)
 
+        if $block.parent('article').length == 0: return
         if $block.parent('ul').hasClass('index'): return
 
         for [path, id, context = ''] in sources[key]:
