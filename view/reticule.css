@@ -60,7 +60,12 @@ nav {
     nav h1 a, nav h1 a:hover { color: #333; }
     .dark nav h1 a, .dark nav h1 a:hover { color: #ddd; }
     nav .toc { list-style: none; }
-    nav .toc li { margin: 1em 0; }
+    nav .toc li {
+        margin: 1em 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     nav .toc ol { margin-left: 10px; }
     nav .toc li a.current {
         color: #533;
