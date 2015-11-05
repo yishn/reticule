@@ -30,6 +30,9 @@ class ReticuleRenderer extends Renderer:
             href = path.join(self.relative, tag.path) + tag.id
             out += 'class="tag" data-path="' + tag.path + tag.id + '" '
 
+            if text == '~':
+                text = tag.type + ' ' + tag.id[1...].replace(/-/g, '.')
+
         out += 'href="' + href + '"'
         if title: out += 'title="' + title + '"'
         out += '>' + text + '</a>'
