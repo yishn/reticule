@@ -75,8 +75,9 @@ class TocRenderer extends Renderer:
 
         if href == self.currentpath:
             out += ' class="current"'
-        if title:
-            out += ' title="' + title + '"'
+        if title == null:
+            title = text
+        out += ' title="' + title + '"'
 
         return out + '>' + text + '</a>'
 
