@@ -58,13 +58,10 @@ class ReticuleRenderer extends Renderer:
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;')
 
-class TocRenderer extends Renderer:
+class TocRenderer extends ReticuleRenderer:
     function init(dirname, currentpath):
-        self.dirname = dirname
         self.currentpath = currentpath
-        self.relative = path.relative(currentpath, './')
-
-        super.init()
+        super.init(dirname, currentpath)
 
     function list(body):
         return '<ol class="toc">\n' + body + '</ol>\n'
