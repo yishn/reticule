@@ -187,6 +187,8 @@ function prepareContent($el, math = true):
 function prepareUI():
     $body = $(document.body)
 
+    // Handle nav toggle
+
     $body.append | $('<a />', {
         'class': 'togglenav'
         'href': '#'
@@ -203,6 +205,11 @@ function prepareUI():
             saveSettings()
 
         return false
+
+    // Scroll nav
+
+    $current = $('nav .toc .current')
+    $('nav').scrollTop($current.position().top - $('nav').innerHeight() / 2)
 
 function saveSettings(expires = 31):
     $body = $(document.body)
