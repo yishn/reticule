@@ -154,7 +154,8 @@ main, footer {
     .dark main article article.hide:hover::before {
         background: rgba(255, 255, 255, .1);
     }
-    main article article > ol, main article article > ul {
+    main article article > ol, main article article > ul
+    main article .proof > ol, main article .proof > ul{
         margin-left: 0;
     }
     main h1 + article {
@@ -306,12 +307,12 @@ li, main .toc article li, main .index article li {
     margin: .5em 0;
 }
 
-h1 { font-size: 2em; }
+h1 { font-size: 2em; line-height: 1.2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.3em; }
 h4, h5, h6 { font-size: 1em; }
 
-.meta, h1 + .nav { margin-top: -2.5em; }
+.meta, h1 + .nav { margin-top: -2em; }
 .meta { opacity: .8; }
 
 .nav {
@@ -422,12 +423,10 @@ a:hover { color: #555; }
         border: none;
     }
 
-    main .inner, footer .inner { padding: 1px 20px; }
+    main .inner, footer .inner { padding: 1px 20px 1px 40px; }
 
     main article {
-        padding: 20px;
-        margin-left: -20px;
+        padding: 20px 20px 20px 40px;
+        margin-left: -40px;
     }
-
-    ol, ul, main article article > ol, main article article > ul { margin-left: 30px; }
 }
