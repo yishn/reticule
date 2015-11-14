@@ -1,6 +1,6 @@
 {
   "name": "reticule",
-  "description": "A small bag or basket, netlike in its construction.",
+  "description": "A new way to write and explore mathematical texts.",
   "version": "0.1.0",
   "author": "Yichuan Shen",
   "main": "./lib/index.js",
