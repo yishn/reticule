@@ -2,6 +2,7 @@
 
 fs = require('fs')
 path = require('path').posix
+url = require('url')
 diacritic = require('diacritic')
 marked = require('marked').setOptions({smartypants: true})
 milk = require('milk-lang')
@@ -205,6 +206,22 @@ exports.getAllTags = function(dirname):
 exports.getTagById = function(dirname, id):
     return exports.getAllTags(dirname).filter(tag => tag.id == id)[0]
 
+exports.renderFooter = function(bookinfo, file = null, __ = null):
+    result = ''
+
+    if 'github' in bookinfo:
+        result += '<a href="' + bookinfo.github + '">GitHub</a> &ndash; '
+
+    if file != null:
+        href = bookinfo.github
+        if 'tree/master' not in bookinfo.github:
+            href = url.resolve(href, 'tree/master/')
+        href = url.resolve(href, file)
+
+        result += '<a href="' + href + '">' + __('Edit page') + '</a> &ndash; '
+
+    return result
+
 exports.buildReticule = function(dirname):
     __ = localization.get(dirname, _)
     execPath = process.argv[1]
@@ -267,6 +284,7 @@ exports.buildReticule = function(dirname):
                 html
                 nav
             ].join('\n')
+            footer: exports.renderFooter(bookinfo, path.join(item, 'tags.md'), __)
         }))
 
     console.log('Create front page...')
@@ -290,6 +308,7 @@ exports.buildReticule = function(dirname):
             '</article>'
             nav
         ].join('\n')
+        footer: exports.renderFooter(bookinfo, 'toc.md', __)
     }))
 
     console.log('Generate index...')
@@ -319,6 +338,7 @@ exports.buildReticule = function(dirname):
             exports.renderIndex(keywords, '../', dirname)
             nav
         ].join('\n')
+        footer: exports.renderFooter(bookinfo)
     }))
 
     console.log('Copy resources...')
