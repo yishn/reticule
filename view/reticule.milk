@@ -193,8 +193,8 @@ function prepareUI():
         'class': 'togglenav'
         'href': '#'
     }).click | function():
-        width = $('nav').width()
-        offset = $body.hasClass('nosidebar') ? width : 0
+        width = $('nav').outerWidth()
+        offset = $body.hasClass('nosidebar') ? width : 16
 
         $('main, footer').css('margin-left', offset)
         $('.togglenav').animate({ 'left': offset }, 200)

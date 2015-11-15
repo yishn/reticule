@@ -77,14 +77,10 @@ nav {
 }
 
 main, footer {
-        border-left: 16px solid transparent;
-        margin-left: 234px;
-    }
-    .dark main, .dark footer {
-        border-color: #2D2D2D;
+        margin-left: 250px;
     }
     .nosidebar main, .nosidebar footer {
-        margin-left: 0;
+        margin-left: 16px;
     }
     main .inner, footer .inner {
         margin: 0 auto;
@@ -427,10 +423,7 @@ a:hover { color: #555; }
 @media screen and (max-width: 700px) {
     nav, .togglenav { display: none; }
 
-    main, footer {
-        margin-left: 0;
-        border: none;
-    }
+    main, footer { margin-left: 0; }
 
     main .inner, footer .inner { padding: 1px 20px 1px 40px; }
 
@@ -445,17 +438,9 @@ a:hover { color: #555; }
  */
 
 @media print {
-    nav, .togglenav {
-        display: none;
-    }
+    nav, .togglenav { display: none; }
 
-    body {
-        color: black;
-    }
+    body { color: black; }
 
-    main, footer {
-        display: block;
-        border: none;
-        margin-left: 0;
-    }
+    main, footer { margin-left: 0; }
 }
