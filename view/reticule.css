@@ -154,8 +154,8 @@ main, footer {
     .dark main article article.hide:hover::before {
         background: rgba(255, 255, 255, .1);
     }
-    main article article > ol, main article article > ul
-    main article .proof > ol, main article .proof > ul{
+    main article article > ol, main article article > ul,
+    main article .proof > ol, main article .proof > ul {
         margin-left: 0;
     }
     main h1 + article {
