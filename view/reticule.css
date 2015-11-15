@@ -318,9 +318,14 @@ h4, h5, h6 { font-size: 1em; }
 .nav {
         overflow: hidden;
         cursor: default;
+        text-align: center;
     }
     .nav .prev {
         float: left;
+        margin-right: 5px;
+    }
+    .nav .middle {
+        margin-left: 5px;
         margin-right: 5px;
     }
     .nav .next {
