@@ -320,6 +320,9 @@ h4, h5, h6 { font-size: 1em; }
         cursor: default;
         text-align: center;
     }
+    ul.nav {
+        text-align: left;
+    }
     .nav .prev {
         float: left;
         margin-right: 5px;

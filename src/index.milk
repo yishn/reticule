@@ -130,7 +130,7 @@ exports.parseTag = function(lines):
     return {id, type, assertion, proof}
 
 exports.renderIndex = function(data, relative = './'):
-    output = '<ul class="nav" id="nav">'
+    output = '<ul class="nav">'
 
     compare = (p, q, f) => f(p) == f(q) ? 0 : f(p) < f(q) ? -1 : 1
     map = x => diacritic.clean(x).toLowerCase().replace(/[^0-9a-zA-Z]/g, '')
