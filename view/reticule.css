@@ -226,9 +226,10 @@ footer {
         padding-bottom: 2em;
         font-size: .8em;
         text-align: right;
-    }
-    footer .inner {
         opacity: .8;
+    }
+    footer a {
+        margin-left: 10px;
 }
 
 .palette {
@@ -335,8 +336,8 @@ h4, h5, h6 { font-size: 1em; }
         float: right;
         margin-left: 5px;
     }
-    .nav a { text-decoration: none; }
-    .nav a:hover { text-decoration: underline; }
+    .nav a, footer a { text-decoration: none; }
+    .nav a:hover, footer a:hover { text-decoration: underline; }
     .nav li { display: inline; }
     .nav li a, .nav li span { padding: 0 4px; }
     .nav li span { opacity: .3; }
