@@ -152,7 +152,7 @@ function prepareContent($el, math = true):
             roman = int2roman(i + 1).toLowerCase()
             $(this).prepend | $('<span />', {
                 'class': 'roman'
-                'text': '(' + roman + ')'
+                'text': '(' + roman + ') '
             })
 
     // Wire tag link events

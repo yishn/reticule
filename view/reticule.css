@@ -438,3 +438,23 @@ a:hover { color: #555; }
         margin-left: -40px;
     }
 }
+
+/**
+ * Print
+ */
+
+@media print {
+    nav, .togglenav {
+        display: none;
+    }
+
+    body {
+        color: black;
+    }
+
+    main, footer {
+        display: block;
+        border: none;
+        margin-left: 0;
+    }
+}
