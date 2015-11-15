@@ -96,7 +96,7 @@ exports.renderTags = function(tags, dirname):
 
         if tag.proof != null:
             output += '<p><em class="label">'
-                + __('Proof.')
+                + __('Proof') + '.'
                 + '</em></p>\n<section class="proof">\n'
                 + marked(tag.proof, options)
                 + '\n<p class="qed">'
