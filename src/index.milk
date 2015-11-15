@@ -176,13 +176,14 @@ exports.renderIndex = function(data, relative = './'):
 
     return output + '</article>'
 
-exports.renderLinearNav = function(prev, next, __, relative = './'):
+exports.renderLinearNav = function(prev, next, __, relative = './', showToc = true):
     output = '<p class="nav">\n'
 
     if prev != null:
         output += '<a href="' + path.join(relative, prev.path) + '" class="prev">&laquo; ' + prev.title + '</a>\n'
 
-    output += '<a href="' + relative + '" class="middle">' + __('Table of Contents') + '</a>\n'
+    if showToc:
+        output += '<a href="' + relative + '" class="middle">' + __('Table of Contents') + '</a>\n'
 
     if next != null:
         output += '<a href="' + path.join(relative, next.path) + '" class="next">' + next.title + ' &raquo;</a>\n'
@@ -270,7 +271,7 @@ exports.buildReticule = function(dirname):
 
     console.log('Create front page...')
 
-    nav = exports.renderLinearNav(null, linear[0], __, './')
+    nav = exports.renderLinearNav(null, linear[0], __, './', false)
     renderedtoc = exports.renderToc(toc, dirname, './')
 
     fs.writeFileSync(path.join(dirname, 'index.html'), fillTemplate(template, {
