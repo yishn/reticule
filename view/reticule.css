@@ -77,7 +77,7 @@ nav {
 }
 
 main, footer {
-        border-left: 16px solid #F2F2F2;
+        border-left: 16px solid transparent;
         margin-left: 234px;
     }
     .dark main, .dark footer {
