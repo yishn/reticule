@@ -5,6 +5,8 @@ minimist = require('minimist')
 reticule = require('./index')
 
 argv = minimist(process.argv[2...])
-[dirname = './', ...] = argv._
 
-reticule.buildReticule(dirname)
+if 'id' in argv._:
+    console.log | reticule.getUnusedId('./')
+else:
+    reticule.buildReticule('./')
