@@ -359,3 +359,23 @@ exports.buildReticule = function(dirname):
         | loadFile(execPath, '../../view/reticule.milk')
 
     console.log('Done.')
+
+exports.getUnusedId = function(dirname):
+    alpha = '0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ'
+    alltags = exports.getAllTags(dirname)
+    innerTag = [0, 0, 0, 0]
+
+    getTag = x => '#' + x.map(y => alpha[y]).join('')
+    increment = function(x):
+        if x.length == 0: return []
+        [*first, last] = x
+
+        if last + 1 == alpha.length:
+            return [*increment(first), 0]
+        else:
+            return [*first, last + 1]
+
+    while alltags.some({id} => id == getTag(innerTag)):
+        innerTag = increment(innerTag)
+
+    return getTag(innerTag)
