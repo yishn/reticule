@@ -6,10 +6,11 @@ minimist = require('minimist')
 reticule = require('./index')
 
 argv = minimist(process.argv[2...])
+[subcommand, ...] = argv._
 
-if 'id' in argv._:
+if subcommand == 'id':
     console.log | reticule.getUnusedId('./')
-else if 'version' in argv._:
+else if subcommand == 'version':
     console.log | app.productName + ' v' + app.version
-else:
+else if subcommand == null:
     reticule.buildReticule('./')
