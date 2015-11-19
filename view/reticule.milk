@@ -240,10 +240,7 @@ $(document).ready | function():
     MathJax.Hub.Config({
         styles: {
             '.MathJax': { 'color': color + ' !important' }
-            '.MathJax svg > g': {
-                'fill': color + ' !important'
-                'stroke': color + ' !important'
-            }
+            '.MathJax svg > g': { 'stroke': color + ' !important' }
         }
     })
 
