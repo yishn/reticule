@@ -238,6 +238,7 @@ footer {
         opacity: 0;
         transition: .2s opacity;
         white-space: nowrap;
+        z-index: 10;
     }
     .dark .palette {
         background: #eee;
