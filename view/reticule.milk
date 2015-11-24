@@ -197,7 +197,7 @@ function prepareUI():
         offset = $body.hasClass('nosidebar') ? width : 16
 
         $('main, footer').css('margin-left', offset)
-        $('.togglenav').animate({ 'left': offset }, 200)
+        $('.togglenav').animate({ 'left': offset - $('.togglenav').width() }, 200)
         $('nav').animate({ 'left': offset - width }, 200, _) | function():
             $body.toggleClass('nosidebar')
             $('.togglenav, nav').css('left', '')
