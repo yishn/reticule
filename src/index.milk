@@ -284,6 +284,19 @@ exports.buildReticule = function(dirname):
                 html
                 nav
             ].join('\n')
+            disqus: bookinfo.disqus ? [
+                '<script>'
+                    'var disqus_config = function () {'
+                        'this.page.identifier = "' + item + '";'
+                    '};'
+                    '(function() {'
+                        "var d = document, s = d.createElement('script');"
+                        "s.src = 'https://" + bookinfo.disqus + ".disqus.com/embed.js';"
+                        "s.setAttribute('data-timestamp', +new Date());"
+                        '(d.head || d.body).appendChild(s);'
+                    '})();'
+                '</script>'
+            ].join('\n') : ''
             footer: exports.renderFooter(__, bookinfo, path.join(item, 'tags.md'))
         }))
 
@@ -308,6 +321,7 @@ exports.buildReticule = function(dirname):
             '</article>'
             nav
         ].join('\n')
+        disqus: ''
         footer: exports.renderFooter(__, bookinfo, 'toc.md')
     }))
 
@@ -338,6 +352,7 @@ exports.buildReticule = function(dirname):
             exports.renderIndex(keywords, '../', dirname)
             nav
         ].join('\n')
+        disqus: ''
         footer: exports.renderFooter(__, bookinfo)
     }))
 

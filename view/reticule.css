@@ -439,6 +439,10 @@ a { color: {{accent}}; }
 a:hover { color: #555; }
 .dark a:hover { color: white; }
 
+#disqus_thread {
+    margin-top: 2em;
+}
+
 /**
  * Mobile
  */
