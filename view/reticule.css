@@ -1,4 +1,30 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext');
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('https://cdn.rawgit.com/yishn/reticule/master/fonts/LatoLatin-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url('https://cdn.rawgit.com/yishn/reticule/master/fonts/LatoLatin-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Lato Italic'), local('Lato-Italic'), url('https://cdn.rawgit.com/yishn/reticule/master/fonts/LatoLatin-Italic.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url('https://cdn.rawgit.com/yishn/reticule/master/fonts/LatoLatin-BoldItalic.woff') format('woff');
+}
 
 span.math::before {
     content: ' ';
