@@ -81,7 +81,7 @@ Don't use the folder name `index` as it's reserved for the automatically generat
 
 ## Tags
 
-Tags are the building blocks of a reticule. A tag consists of two parts: An assertion and an optional proof. To create a tag, choose a unique tag id, e.g. `0ABC` or `1ABC`, and append the following in a `tags.md` file:
+Tags are the building blocks of a reticule. A tag consists of two parts: An assertion and an optional proof. To create a tag, choose a unique tag id, e.g. `#0ABC` or `#1ABC`, and append the following in a `tags.md` file:
 
 ~~~md
 #0ABC
@@ -94,7 +94,7 @@ Let `a, b` be coprime numbers. There are infinitely many primes
 congruent `a` modulo `b`.
 ~~~
 
-Only alphanumeric characters and the hyphen `-` are allowed in a tag id. You can name the tag by appending a colon and a name to the id. To provide a proof, add a horizontal line:
+Tag ids start with a hash symbol `#` followed by alphanumeric characters or the hyphen `-`. You can name the tag by appending a colon and a name to the id. To provide a proof, add a horizontal line:
 
 ~~~md
 #0ABC:Theorem
