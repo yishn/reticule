@@ -90,7 +90,8 @@ There are infinitely many primes.
 
 #1ABC:Dirichlet's Theorem
 
-Let `a, b` be coprime numbers. There are infinitely many primes congruent `a` modulo `b`.
+Let `a, b` be coprime numbers. There are infinitely many primes
+congruent `a` modulo `b`.
 ~~~
 
 Only alphanumeric characters and the hyphen `-` are allowed in a tag id. You can name the tag by appending a colon and a name to the id. To provide a proof, add a horizontal line:
@@ -102,7 +103,9 @@ There are infinitely many primes.
 
 ---
 
-Suppose there are only finite primes `p_1,\ldots,p_n`. Observe that `p_1\cdot p_2\cdots p_n + 1` has a prime divisor `p`, distinct from `p_1,\ldots,p_n`.
+Suppose there are only finite primes `p_1,\ldots,p_n`. Observe that
+`p_1\cdot p_2\cdots p_n + 1` has a prime divisor `p`, distinct from
+`p_1,\ldots,p_n`.
 ~~~
 
 GitHub-flavored [Markdown](https://daringfireball.net/projects/markdown/) is used for formatting. Code spans and code blocks are converted into math environments and rendered by [MathJax](https://www.mathjax.org/) and [XyJax](http://sonoisa.github.io/xyjax/xyjax.html).
@@ -116,5 +119,6 @@ There are infinitely many primes.
 
 ---
 
-Putting `a = 1` and `b = 2` in [~](#1ABC) yields infinitely many odd primes.
+Putting `a = 1` and `b = 2` in [~](#1ABC) yields infinitely many
+odd primes.
 ~~~
