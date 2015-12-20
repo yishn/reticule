@@ -143,6 +143,15 @@ Let `a, b` be coprime numbers. There are infinitely many primes
 congruent `a` modulo `b`. ~~Dirichlet's Theorem|Number Theory~~
 ~~~
 
+## TeX Macros
+
+You can define custom TeX macros that can be used throughout your book. Simply add a file named `macros.tex` with the user-defined macros to the root folder:
+
+    root
+    ├ book.json
+    ├ toc.md
+    └ macros.tex
+
 ## Compilation
 
 To compile a reticule book into a website, navigate to your book directory and simply run:
