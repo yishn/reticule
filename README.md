@@ -6,6 +6,17 @@ A new way to write and explore mathematical texts. This is a work in progress.
 
 # Getting Started
 
+## Table Of Contents
+
+* [Installation](#installation)
+* [Book Structure](#book-structure)
+* [Meta Information](#meta-information)
+* [Book Sections](#book-sections)
+* [Tags](#tags)
+* [Creating Index](#creating-index)
+* [TeX Macros](#tex-macros)
+* [Compilation](#compilation)
+
 ## Installation
 
 Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed. To install reticule, run:
