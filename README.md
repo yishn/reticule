@@ -108,7 +108,7 @@ Suppose there are only finite primes `p_1,\ldots,p_n`. Observe that
 `p_1,\ldots,p_n`.
 ~~~
 
-GitHub-flavored [Markdown](https://daringfireball.net/projects/markdown/) is used for formatting. Code spans and code blocks are converted into math environments and rendered by [MathJax](https://www.mathjax.org/) and [XyJax](http://sonoisa.github.io/xyjax/xyjax.html).
+[Markdown](https://daringfireball.net/projects/markdown/) is used for formatting. Code spans and code blocks are converted into math environments and rendered by [MathJax](https://www.mathjax.org/) and [XyJax](http://sonoisa.github.io/xyjax/xyjax.html).
 
 To link to other tags, use a markdown link and and the tag id as the source:
 
@@ -122,3 +122,29 @@ There are infinitely many primes.
 Putting `a = 1` and `b = 2` in [~](#1ABC) yields infinitely many
 odd primes.
 ~~~
+
+## Creating Index
+
+To add a keyword to the index, just append the keyword, wrapped in `~~`, anywhere in the tag:
+
+~~~md
+#1ABC:Dirichlet's Theorem
+
+Let `a, b` be coprime numbers. There are infinitely many primes
+congruent `a` modulo `b`. ~~Dirichlet's Theorem~~
+~~~
+
+You can add a context to a keyword by appending `|` and the context to the keyword:
+
+~~~md
+#1ABC:Dirichlet's Theorem
+
+Let `a, b` be coprime numbers. There are infinitely many primes
+congruent `a` modulo `b`. ~~Dirichlet's Theorem|Number Theory~~
+~~~
+
+## Compilation
+
+To compile a reticule book into a website, navigate to your book directory and simply run:
+
+    reticule
