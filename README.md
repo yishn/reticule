@@ -83,7 +83,7 @@ Don't use the folder name `index` as it's reserved for the automatically generat
 
 Tags are the building blocks of a reticule. A tag consists of two parts: An assertion and an optional proof. To create a tag, choose a unique tag id, e.g. `0ABC` or `1ABC`, and append the following in a `tags.md` file:
 
-~~~latex
+~~~md
 #0ABC
 
 There are infinitely many primes.
@@ -95,7 +95,7 @@ Let `a, b` be coprime numbers. There are infinitely many primes congruent `a` mo
 
 Only alphanumeric characters and the hyphen `-` are allowed in a tag id. You can name the tag by appending a colon and a name to the id. To provide a proof, add a horizontal line:
 
-~~~latex
+~~~md
 #0ABC:Theorem
 
 There are infinitely many primes.
@@ -109,7 +109,7 @@ GitHub-flavored [Markdown](https://daringfireball.net/projects/markdown/) is use
 
 To link to other tags, use a markdown link and and the tag id as the source:
 
-~~~latex
+~~~md
 #0ABC:Theorem
 
 There are infinitely many primes.
