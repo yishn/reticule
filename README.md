@@ -4,6 +4,8 @@
 
 A new way to write and explore mathematical texts. This is a work in progress.
 
+![Screenshot](screenshot.png)
+
 # Getting Started
 
 ## Table Of Contents
