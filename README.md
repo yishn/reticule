@@ -38,7 +38,7 @@ To create a book, create a folder with the following text files:
 `book.json` contains an JSON object with the following properties:
 
 Property               | Description
------------------------|----------------------------------------
+:----------------------|:---------------------------------------
 `title` *(mandatory)*  | The book title. No markdown allowed.
 `author` *(mandatory)* | The book author(s). Markdown allowed.
 `accent`               | Defines an accent color in hex. Default: `#327CCB`
