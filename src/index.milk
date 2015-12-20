@@ -362,16 +362,16 @@ exports.buildReticule = function(dirname):
         | fs.readFileSync
         | path.join(execPath, '../../view/favicon.ico')
 
-    fs.writeFileSync(path.join(dirname, 'reticule.css'), _)
+    fs.writeFileSync(path.join(dirname, 'main.css'), _)
         | cssshrink.shrink
         | fillTemplate(_, {accent: bookinfo.accent ?? '#327CCB'})
-        | loadFile(execPath, '../../view/reticule.css')
+        | loadFile(execPath, '../../view/main.css')
 
-    fs.writeFileSync(path.join(dirname, 'reticule.js'), _)
+    fs.writeFileSync(path.join(dirname, 'main.js'), _)
         | ({code} => code)
         | uglify.minify(_, {fromString: true})
         | milk.compile
-        | loadFile(execPath, '../../view/reticule.milk')
+        | loadFile(execPath, '../../view/main.milk')
 
     console.log('Done.')
 
