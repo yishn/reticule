@@ -8,7 +8,7 @@ A new way to write and explore mathematical texts. This is a work in progress.
 
 # Getting Started
 
-## Table Of Contents
+## Table of Contents
 
 * [Installation](#installation)
 * [Book Structure](#book-structure)
