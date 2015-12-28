@@ -29,7 +29,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 
 To create a book, create a folder with the following text files:
 
-    root
+    root/
     ├ book.json
     └ toc.md
 
@@ -72,12 +72,12 @@ Property               | Description
 
 For each section create a folder with a `tags.md` file:
 
-    root
-    ├ section1
+    root/
+    ├ section1/
     │ └ tags.md
-    ├ section2
+    ├ section2/
     │ └ tags.md
-    ├ section3
+    ├ section3/
     │ └ tags.md
     │
     ├ book.json
@@ -162,7 +162,7 @@ congruent `a` modulo `b`. ~~Dirichlet's Theorem|Number Theory~~
 
 You can define custom TeX macros that can be used throughout your book. Simply add a file named `macros.tex` with the user-defined macros to the root folder:
 
-    root
+    root/
     ├ book.json
     ├ toc.md
     └ macros.tex
