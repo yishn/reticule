@@ -209,7 +209,7 @@ function prepareUI():
     // Scroll nav
 
     $current = $('nav .toc .current')
-    $('nav').scrollTop($current.position().top - $('nav').innerHeight() / 2)
+    if $current: $('nav').scrollTop($current.position().top - $('nav').innerHeight() / 2)
 
 function saveSettings(expires = 31):
     $body = $(document.body)
