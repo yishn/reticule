@@ -7,7 +7,6 @@ diacritic = require('diacritic')
 marked = require('marked').setOptions({smartypants: true})
 milk = require('milk-lang')
 uglify = require('uglify-js')
-cssshrink = require('cssshrink')
 renderers = require('./renderers')
 localization = require('./localization')
 
@@ -370,7 +369,6 @@ exports.buildReticule = function(dirname):
         | path.join(execPath, '../../view/favicon.ico')
 
     fs.writeFileSync(path.join(dirname, 'main.css'), _)
-        | cssshrink.shrink
         | fillTemplate(_, {accent: bookinfo.accent ?? '#327CCB'})
         | loadFile(execPath, '../../view/main.css')
 
