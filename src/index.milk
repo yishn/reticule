@@ -239,6 +239,13 @@ exports.buildReticule = function(dirname):
     linear = exports.getLinearToc(toc)
 
     alltags = exports.getAllTags(dirname)
+    alltags.sort((x, y) => x.tag < y.tag ? -1 : x.tag == y.tag ? 0 : 1)
+
+    // Check for duplicate ids
+    for i in [1, ..., alltags.length - 1] if i >= 1:
+        if alltags[i - 1].id == alltags[i].id:
+            return alltags[i].id
+
     items = []
     keywords = {}
 
@@ -374,6 +381,8 @@ exports.buildReticule = function(dirname):
         | loadFile(execPath, '../../view/main.milk')
 
     console.log('Done.')
+
+    return true
 
 exports.getUnusedId = function(dirname):
     alpha = '0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ'

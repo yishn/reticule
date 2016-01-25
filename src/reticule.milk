@@ -13,4 +13,5 @@ if subcommand == 'id':
 else if subcommand == 'version':
     console.log | app.productName + ' v' + app.version
 else if subcommand == null:
-    reticule.buildReticule('./')
+    if (result = reticule.buildReticule('./')) != true:
+        console.log('There are duplicate ids: ' + result)
