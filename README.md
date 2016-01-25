@@ -1,4 +1,4 @@
-# reticule
+# reticule [![npm version](https://badge.fury.io/js/reticule.svg)](https://badge.fury.io/js/reticule)
 
 <img src="logo.png" width="100" height="100">
 
