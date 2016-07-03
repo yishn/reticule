@@ -77,8 +77,9 @@ For each section create a folder with a `tags.md` file:
     │ └ tags.md
     ├ section2/
     │ └ tags.md
-    ├ section3/
-    │ └ tags.md
+    ├ subsection/
+    | └ section3/
+    │   └ tags.md
     │
     ├ book.json
     └ toc.md
@@ -89,7 +90,7 @@ Also, provide the book structure in `toc.md` as an unordered list:
 * [Section 1](section1/)
 * [Section 2](section2/)
 * Subsection
-    * [Section 3](section3/)
+    * [Section 3](subsection/section3/)
 ~~~
 
 Don't use the folder name `index` as it's reserved for the automatically generated index.
