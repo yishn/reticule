@@ -97,7 +97,7 @@ Don't use the folder name `index` as it's reserved for the automatically generat
 
 ## Tags
 
-Tags are the building blocks of a reticule. A tag consists of two parts: An assertion and an optional proof. To create a tag, choose a unique tag id, e.g. `#0ABC` or `#1ABC`, and append the following in a `tags.md` file:
+Tags are the building blocks of a reticule. A tag consists of two parts: An assertion and an optional proof. To create a tag, choose a unique tag id, e.g. `#0ABC` or `#1ABC`, and write the content:
 
 ~~~md
 #0ABC
