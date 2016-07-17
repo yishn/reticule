@@ -129,15 +129,15 @@ function wireKeywords():
 
         $palette.css({ top, left, width, height, opacity: 1 })
 
-    $('main').on('dblclick', eventHandler)
+    $('main').on('dblclick', _) | function(e):
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => eventHandler(e), 300)
 
     $(document).on('selectionchange', _) | function(e):
-        if timeoutId != null:
-            clearTimeout(timeoutId)
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => eventHandler(e), 300)
 
-        timeoutId = setTimeout(() => eventHandler(e), 500)
-
-    $(document.body).mouseup | function():
+    $(document.body).on('mouseup', _) | function():
         $palettes = $('body > ul.palette').css('opacity', 0)
         setTimeout(() => $palettes.remove(), 200)
 
