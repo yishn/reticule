@@ -241,7 +241,7 @@ exports.buildReticule = function(dirname):
     alltags.sort((x, y) => x.tag < y.tag ? -1 : x.tag == y.tag ? 0 : 1)
 
     // Check for duplicate ids
-    for i in [1, ..., alltags.length - 1] if i >= 1:
+    for i in [1, 2, ..., alltags.length - 1]:
         if alltags[i - 1].id == alltags[i].id:
             return alltags[i].id
 
