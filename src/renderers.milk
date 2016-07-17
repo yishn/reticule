@@ -1,5 +1,3 @@
-// -*-javascript-*-
-
 path = require('path').posix
 reticule = require('./index')
 

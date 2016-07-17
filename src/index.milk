@@ -1,5 +1,3 @@
-// -*-javascript-*-
-
 fs = require('fs')
 path = require('path').posix
 url = require('url')
