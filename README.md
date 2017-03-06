@@ -4,7 +4,7 @@
 
 A new way to write and explore mathematical texts.
 
-![Screenshot](screenshot.png)
+![Animation](animation.gif)
 
 # Getting Started
 
